@@ -1,1 +1,1 @@
-# Just Auth Me
+# JustAuth.Me
