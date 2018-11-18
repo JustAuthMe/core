@@ -15,7 +15,7 @@ abstract class Persist {
         return 'get'.Utils::fromSnakeCaseToCamelCase($column);
     }
 
-    private static function getFilledObject(string $classname, array $rep): Resourcable {
+    private static function getFilledObject(string $classname, array $rep): \Resourceable {
         $res = new $classname();
         foreach ($rep as $key => $value) {
             if (!is_numeric($key)) {
@@ -45,7 +45,7 @@ abstract class Persist {
         return $res;
     }
 
-    public static function create(Resourcable $object): int {
+    public static function create(\Resourceable $object): int {
         $classname = get_class($object);
         $table_name = $classname::getTableName();
         $ref = new ReflectionClass($classname);
@@ -83,7 +83,7 @@ abstract class Persist {
         return ($res['nb'] > 0);
     }
 
-    public static function read(string $classname, int $id): Resourcable {
+    public static function read(string $classname, int $id): \Resourceable {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
         $req = DB::get()->prepare("SELECT * FROM $table_name WHERE id = ?");
@@ -92,7 +92,7 @@ abstract class Persist {
         return self::getFilledObject($classname, $res);
     }
 
-    public static function readBy(string $classname, string $column, string $value): Resourcable {
+    public static function readBy(string $classname, string $column, string $value): \Resourceable {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
         $req = DB::get()->prepare("SELECT * FROM $table_name WHERE $column = ?");
@@ -112,7 +112,7 @@ abstract class Persist {
         return $res['nb'];
     }
 
-    public static function update(Resourcable $object) {
+    public static function update(\Resourceable $object) {
         $classname = get_class($object);
         $table_name = $classname::getTableName();
         $id = $object->getId();
@@ -132,7 +132,7 @@ abstract class Persist {
         $req->execute(array_merge($values, [$id]));
     }
 
-    public static function delete(Resourcable $object) {
+    public static function delete(\Resourceable $object) {
         $classname = get_class($object);
         $table_name = $classname::getTableName();
         $id = $object->getId();

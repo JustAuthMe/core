@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config.dist.php';
+require_once 'vendor/autoload.php';
 
 $bool = PROD_ENV ? 0 : 1;
 $econst = PROD_ENV ? 0 : E_ALL;
@@ -49,7 +50,7 @@ spl_autoload_register(function ($classname) {
     }
 });
 
-if (Request::get()->getArg(0) == 'api') {
+if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
     if ($json_data = json_decode(file_get_contents('php://input'), true)) {
         $_POST = $json_data;
     }

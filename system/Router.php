@@ -1,16 +1,16 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: peter_000
  * Date: 29/08/2016
  * Time: 11:15
  */
+
+require_once ROOT . 'routes.php';
+
 class Router {
     private static $instance = null;
-    public static $controllers = [
-        'home' => 'home'
-    ];
+    public static $controllers = ROUTES;
 
     private $controller = null;
 
