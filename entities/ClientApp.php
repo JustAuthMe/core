@@ -7,7 +7,7 @@
  */
 namespace Entity;
 
-class ClientApp implements \Resourceable {
+class ClientApp implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $domain;
 	private $secret;
@@ -17,7 +17,14 @@ class ClientApp implements \Resourceable {
 		$this->domain = $domain;
 		$this->secret = $secret;
 	}
-	public static function getTableName(): string {
+
+    function jsonSerialize() {
+        $it = clone $this;
+        unset($it->id, $it->secret);
+        return get_object_vars($it);
+    }
+
+    public static function getTableName(): string {
 		return 'client_app';
 	}
 

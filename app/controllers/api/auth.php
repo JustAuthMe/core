@@ -41,5 +41,5 @@ Persist::create($userAuth);
 $qrCode = new \chillerlan\QRCode\QRCode();
 $imgUrl = $qrCode->render($authToken);
 
-Data::get()->add('status', 'success');
 Data::get()->add('qr_code', $imgUrl);
+Controller::renderApiSuccess();

@@ -15,6 +15,6 @@ class UserAuth {
         }
 
         $bytes_number = 0.75 * $length;
-        return base64_encode(openssl_random_pseudo_bytes($bytes_number));
+        return str_replace('/', '_', base64_encode(openssl_random_pseudo_bytes($bytes_number)));
     }
 }

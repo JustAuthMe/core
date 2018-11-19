@@ -7,7 +7,7 @@
  */
 namespace Entity;
 
-class User implements \Resourceable {
+class User implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $username;
 
@@ -15,7 +15,14 @@ class User implements \Resourceable {
 		$this->id = $id;
 		$this->username = $username;
 	}
-	public static function getTableName(): string {
+
+    function jsonSerialize() {
+        $it = clone $this;
+        unset($it->id);
+        return get_object_vars($it);
+    }
+
+    public static function getTableName(): string {
 		return 'user';
 	}
 

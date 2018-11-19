@@ -15,7 +15,7 @@ abstract class Controller {
         $file = VIEWS.$path.'.php';
         if (file_exists($file) ) {
             $appView = $file;
-            $data = Utils::secure(Data::get()->getData());
+            $data = Request::get()->getArg(0) !== 'api' ? Utils::secure(Data::get()->getData()) : Data::get()->getData();
             extract($data);
             if ($layout) {
                 require_once VIEWS.'mainView.php';
@@ -34,5 +34,9 @@ abstract class Controller {
         Data::get()->add('message', $message);
         Controller::renderView('json/json', false);
         die;
+    }
+
+    public static function renderApiSuccess() {
+        Data::get()->setData(array_merge(['status' => 'success'], Data::get()->getData()));
     }
 }

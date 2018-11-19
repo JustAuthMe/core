@@ -7,7 +7,7 @@
  */
 namespace Entity;
 
-class UserAuth implements \Resourceable {
+class UserAuth implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $token;
 	private $client_app_id;
@@ -21,6 +21,14 @@ class UserAuth implements \Resourceable {
 		$this->callback_url = $callback_url;
 		$this->data = $data;
 	}
+
+    function jsonSerialize() {
+        $it = clone $this;
+        unset($it->id, $it->client_app_id);
+        $it->setData(json_decode($it->getData()));
+        return get_object_vars($it);
+    }
+
 	public static function getTableName(): string {
 		return 'user_auth';
 	}
@@ -47,6 +55,7 @@ class UserAuth implements \Resourceable {
 
 	public function setClientAppId($client_app_id) {
 		$this->client_app_id = $client_app_id;
+		$this->client_app = \Persist::read('ClientApp', $client_app_id);
 	}
 
 	public function getCallbackUrl() {
