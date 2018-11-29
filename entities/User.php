@@ -10,15 +10,19 @@ namespace Entity;
 class User implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $username;
+	private $timestamp;
+	private $ip_address;
 
-	public function __construct($id = 0, $username = '') {
+	public function __construct($id = 0, $username = '', $timestamp = null, $ip_address = '') {
 		$this->id = $id;
 		$this->username = $username;
+		$this->timestamp = $timestamp;
+		$this->ip_address = $ip_address;
 	}
 
     function jsonSerialize() {
         $it = clone $this;
-        unset($it->id);
+        unset($it->id, $it->timestamp, $it->ip_address);
         return get_object_vars($it);
     }
 
@@ -41,4 +45,20 @@ class User implements \Resourceable, \JsonSerializable {
 	public function setUsername($username) {
 		$this->username = $username;
 	}
+
+	public function getTimestamp() {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp($timestamp) {
+        $this->timestamp = $timestamp;
+    }
+
+    public function getIpAddress() {
+        return $this->ip_address;
+    }
+
+    public function setIpAddress($ip_address) {
+        $this->ip_address = $ip_address;
+    }
 }

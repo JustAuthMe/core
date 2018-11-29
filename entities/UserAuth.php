@@ -55,7 +55,9 @@ class UserAuth implements \Resourceable, \JsonSerializable {
 
 	public function setClientAppId($client_app_id) {
 		$this->client_app_id = $client_app_id;
-		$this->client_app = \Persist::read('ClientApp', $client_app_id);
+		if (\Persist::exists('ClientApp', 'id', $client_app_id)) {
+            $this->client_app = \Persist::read('ClientApp', $client_app_id);
+        }
 	}
 
 	public function getCallbackUrl() {
