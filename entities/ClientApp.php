@@ -10,17 +10,18 @@ namespace Entity;
 class ClientApp implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $domain;
-	private $secret;
+	private $pubkey;
+	private $redirect_url;
 
-	public function __construct($id = 0, $domain = '', $secret = '') {
+	public function __construct($id = 0, $domain = '', $pubkey = '') {
 		$this->id = $id;
 		$this->domain = $domain;
-		$this->secret = $secret;
+		$this->pubkey = $pubkey;
 	}
 
     function jsonSerialize() {
         $it = clone $this;
-        unset($it->id, $it->secret);
+        unset($it->id);
         return get_object_vars($it);
     }
 
@@ -44,11 +45,19 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 		$this->domain = $domain;
 	}
 
-	public function getSecret() {
-		return $this->secret;
+	public function getPubkey() {
+		return $this->pubkey;
 	}
 
-	public function setSecret($secret) {
-		$this->secret = $secret;
+	public function setPubkey($pubkey) {
+		$this->pubkey = $pubkey;
 	}
+
+    public function getRedirectUrl() {
+        return $this->redirect_url;
+    }
+
+    public function setRedirectUrl($redirect_url) {
+        $this->redirect_url = $redirect_url;
+    }
 }

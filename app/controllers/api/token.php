@@ -16,6 +16,12 @@ $token = Request::get()->getArg(2);
 /**
  * @var \Entity\UserAuth $auth
  */
+
+if (!Persist::exists('UserAuth', 'token', $token)) {
+    Controller::error404NotFound();
+    Controller::renderApiError('No such token');
+}
+
 $auth = Persist::readBy('UserAuth', 'token', $token);
 
 Data::get()->add('auth', $auth);

@@ -9,6 +9,8 @@
 namespace Model;
 
 class UserAuth {
+    const EXPIRATION_TIME = 600; // 10 minutes
+
     public static function generateAuthToken($length = 64) {
         if ($length % 4 !== 0) {
             throw new \Exception('$length must be a factor of 4');
@@ -16,5 +18,9 @@ class UserAuth {
 
         $bytes_number = 0.75 * $length;
         return str_replace('/', '_', base64_encode(openssl_random_pseudo_bytes($bytes_number)));
+    }
+
+    public static function flushOutdatedAuths() {
+        \DB::get()->query("DELETE FROM user_auth WHERE timestamp + " . self::EXPIRATION_TIME . " < CURRENT_TIMESTAMP()");
     }
 }
