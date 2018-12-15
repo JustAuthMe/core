@@ -26,17 +26,26 @@ if (!isset($_GET['redirect_url']) || !isset($_GET['data'])) {
 }
 
 /**
- * TODO: Ajouter la vérification de la liste des datas et de leur format
- */
-
-/**
  * @var \Entity\ClientApp $clientApp
  */
 $clientApp = \Model\ClientApp::getClientDetails($pubkey);
 
 if ($clientApp->getRedirectUrl() !== $_GET['redirect_url']) {
     Controller::error403Forbidden();
-    Controller::renderApiError('Please don\'t use illegitimate public API keys');
+    Controller::renderApiError('Wrong redirection URL');
+}
+
+/**
+ * TODO: Ajouter la vérification de la liste des datas et de leur format
+ */
+
+$data = explode(',', $_GET['data']);
+$allowed_data = json_decode($clientApp->getData());
+foreach($data as $d) {
+    if (!in_array(\Model\UserAuth::getDataSlug($d), $allowed_data)) {
+        Controller::error403Forbidden();
+        Controller::renderApiError('Unauthorized data type');
+    }
 }
 
 $authToken = \Model\UserAuth::generateAuthToken();
@@ -46,7 +55,7 @@ $userAuth = new \Entity\UserAuth(
     $authToken,
     $clientApp->getId(),
     $_GET['redirect_url'],
-    json_encode(explode(',', $_GET['data'])),
+    json_encode($data),
     null,
     $_SERVER['REMOTE_ADDR']
 );

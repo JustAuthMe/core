@@ -23,4 +23,12 @@ class UserAuth {
     public static function flushOutdatedAuths() {
         \DB::get()->query("DELETE FROM user_auth WHERE timestamp + " . self::EXPIRATION_TIME . " < CURRENT_TIMESTAMP()");
     }
+
+    public static function isDataRequired($data) {
+        return strpos($data, '!') === mb_strlen($data) - 1;
+    }
+
+    public static function getDataSlug($data) {
+        return self::isDataRequired($data) ? substr($data, 0, -1) : $data;
+    }
 }

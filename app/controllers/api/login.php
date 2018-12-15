@@ -31,12 +31,8 @@ if (!isset($_POST['data']) || !is_array($_POST['data'])) {
 
 $data = json_decode($auth->getData());
 
-/**
- * TODO: Gérer les paramètres requis et optionnels, avec un ! après le nom du paramètre requis: ["username!", "email!", "tel", "address"]
- */
-
 foreach ($data as $d) {
-    if (!isset($_POST['data'][$d])) {
+    if (\Model\UserAuth::isDataRequired($d) && !isset($_POST['data'][\Model\UserAuth::getDataSlug($d)])) {
         Controller::error400BadRequest();
         Controller::renderApiError('Missing param ' . $d);
     }

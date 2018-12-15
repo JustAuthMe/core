@@ -2,7 +2,8 @@
     "name": "justauth.me/server",
     "require": {
         "php": "^7.2",
-        "chillerlan/php-qrcode": "^3.0"
+        "chillerlan/php-qrcode": "^3.0",
+        "cboden/ratchet": "^0.4.1"
     },
     "authors": [
         {
