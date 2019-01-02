@@ -5,3 +5,6 @@
 <p>Just scan the following QR-Code with your JustAuth.Me mobile App</p>
 
 <img src="<?= $qr_code ?>" alt="login qr code" />
+<script type="text/javascript">
+
+</script>
