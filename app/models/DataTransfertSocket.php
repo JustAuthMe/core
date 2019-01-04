@@ -68,7 +68,7 @@ class DataTransfertSocket implements MessageComponentInterface {
 
                 echo 'Message "data" received from ' . $from->resourceId . ': ' . $msg . "\n";
                 ECHO 'Sending data...' . "\n";
-                $this->sessions[$obj['auth_id']]['conn']->send(json_encode($obj['data']));
+                $this->sessions[$obj['auth_id']]['conn']->send(json_encode($obj));
                 echo 'Data sent to ' . $this->sessions[$obj['auth_id']]['conn']->resourceId . "\n";
                 break;
         }

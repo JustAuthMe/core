@@ -59,11 +59,13 @@ $userAuth = new \Entity\UserAuth(
     null,
     $_SERVER['REMOTE_ADDR']
 );
-Persist::create($userAuth);
+$auth_id = Persist::create($userAuth);
+$userAuth->setId($auth_id);
 
 $qrCode = new \chillerlan\QRCode\QRCode();
 $imgUrl = $qrCode->render($authToken);
 
 Data::get()->add('client', $clientApp);
+Data::get()->add('auth', $userAuth);
 Data::get()->add('qr_code', $imgUrl);
 Controller::renderView('auth/auth');
