@@ -6,6 +6,7 @@
  * Time: 23:23
  */
 require_once 'vendor/autoload.php';
+require_once 'app/models/DataTransfertSocket.php';
 
 $server = \Ratchet\Server\IoServer::factory(
     new \Ratchet\Http\HttpServer(
@@ -15,3 +16,5 @@ $server = \Ratchet\Server\IoServer::factory(
     ),
     1337
 );
+
+$server->run();

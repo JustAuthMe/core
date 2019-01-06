@@ -36,7 +36,8 @@ class DataTransfertSocket implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        if ($obj = json_decode($msg, true) === null) {
+        $obj = json_decode($msg, true);
+        if ($obj === null) {
             echo 'Message error from ' . $from->resourceId . ': this is not JSON' . "\n";
             return;
         }
@@ -56,7 +57,7 @@ class DataTransfertSocket implements MessageComponentInterface {
                 echo 'Message "await" received from ' . $from->resourceId . ': ' . $msg . "\n";
                 $this->sessions[$obj['auth_id']] = [
                     'conn' => $from,
-                    'expire' => \Utils::time() + 600 // 10 minutes
+                    'expire' => time() + 600 // 10 minutes
                 ];
                 break;
 
@@ -67,7 +68,7 @@ class DataTransfertSocket implements MessageComponentInterface {
                 }
 
                 echo 'Message "data" received from ' . $from->resourceId . ': ' . $msg . "\n";
-                ECHO 'Sending data...' . "\n";
+                echo 'Sending data...' . "\n";
                 $this->sessions[$obj['auth_id']]['conn']->send(json_encode($obj));
                 echo 'Data sent to ' . $this->sessions[$obj['auth_id']]['conn']->resourceId . "\n";
                 break;

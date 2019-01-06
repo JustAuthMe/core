@@ -47,7 +47,6 @@ foreach($data as $d) {
         Controller::renderApiError('Unauthorized data type');
     }
 }
-
 $authToken = \Model\UserAuth::generateAuthToken();
 
 $userAuth = new \Entity\UserAuth(
