@@ -8,25 +8,28 @@
 
 namespace Model;
 
+use PHPeter\Redis;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
 class DataTransfertSocket implements MessageComponentInterface {
+    const AUTH_EXPIRATION_TIME = 600; // 10 minutes
+
     protected $clients;
-    protected $sessions;
+    protected $redis;
 
     public function __construct() {
-        $this->clients = new \SplObjectStorage();
-        $this->sessions = [];
+        $this->clients = [];
+        $this->redis = new Redis();
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        $this->clients->attach($conn);
+        $this->clients[$conn->resourceId] = $conn;
         echo 'Opened: ' . $conn->resourceId . "\n";
     }
 
     public function onClose(ConnectionInterface $conn) {
-        $this->clients->detach($conn);
+        unset($this->clients[$conn->resourceId]);
         echo 'Closed: ' . $conn->resourceId . "\n";
     }
 
@@ -55,22 +58,23 @@ class DataTransfertSocket implements MessageComponentInterface {
         switch ($obj['type']) {
             case 'await':
                 echo 'Message "await" received from ' . $from->resourceId . ': ' . $msg . "\n";
-                $this->sessions[$obj['auth_id']] = [
-                    'conn' => $from,
-                    'expire' => time() + 600 // 10 minutes
-                ];
+                $this->redis->set($obj['auth_id'], $from->resourceId, self::AUTH_EXPIRATION_TIME);
                 break;
 
             case 'data':
-                if (!isset($this->sessions[$obj['auth_id']])) {
-                    echo 'Message error from ' . $from->resourceId . ': unknown Auth ID' . "\n";
+                $conn_id = $this->redis->get($obj['auth_id']);
+                if ($conn_id === false) {
+                    echo 'Message error from ' . $from->resourceId . ': Unknown Auth ID (' . $obj['auth_id'] . ')' . "\n";
                     return;
                 }
 
                 echo 'Message "data" received from ' . $from->resourceId . ': ' . $msg . "\n";
                 echo 'Sending data...' . "\n";
-                $this->sessions[$obj['auth_id']]['conn']->send(json_encode($obj));
-                echo 'Data sent to ' . $this->sessions[$obj['auth_id']]['conn']->resourceId . "\n";
+
+                $this->clients[$conn_id]->send(json_encode($obj));
+                $this->redis->del($conn_id);
+
+                echo 'Data sent to ' . $conn_id . "\n";
                 break;
         }
     }
