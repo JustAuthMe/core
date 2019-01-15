@@ -2,10 +2,10 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 04, 2018 at 10:40 AM
+-- Host: pma.local
+-- Generation Time: Jan 15, 2019 at 07:43 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
--- PHP Version: 7.2.12-1+ubuntu16.04.1+deb.sury.org+1
+-- PHP Version: 7.2.13-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `client_app` (
   `domain` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `pubkey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `redirect_url` varchar(1023) COLLATE utf8_unicode_ci NOT NULL,
+  `data` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -43,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `client_app` (
 -- Dumping data for table `client_app`
 --
 
-INSERT INTO `client_app` (`id`, `domain`, `pubkey`, `redirect_url`) VALUES
-(1, 'phpeter.fr', 'PHPeter', 'https://phpeter.fr/callback_url_jam');
+INSERT INTO `client_app` (`id`, `domain`, `pubkey`, `redirect_url`, `data`) VALUES
+(1, 'phpeter.fr', 'PHPeter', 'https://phpeter.fr/callback_url_jam.php', '[\"username\",\"email\",\"tel\"]');
 
 -- --------------------------------------------------------
 
@@ -85,14 +86,14 @@ CREATE TABLE IF NOT EXISTS `user_auth` (
   `ip_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `client_app_id` (`client_app_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user_auth`
 --
 
 INSERT INTO `user_auth` (`id`, `token`, `client_app_id`, `callback_url`, `data`, `timestamp`, `ip_address`) VALUES
-(7, 'XJIVMdhe_8dShRXvsGjKy7ymufvIoGDaN6yFCpFC1zbGTOJtnk5CVsiCOxk8dpZ+', 1, 'https://phpeter.fr/callback_url_jam', '[\"username\",\"email\"]', '2018-12-02 10:32:55', '192.168.1.254');
+(35, 'x6vF8KGRd_Wsod_bSwm2_LBu+oYps9jHMiXzDg6U_+dPlQ9cvjP07ZI5XFT792kP', 1, 'https://phpeter.fr/callback_url_jam.php', '[\"username!\",\"email!\",\"tel\"]', '2019-01-15 18:42:33', '127.0.0.1');
 
 -- --------------------------------------------------------
 
