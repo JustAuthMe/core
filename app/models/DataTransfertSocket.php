@@ -13,7 +13,6 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
 class DataTransfertSocket implements MessageComponentInterface {
-    const AUTH_EXPIRATION_TIME = 600; // 10 minutes
 
     protected $clients;
     protected $redis;
@@ -41,30 +40,36 @@ class DataTransfertSocket implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
         $obj = json_decode($msg, true);
         if ($obj === null) {
-            echo 'Message error from ' . $from->resourceId . ': this is not JSON' . "\n";
-            return;
+            $error = 'This is not JSON';
+        } else if (!isset($obj['type'])) {
+            $error = 'Message type is missing';
+        } else if (!isset($obj['auth_id'])) {
+            $error = 'Auth ID is missing';
         }
 
-        if (!isset($obj['type'])) {
-            echo 'Message error from ' . $from->resourceId . ': message type is missing' . "\n";
-            return;
-        }
-
-        if (!isset($obj['auth_id'])) {
-            echo 'Message error from ' . $from->resourceId . ': auth ID is missing' . "\n";
+        if (isset($error)) {
+            $from->send(json_encode(['error' => $error]));
+            echo 'Message error from ' . $from->resourceId . ': ' . $error . "\n";
             return;
         }
 
         switch ($obj['type']) {
             case 'await':
                 echo 'Message "await" received from ' . $from->resourceId . ': ' . $msg . "\n";
-                $this->redis->set($obj['auth_id'], $from->resourceId, self::AUTH_EXPIRATION_TIME);
+                $this->redis->set($obj['auth_id'], $from->resourceId, UserAuth::EXPIRATION_TIME);
                 break;
 
             case 'data':
                 $conn_id = $this->redis->get($obj['auth_id']);
                 if ($conn_id === false) {
-                    echo 'Message error from ' . $from->resourceId . ': Unknown Auth ID (' . $obj['auth_id'] . ')' . "\n";
+                    $error_data = 'Unknown Auth ID (' . $obj['auth_id'] . ')';
+                } else if (!UserAuth::checkDataSign($obj['data'], $obj['sign'])) {
+                    $error_data = 'Unverified data transfert';
+                }
+
+                if (isset($error_data)) {
+                    $from->send(json_encode(['error' => $error_data]));
+                    echo 'Message error from ' . $from->resourceId . ': ' . $error_data . "\n";
                     return;
                 }
 

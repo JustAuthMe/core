@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "40dab718df0933df670b04bb3ea5f2b1",
-    "content-hash": "23881ccd7cb203d8dd19857082526748",
+    "hash": "57af4a2c570bbaff2d94adc1612cfc2a",
+    "content-hash": "b9a05c0ed6c3f3dd53757c514a27ab6f",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -362,6 +362,55 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2016-02-11 07:05:27"
+        },
+        {
+            "name": "ratchet/pawl",
+            "version": "v0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ratchetphp/Pawl.git",
+                "reference": "0aaacb8d3f6bcc02138bb8385130f757ecce5649"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/0aaacb8d3f6bcc02138bb8385130f757ecce5649",
+                "reference": "0aaacb8d3f6bcc02138bb8385130f757ecce5649",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0 || ^2.0",
+                "php": ">=5.4",
+                "ratchet/rfc6455": "^0.2.3",
+                "react/socket": "^1.0 || ^0.8 || ^0.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "reactivex/rxphp": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ratchet\\Client\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Asynchronous WebSocket client",
+            "keywords": [
+                "Ratchet",
+                "async",
+                "client",
+                "websocket",
+                "websocket client"
+            ],
+            "time": "2019-01-01 19:05:59"
         },
         {
             "name": "ratchet/rfc6455",

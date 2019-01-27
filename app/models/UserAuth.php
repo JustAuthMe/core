@@ -31,4 +31,12 @@ class UserAuth {
     public static function getDataSlug($data) {
         return self::isDataRequired($data) ? substr($data, 0, -1) : $data;
     }
+
+    public static function signData($data) {
+        return hash_hmac('sha512', json_encode($data), DATA_TRANSFERT_KEY);
+    }
+
+    public static function checkDataSign($data, $sign) {
+        return self::signData($data) === $sign;
+    }
 }

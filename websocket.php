@@ -8,6 +8,7 @@
 require_once 'config.dist.php';
 require_once 'vendor/autoload.php';
 require_once 'system/Redis.php';
+require_once 'app/models/UserAuth.php';
 require_once 'app/models/DataTransfertSocket.php';
 
 $server = \Ratchet\Server\IoServer::factory(
@@ -16,7 +17,7 @@ $server = \Ratchet\Server\IoServer::factory(
             new \Model\DataTransfertSocket()
         )
     ),
-    1337
+    WEBSOCKET_PORT
 );
 
 $server->run();

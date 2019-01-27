@@ -38,4 +38,24 @@ foreach ($data as $d) {
     }
 }
 
+\Ratchet\Client\connect('ws://' . WEBSOCKET_HOST . ':' . WEBSOCKET_PORT)->then(function($conn) use ($token) {
+    $conn->on('message', function($msg) use ($conn) {
+        $obj = json_decode($msg);
+        if ($obj !== null && isset($obj->error)) {
+            Controller::error400BadRequest();
+            Controller::renderApiError($obj->error);
+        }
+    });
 
+    $data = [
+        'type' => 'data',
+        'auth_id' => $token,
+        'data' => $_POST['data'],
+        'sign' => \Model\UserAuth::signData($_POST['data'])
+    ];
+
+    $conn->send(json_encode($data));
+}, function (Exception $e) {
+    error_log($e->getMessage());
+    Controller::error500InternalServerError();
+});

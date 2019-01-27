@@ -10,7 +10,7 @@
     var form = document.getElementById('submit_form');
     form.method = 'post';
     form.action = '<?= $auth->getCallbackUrl() ?>';
-    var conn = new WebSocket('ws://localhost:1337');
+    var conn = new WebSocket('<?= WEBSOCKET_SOCKET ?>');
     conn.onopen = function(e) {
         console.log("Connection established!");
         var msg = {
