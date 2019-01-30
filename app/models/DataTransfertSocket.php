@@ -60,6 +60,7 @@ class DataTransfertSocket implements MessageComponentInterface {
                 break;
 
             case 'data':
+                var_dump($obj);
                 $conn_id = $this->redis->get($obj['auth_id']);
                 if ($conn_id === false) {
                     $error_data = 'Unknown Auth ID (' . $obj['auth_id'] . ')';
