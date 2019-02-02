@@ -11,7 +11,6 @@ const ROUTES = [
     'auth' => 'auth',
     'api' => [
         'auth' => 'auth',
-        'token' => 'token',
         'register' => 'register',
         'login' => 'login'
     ]

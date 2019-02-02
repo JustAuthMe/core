@@ -12,12 +12,20 @@ if (\Model\UserSpam::isIpBanned($_SERVER['REMOTE_ADDR'])) {
     Controller::renderApiError('You cannot register twice');
 }
 
+if (!isset($_POST['pubkey'])) {
+    Controller::error400BadRequest();
+    Controller::renderApiError('Public key needed');
+}
+
 $username = \Model\User::generateUsername();
+$hash_key = \Model\User::generateHashKey();
 $user = new \Entity\User(
     0,
     $username,
     null,
-    $_SERVER['REMOTE_ADDR']
+    $_SERVER['REMOTE_ADDR'],
+    $_POST['pubkey'],
+    $hash_key
 );
 
 $user_id = Persist::create($user);

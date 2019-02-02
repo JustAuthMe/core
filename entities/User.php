@@ -12,12 +12,16 @@ class User implements \Resourceable, \JsonSerializable {
 	private $username;
 	private $timestamp;
 	private $ip_address;
+	private $public_key;
+	private $hash_key;
 
-	public function __construct($id = 0, $username = '', $timestamp = null, $ip_address = '') {
+	public function __construct($id = 0, $username = '', $timestamp = null, $ip_address = '', $public_key = '', $hash_key = '') {
 		$this->id = $id;
 		$this->username = $username;
 		$this->timestamp = $timestamp;
 		$this->ip_address = $ip_address;
+		$this->public_key = $public_key;
+		$this->hash_key = $hash_key;
 	}
 
     function jsonSerialize() {
@@ -60,5 +64,21 @@ class User implements \Resourceable, \JsonSerializable {
 
     public function setIpAddress($ip_address) {
         $this->ip_address = $ip_address;
+    }
+
+    public function getPublicKey() {
+        return $this->public_key;
+    }
+
+    public function setPublicKey($public_key) {
+        $this->public_key = $public_key;
+    }
+
+    public function getHashKey() {
+        return $this->hash_key;
+    }
+
+    public function setHashKey($hash_key) {
+        $this->hash_key = $hash_key;
     }
 }

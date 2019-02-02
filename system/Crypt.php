@@ -26,4 +26,20 @@ class Crypt {
         $clear = openssl_decrypt($cipher, $method, $password, OPENSSL_RAW_DATA, $iv);
         return $clear;
     }
+
+    public static function sign($data, $privkey, $passphrase = '') {
+        $privkeyid = openssl_pkey_get_private($privkey, $passphrase);
+        openssl_sign($data, $signature, $privkeyid, OPENSSL_ALGO_SHA512);
+        openssl_free_key($privkeyid);
+
+        return $signature ?: false;
+    }
+
+    public static function verify($data, $signature, $pubkey) {
+        $pubkeyid = openssl_pkey_get_public($pubkey);
+        $res = openssl_verify($data, $signature, $pubkeyid, OPENSSL_ALGO_SHA512);
+        openssl_free_key($pubkeyid);
+
+        return $res;
+    }
 }
