@@ -39,4 +39,9 @@ abstract class Controller {
     public static function renderApiSuccess() {
         Data::get()->setData(array_merge(['status' => 'success'], Data::get()->getData()));
     }
+
+    public static function sendNoCacheHeaders() {
+        header('Cache-Control: no-store');
+        header('Pragma: no-cache');
+    }
 }

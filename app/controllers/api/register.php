@@ -6,6 +6,8 @@
  * Time: 22:22
  */
 
+Controller::sendNoCacheHeaders();
+
 \Model\UserSpam::flushOutdatedBans();
 if (\Model\UserSpam::isIpBanned($_SERVER['REMOTE_ADDR'])) {
     Controller::error429TooManyRequests();

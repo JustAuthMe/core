@@ -6,6 +6,8 @@
  * Time: 12:04
  */
 
+Controller::sendNoCacheHeaders();
+
 if (Request::get()->getArg(2) === '') {
     Controller::error400BadRequest();
     Controller::renderApiError('No token provided');
@@ -68,7 +70,7 @@ if ($verify === -1) {
 }
 
 /*
- * Hashign JAM ID
+ * Hashing JAM ID
  */
 
 $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $user->getHashKey());
@@ -87,10 +89,19 @@ foreach ($data as $d) {
 }
 
 /*
+ * Data storage
+ */
+
+$oauth_token = \Model\UserAuth::generateOAuthToken();
+$cacheKey = 'token_' . $oauth_token;
+$redis = new \PHPeter\Redis();
+$redis->set($cacheKey, $posted_data, \Model\UserAuth::EXPIRATION_TIME);
+
+/*
  * Data transfert
  */
 
-\Ratchet\Client\connect('ws://' . WEBSOCKET_HOST . ':' . WEBSOCKET_PORT)->then(function($conn) use ($token, $posted_data) {
+\Ratchet\Client\connect('ws://' . WEBSOCKET_HOST . ':' . WEBSOCKET_PORT)->then(function($conn) use ($token, $oauth_token) {
     /**
      * @var \Ratchet\Client\WebSocket $conn
      */
@@ -102,11 +113,15 @@ foreach ($data as $d) {
         }
     });
 
+    $dataToSend = [
+        'access_token' => $oauth_token,
+        'token_type' => 'bearer'
+    ];
     $data = [
         'type' => 'data',
         'auth_id' => $token,
-        'data' => $posted_data,
-        'sign' => \Model\UserAuth::signData($posted_data)
+        'data' => $dataToSend,
+        'sign' => \Model\UserAuth::signData($dataToSend)
     ];
 
     $conn->send(json_encode($data));

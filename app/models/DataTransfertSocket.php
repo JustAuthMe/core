@@ -13,6 +13,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
 class DataTransfertSocket implements MessageComponentInterface {
+    const CACHE_KEY_PREFIX = 'auth_';
 
     protected $clients;
     protected $redis;
@@ -53,15 +54,17 @@ class DataTransfertSocket implements MessageComponentInterface {
             return;
         }
 
+        $cacheKey = self::CACHE_KEY_PREFIX . $obj['auth_id'];
+
         switch ($obj['type']) {
             case 'await':
                 echo 'Message "await" received from ' . $from->resourceId . ': ' . $msg . "\n";
-                $this->redis->set($obj['auth_id'], $from->resourceId, UserAuth::EXPIRATION_TIME);
+                $this->redis->set($cacheKey, $from->resourceId, UserAuth::EXPIRATION_TIME);
                 break;
 
             case 'data':
                 var_dump($obj);
-                $conn_id = $this->redis->get($obj['auth_id']);
+                $conn_id = $this->redis->get($cacheKey);
                 if ($conn_id === false) {
                     $error_data = 'Unknown Auth ID (' . $obj['auth_id'] . ')';
                 } else if (!UserAuth::checkDataSign($obj['data'], $obj['sign'])) {
@@ -78,7 +81,7 @@ class DataTransfertSocket implements MessageComponentInterface {
                 echo 'Sending data...' . "\n";
 
                 $this->clients[$conn_id]->send(json_encode($obj));
-                $this->redis->del($conn_id);
+                $this->redis->del($cacheKey);
 
                 echo 'Data sent to ' . $conn_id . "\n";
                 break;

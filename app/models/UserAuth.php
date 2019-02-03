@@ -20,6 +20,10 @@ class UserAuth {
         return str_replace('+', '_', str_replace('/', '_', base64_encode(openssl_random_pseudo_bytes($bytes_number))));
     }
 
+    public static function generateOAuthToken($length = 32) {
+        return self::generateAuthToken($length);
+    }
+
     public static function flushOutdatedAuths() {
         \DB::get()->query("DELETE FROM user_auth WHERE timestamp + " . self::EXPIRATION_TIME . " < CURRENT_TIMESTAMP()");
     }

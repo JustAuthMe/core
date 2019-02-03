@@ -6,6 +6,8 @@
  * Time: 21:19
  */
 
+Controller::sendNoCacheHeaders();
+
 if (Request::get()->getArg(2) === '') {
     Controller::error400BadRequest();
     Controller::renderApiError('No token provided');
