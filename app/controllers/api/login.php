@@ -8,27 +8,9 @@
 
 Controller::sendNoCacheHeaders();
 
-if (Request::get()->getArg(2) === '') {
-    Controller::error400BadRequest();
-    Controller::renderApiError('No token provided');
-}
-
-$token = Request::get()->getArg(2);
-
-/**
- * @var \Entity\UserAuth $auth
- */
-
 /*
  * Common error cases
  */
-
-if (!Persist::exists('UserAuth', 'token', $token)) {
-    Controller::error404NotFound();
-    Controller::renderApiError('No such token');
-}
-
-$auth = Persist::readBy('UserAuth', 'token', $token);
 
 if (!isset($_POST['data'])) {
     Controller::error400BadRequest();
@@ -46,9 +28,20 @@ if (!is_array($posted_data)) {
     Controller::renderApiError('Wrong data format');
 }
 
+if (!isset($posted_data['token'])) {
+    Controller::error400BadRequest();
+    Controller::renderApiError('No token provided');
+}
+
 if (!isset($posted_data['jam_id'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('JAM ID is required');
+}
+
+$token = $posted_data['token'];
+if (!Persist::exists('UserAuth', 'token', $token)) {
+    Controller::error404NotFound();
+    Controller::renderApiError('No such token');
 }
 
 /*
@@ -79,6 +72,10 @@ $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $user->getH
  * Verifying dataset
  */
 
+/**
+ * @var \Entity\UserAuth $auth
+ */
+$auth = Persist::readBy('UserAuth', 'token', $token);
 $data = json_decode($auth->getData());
 
 foreach ($data as $d) {
