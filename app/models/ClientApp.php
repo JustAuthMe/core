@@ -9,11 +9,11 @@
 namespace Model;
 
 class ClientApp {
-    public static function authenticate($pubkey) {
-        return \Persist::exists('ClientApp', 'pubkey', $pubkey);
+    public static function authenticate($appId) {
+        return \Persist::exists('ClientApp', 'app_id', $appId);
     }
 
-    public static function getClientDetails($pubkey) {
-        return \Persist::readBy('ClientApp', 'pubkey', $pubkey);
+    public static function getClientDetails($appId) {
+        return \Persist::readBy('ClientApp', 'app_id', $appId);
     }
 }

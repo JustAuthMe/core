@@ -8,14 +8,14 @@
 
 \Model\UserAuth::flushOutdatedAuths();
 
-if (!isset($_GET['pubkey'])) {
+if (!isset($_GET['app_id'])) {
     Controller::error400BadRequest();
-    Controller::renderApiError('No public key provided');
+    Controller::renderApiError('No App ID provided');
 }
 
-$pubkey = $_GET['pubkey'];
+$appId = $_GET['app_id'];
 
-if (!\Model\ClientApp::authenticate($pubkey)) {
+if (!\Model\ClientApp::authenticate($appId)) {
     Controller::error403Forbbiden();
     Controller::renderApiError('Authentication failed');
 }
@@ -28,7 +28,7 @@ if (!isset($_GET['redirect_url']) || !isset($_GET['data'])) {
 /**
  * @var \Entity\ClientApp $clientApp
  */
-$clientApp = \Model\ClientApp::getClientDetails($pubkey);
+$clientApp = \Model\ClientApp::getClientDetails($appId);
 
 if ($clientApp->getRedirectUrl() !== $_GET['redirect_url']) {
     Controller::error403Forbidden();

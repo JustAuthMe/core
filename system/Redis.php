@@ -23,9 +23,9 @@ class Redis extends \Redis {
         parent::set($key, $value, $ttl);
     }
 
-    public function get($key) {
+    public function get($key, $assoc = false) {
         $value = parent::get($key);
-        $try_json = json_decode($value);
+        $try_json = json_decode($value, $assoc);
 
         if ($try_json !== null) {
             return $try_json;

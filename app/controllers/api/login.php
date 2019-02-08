@@ -90,9 +90,15 @@ foreach ($data as $d) {
  */
 
 $oauth_token = \Model\UserAuth::generateOAuthToken();
-$cacheKey = 'token_' . $oauth_token;
+$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $oauth_token;
 $redis = new \PHPeter\Redis();
 $redis->set($cacheKey, $posted_data, \Model\UserAuth::EXPIRATION_TIME);
+
+/*
+ * Auth deletion
+ */
+
+Persist::delete($auth);
 
 /*
  * Data transfert

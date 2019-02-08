@@ -10,16 +10,20 @@ namespace Entity;
 class ClientApp implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $domain;
-	private $pubkey;
+	private $app_id;
 	private $redirect_url;
 	private $data;
+	private $public_key;
+	private $secret;
 
-	public function __construct($id = 0, $domain = '', $pubkey = '', $redirect_url = '', $data = '') {
+	public function __construct($id = 0, $domain = '', $app_id = '', $redirect_url = '', $data = '', $public_key = '', $secret = '') {
 		$this->id = $id;
 		$this->domain = $domain;
-		$this->pubkey = $pubkey;
+		$this->app_id = $app_id;
 		$this->redirect_url = $redirect_url;
 		$this->data = $data;
+		$this->public_key = $public_key;
+		$this->secret = $secret;
 	}
 
     function jsonSerialize() {
@@ -49,12 +53,12 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 		$this->domain = $domain;
 	}
 
-	public function getPubkey() {
-		return $this->pubkey;
+	public function getAppId() {
+		return $this->app_id;
 	}
 
-	public function setPubkey($pubkey) {
-		$this->pubkey = $pubkey;
+	public function setAppId($app_id) {
+		$this->app_id = $app_id;
 	}
 
     public function getRedirectUrl() {
@@ -71,5 +75,21 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 
     public function setData(string $data) {
         $this->data = $data;
+    }
+
+    public function getPublicKey(): string {
+        return $this->public_key;
+    }
+
+    public function setPublicKey(string $public_key) {
+        $this->public_key = $public_key;
+    }
+
+    public function getSecret(): string {
+        return $this->secret;
+    }
+
+    public function setSecret(string $secret) {
+        $this->secret = $secret;
     }
 }

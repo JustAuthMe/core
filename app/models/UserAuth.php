@@ -10,6 +10,7 @@ namespace Model;
 
 class UserAuth {
     const EXPIRATION_TIME = 600; // 10 minutes
+    const OAUTH_TOKEN_CACHE_PREFIX = 'token_';
 
     public static function generateAuthToken($length = 64) {
         if ($length % 4 !== 0) {
