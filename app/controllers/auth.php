@@ -62,7 +62,7 @@ $auth_id = Persist::create($userAuth);
 $userAuth->setId($auth_id);
 
 $qrCode = new \chillerlan\QRCode\QRCode();
-$imgUrl = $qrCode->render($authToken);
+$imgUrl = $qrCode->render(\Model\UserAuth::URL_SCHEME . $authToken);
 
 Data::get()->add('client', $clientApp);
 Data::get()->add('auth', $userAuth);

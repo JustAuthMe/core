@@ -12,17 +12,17 @@ Controller::sendNoCacheHeaders();
  * Common error cases
  */
 
-if (!isset($_POST['token'])) {
+if (!isset($_GET['token'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('Token required');
 }
 
-if (!isset($_POST['secret'])) {
+if (!isset($_GET['secret'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('Secret required');
 }
 
-if (!Persist::exists('ClientApp', 'secret', $_POST['secret'])) {
+if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
     Controller::error403Forbidden();
     Controller::renderApiError('Wrong secret');
 }
@@ -34,10 +34,10 @@ if (!Persist::exists('ClientApp', 'secret', $_POST['secret'])) {
 /**
  * @var \Entity\ClientApp $clientApp
  */
-$clientApp = Persist::readBy('ClientApp', 'secret', $_POST['secret']);
+$clientApp = Persist::readBy('ClientApp', 'secret', $_GET['secret']);
 
 $redis = new \PHPeter\Redis();
-$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_POST['token'];
+$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_GET['token'];
 $cached = $redis->get($cacheKey, true);
 
 /*
