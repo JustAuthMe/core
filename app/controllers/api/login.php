@@ -104,7 +104,7 @@ Persist::delete($auth);
  * Data transfert
  */
 
-\Ratchet\Client\connect('ws://' . WEBSOCKET_HOST . ':' . WEBSOCKET_PORT)->then(function($conn) use ($token, $oauth_token) {
+\Ratchet\Client\connect(WEBSOCKET_SOCKET_LOCAL)->then(function($conn) use ($token, $oauth_token) {
     /**
      * @var \Ratchet\Client\WebSocket $conn
      */
