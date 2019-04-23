@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: pma.local
--- Generation Time: Jan 15, 2019 at 07:43 PM
+-- Generation Time: Apr 23, 2019 at 11:01 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.2.13-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -34,18 +34,13 @@ DROP TABLE IF EXISTS `client_app`;
 CREATE TABLE IF NOT EXISTS `client_app` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `pubkey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `app_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `redirect_url` varchar(1023) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci NOT NULL,
+  `public_key` text COLLATE utf8_unicode_ci NOT NULL,
+  `secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `client_app`
---
-
-INSERT INTO `client_app` (`id`, `domain`, `pubkey`, `redirect_url`, `data`) VALUES
-(1, 'phpeter.fr', 'PHPeter', 'https://phpeter.fr/callback_url_jam.php', '[\"username\",\"email\",\"tel\"]');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -59,15 +54,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `public_key` text COLLATE utf8_unicode_ci NOT NULL,
+  `hash_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `username`, `timestamp`, `ip_address`) VALUES
-(1, 'f7cc1a9841de219e4e2c3284', '2018-11-29 21:28:48', '127.0.0.1');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -86,14 +76,7 @@ CREATE TABLE IF NOT EXISTS `user_auth` (
   `ip_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `client_app_id` (`client_app_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `user_auth`
---
-
-INSERT INTO `user_auth` (`id`, `token`, `client_app_id`, `callback_url`, `data`, `timestamp`, `ip_address`) VALUES
-(35, 'x6vF8KGRd_Wsod_bSwm2_LBu+oYps9jHMiXzDg6U_+dPlQ9cvjP07ZI5XFT792kP', 1, 'https://phpeter.fr/callback_url_jam.php', '[\"username!\",\"email!\",\"tel\"]', '2019-01-15 18:42:33', '127.0.0.1');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -126,14 +109,7 @@ CREATE TABLE IF NOT EXISTS `user_spam` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_address` (`ip_address`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `user_spam`
---
-
-INSERT INTO `user_spam` (`id`, `user_id`, `timestamp`, `ip_address`) VALUES
-(15, 1, '2018-11-29 21:28:48', '127.0.0.1');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Constraints for dumped tables
