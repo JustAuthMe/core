@@ -26,7 +26,7 @@ class User implements \Resourceable, \JsonSerializable {
 
     function jsonSerialize() {
         $it = clone $this;
-        unset($it->id, $it->timestamp, $it->ip_address);
+        unset($it->id, $it->timestamp, $it->ip_address, $it->hash_key);
         return get_object_vars($it);
     }
 
