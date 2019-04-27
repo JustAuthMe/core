@@ -26,6 +26,10 @@ $posted_data = is_string($_POST['data']) && json_decode($_POST['data']) === null
     json_decode($_POST['data'], true) :
     $_POST['data'];
 
+$stringified_data = is_string($_POST['data']) && json_decode($_POST['data']) === null ?
+    $_POST['data'] :
+    json_encode($_POST['data']);
+
 if (!is_array($posted_data)) {
     Controller::error400BadRequest();
     Controller::renderApiError('Wrong data format');
@@ -55,7 +59,7 @@ if (!Persist::exists('UserAuth', 'token', $token)) {
  * @var \Entity\User $user
  */
 $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
-$verify = Crypt::verify($_POST['data'], $_POST['sign'], $user->getPublicKey());
+$verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user->getPublicKey());
 
 if ($verify === -1) {
     Controller::error500InternalServerError();
