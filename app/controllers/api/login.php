@@ -137,8 +137,9 @@ Persist::delete($auth);
     $conn->send(json_encode($data));
     $conn->close();
 
-    Controller::renderApiSuccess();
 }, function (Exception $e) {
     error_log($e->getMessage());
     Controller::error500InternalServerError();
 });
+
+Controller::renderApiSuccess();
