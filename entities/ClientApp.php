@@ -69,11 +69,11 @@ class ClientApp implements \Resourceable, \JsonSerializable {
         $this->redirect_url = $redirect_url;
     }
 
-    public function getData(): string {
+    public function getData() {
         return $this->data;
     }
 
-    public function setData(string $data) {
+    public function setData($data) {
         $this->data = $data;
     }
 
