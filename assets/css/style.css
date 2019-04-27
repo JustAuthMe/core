@@ -12,22 +12,47 @@ body {
     font-family: arial;
 }
 
+@-webkit-keyframes progressive {
+	0%   { width:0px; }
+	100% { width:205px; }
+}
+
+@-moz-keyframes progressive {
+	0%   { width:0px; }
+	100% { width:205px; }
+}
+
+@-o-keyframes progressive {
+	0%   { width:0px; }
+	100% { width:205px; }
+}
+
+@keyframes progressive {
+	0%   { width:0px; }
+	100% { width:205px; }
+}
+
 .container{
 	height: 100%;
 	width: auto;
 	display: flex;
 	text-align: center;
-	background: #3598db;
+	background: #3598db;	
 }
 
 .login{
-	margin: auto;;
+	margin: auto;
 }
 
 .qrcode{
 	margin-top: 5%;
 	background: white;
-	border-radius: 10px;
+	border-radius: 10px;	
+	
+	-webkit-animation: progressive 1s;
+	-moz-animation:    progressive 1s;
+	-o-animation:      progressive 1s;
+	animation:         progressive 1s;		
 }
 
 .footer{
