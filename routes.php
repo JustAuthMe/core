@@ -12,6 +12,7 @@ const ROUTES = [
     'api' => [
         'auth' => 'auth',
         'register' => 'register',
-        'login' => 'login'
+        'login' => 'login',
+        'data' => 'data'
     ]
 ];
