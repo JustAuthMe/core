@@ -1,6 +1,6 @@
+
 	<div class="container">
 		<div class="login">
-			<img src="" alt="" />
 			<h1>You're about to log into alpha.justauth.me/demo</h1>
 			<p>Just scan the following QR-Code with your JustAuth.Me mobile App</p>
 			<img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
