@@ -22,7 +22,10 @@ if (!isset($_POST['sign'])) {
     Controller::renderApiError('Data signature is required');
 }
 
-$posted_data = json_decode($_POST['data'], true);
+$posted_data = is_string($_POST['data']) && json_decode($_POST['data']) === null ?
+    json_decode($_POST['data'], true) :
+    $_POST['data'];
+
 if (!is_array($posted_data)) {
     Controller::error400BadRequest();
     Controller::renderApiError('Wrong data format');
