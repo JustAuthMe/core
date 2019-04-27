@@ -1,4 +1,7 @@
 	
 		<div class="container">
-			<h1>Welcome to <?= NAME ?></h1>
+			<div class="centered">
+				<h1>Welcome to <?= NAME ?></h1>
+				<img src="assets/img/logo.png" alt="JustAuthMe Logo" />
+			</div>
 		</div>
