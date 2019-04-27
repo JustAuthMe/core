@@ -1,5 +1,42 @@
-@CHARSET "UTF-8";
+html {
+    height: 100%;
+}
 
 body {
-	
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    color: white;
+    background: url("../img/background.jpg");
+    font-family: arial;
+}
+
+.container{
+	height: 100%;
+	width: auto;
+	display: flex;
+	text-align: center;
+	background: #3598db;
+}
+
+.login{
+	margin: auto;;
+}
+
+.qrcode{
+	margin-top: 5%;
+	background: white;
+	border-radius: 10px;
+}
+
+.footer{
+	position: absolute; 
+	width: 100%;
+	bottom: 0;
+	padding-bottom: 5%;
+}
+
+.footer img{
+	width: 5%;
 }
