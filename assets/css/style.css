@@ -40,6 +40,13 @@ body {
 	background: #3598db;	
 }
 
+.header{
+	position: absolute; 
+	width: 100%;
+	top: 0;
+	padding-top: 5%;
+}
+
 .login{
 	margin: auto;
 }
