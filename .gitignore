@@ -16,3 +16,5 @@ vendor/
 *.dist.php
 qr.php
 entity_gen.php
+demo/
+.htaccess
