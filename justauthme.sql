@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: pma.local
--- Generation Time: Apr 23, 2019 at 11:01 PM
+-- Generation Time: May 01, 2019 at 01:11 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.2.13-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -81,22 +81,6 @@ CREATE TABLE IF NOT EXISTS `user_auth` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_login`
---
-
-DROP TABLE IF EXISTS `user_login`;
-CREATE TABLE IF NOT EXISTS `user_login` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `auth_id` int(11) NOT NULL,
-  `data` text COLLATE utf8_unicode_ci NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `auth_id` (`auth_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user_spam`
 --
 
@@ -120,12 +104,6 @@ CREATE TABLE IF NOT EXISTS `user_spam` (
 --
 ALTER TABLE `user_auth`
   ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`client_app_id`) REFERENCES `client_app` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `user_login`
---
-ALTER TABLE `user_login`
-  ADD CONSTRAINT `user_login_ibfk_1` FOREIGN KEY (`auth_id`) REFERENCES `user_auth` (`id`);
 
 --
 -- Constraints for table `user_spam`
