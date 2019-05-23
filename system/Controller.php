@@ -31,6 +31,7 @@ abstract class Controller {
     }
 
     public static function renderApiError($message) {
+        Logger::logError($message);
         Data::get()->add('status', 'error');
         Data::get()->add('message', $message);
         Controller::renderView('json/json', false);

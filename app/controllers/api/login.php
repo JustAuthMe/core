@@ -61,6 +61,22 @@ if (!Persist::exists('UserAuth', 'token', $token)) {
 $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
 $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user->getPublicKey());
 
+            /*
+             * (Logging)
+             */
+
+            // (Verifying manually)
+            openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
+            $toSave = $stringified_data . "\n\n" .
+                hash('sha512', $stringified_data) . "\n\n";
+            $toSave .= substr(bin2hex($clair), -128) . "\n\n" .
+                $_POST['sign'] . "\n\n\n";
+            Logger::logInfo($toSave);
+
+            /*
+             * (/Logging)
+             */
+
 if ($verify === -1) {
     Controller::error500InternalServerError();
     Controller::renderApiError('Can\'t verify data signature');
