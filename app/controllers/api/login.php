@@ -70,7 +70,7 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
             $toSave = $stringified_data . "\n\n" .
                 hash('sha512', $stringified_data) . "\n\n";
             $toSave .= substr(bin2hex($clair), -128) . "\n\n" .
-                $_POST['sign'] . "\n\n\n";
+                $_POST['sign'];
             Logger::logInfo($toSave);
 
             /*
