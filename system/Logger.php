@@ -12,20 +12,22 @@ class Logger {
     const LOG_FILE_ERROR = ROOT . 'log/error.log';
 
     private static function log($message, $filename = self::LOG_FILE_INFO, $backtrace = null) {
-        if (in_array($filename, [
-            self::LOG_FILE_INFO,
-            self::LOG_FILE_WARNING,
-            self::LOG_FILE_ERROR
-        ])) {
-            $backtrace = $backtrace === null ? debug_backtrace() : $backtrace;
-            $caller = array_shift($backtrace);
-            $data = '------------------------------------------' . "\n" .
-                '[' . date('d/m/Y H:i:s') . '][' . $_SERVER['REMOTE_ADDR'] . ']' . "\n" .
-                '[in ' . $caller['file'] . ' line ' . $caller['line'] . ']' . "\n" .
-                $message . "\n\n";
-            file_put_contents($filename, $data, FILE_APPEND);
-        } else {
-            self::logError('Wrong log file');
+        if (LOGGING) {
+            if (in_array($filename, [
+                self::LOG_FILE_INFO,
+                self::LOG_FILE_WARNING,
+                self::LOG_FILE_ERROR
+            ])) {
+                $backtrace = $backtrace === null ? debug_backtrace() : $backtrace;
+                $caller = array_shift($backtrace);
+                $data = '------------------------------------------' . "\n" .
+                    '[' . date('d/m/Y H:i:s') . '][' . $_SERVER['REMOTE_ADDR'] . ']' . "\n" .
+                    '[in ' . $caller['file'] . ' line ' . $caller['line'] . ']' . "\n" .
+                    $message . "\n\n";
+                file_put_contents($filename, $data, FILE_APPEND);
+            } else {
+                self::logError('Wrong log file');
+            }
         }
     }
 

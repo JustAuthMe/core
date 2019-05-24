@@ -5,6 +5,7 @@
 
 const PROD_ENV = false;
 const PROD_HOST = 'localhost';
+const LOGGING = true;
 
 const DATA_TRANSFERT_KEY = 'some random shit';
 const DB_HOST = 'do host';
