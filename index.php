@@ -39,7 +39,7 @@ spl_autoload_register(function ($classname) {
     $path = ROOT;
     if ($namespace == 'Model' && file_exists(ROOT.'app/models/'.$classname.$ext)) {
         $path .= 'app/models/';
-    } elseif ($namespace == 'Entity' & file_exists(ROOT.'entities/'.$classname.$ext)) {
+    } elseif ($namespace == 'Entity' && file_exists(ROOT.'entities/'.$classname.$ext)) {
         $path .= 'entities/';
     } elseif (file_exists(ROOT.'system/'.$classname.$ext)) {
         $path .= 'system/';
