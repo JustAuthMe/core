@@ -7,6 +7,7 @@
  */
 
 Controller::sendNoCacheHeaders();
+\Model\UserAuth::flushOutdatedAuths();
 
 if (Request::get()->getArg(2) === '') {
     Controller::error400BadRequest();
