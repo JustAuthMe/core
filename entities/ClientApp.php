@@ -11,15 +11,17 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $domain;
 	private $app_id;
+	private $name;
 	private $redirect_url;
 	private $data;
 	private $public_key;
 	private $secret;
 
-	public function __construct($id = 0, $domain = '', $app_id = '', $redirect_url = '', $data = '', $public_key = '', $secret = '') {
+	public function __construct($id = 0, $domain = '', $app_id = '', $name = '', $redirect_url = '', $data = '', $public_key = '', $secret = '') {
 		$this->id = $id;
 		$this->domain = $domain;
 		$this->app_id = $app_id;
+		$this->name = $name;
 		$this->redirect_url = $redirect_url;
 		$this->data = $data;
 		$this->public_key = $public_key;
@@ -60,6 +62,14 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 	public function setAppId($app_id) {
 		$this->app_id = $app_id;
 	}
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
 
     public function getRedirectUrl() {
         return $this->redirect_url;
