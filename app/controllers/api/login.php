@@ -70,13 +70,13 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
              */
 
             // (Verifying manually)
-            openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
+            /*openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
             $toSave = $_POST['plain'] . "\n\n" .
                 $stringified_data . "\n\n" .
                 hash('sha512', $stringified_data) . "\n\n" .
                 substr(bin2hex($clair), -128) . "\n\n" .
                 $_POST['sign'];
-            Logger::logInfo($toSave);
+            Logger::logInfo($toSave);*/
 
             /*
              * (/Logging)
