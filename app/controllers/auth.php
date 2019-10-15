@@ -55,7 +55,7 @@ $userAuth = new \Entity\UserAuth(
     $clientApp->getId(),
     $_GET['redirect_url'],
     json_encode($data),
-    null,
+    Utils::time(),
     $_SERVER['REMOTE_ADDR']
 );
 $auth_id = Persist::create($userAuth);
