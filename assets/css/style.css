@@ -69,5 +69,6 @@ body {
 }
 
 .footer img{
-	width: 5%;
+	width: 250px;
+	max-width: 90%;
 }
