@@ -1,8 +1,8 @@
 
 		<div class="container">
 			<div class="header">
-				<h1>You're about to log into alpha.justauth.me/demo</h1>
-				<p>Just scan the following QR-Code with your JustAuth.Me mobile App</p>		
+				<h1><?= $_GET['app_id'] !== 'ad' ? 'You\'re about to log into ' . $client->getDomain() : 'Vous êtes sur le point de vous connecter à monsupersite.com' ?></h1>
+				<p><?= $_GET['app_id'] !== 'ad' ? 'Just scan the following QR-Code with your JustAuthMe mobile App' : 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe' ?></p>
 			</div>		
 			<div class="centered">
 				<img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
@@ -14,6 +14,7 @@
 			</div>
 		</div>
 		<script type="text/javascript">
+            <?php if ($_GET['app_id'] !== 'ad'): ?>
 			var form = document.getElementById('submit_form');
 			form.method = 'post';
 			form.action = '<?= $auth->getCallbackUrl() ?>';
@@ -53,4 +54,5 @@
 			conn.onclose = function(e) {
 				console.log('Connection closed');
 			};
+			<?php endif ?>
 		</script>

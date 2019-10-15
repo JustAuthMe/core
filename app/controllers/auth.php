@@ -14,6 +14,13 @@ if (!isset($_GET['app_id'])) {
 }
 
 $appId = $_GET['app_id'];
+if ($appId === 'ad') {
+    $qrCode = new \chillerlan\QRCode\QRCode();
+    $imgUrl = $qrCode->render('https://justauth.me/?pk_campaign=ad_qr');
+    Data::get()->add('qr_code', $imgUrl);
+    Controller::renderView('auth/auth');
+    die;
+}
 
 if (!\Model\ClientApp::authenticate($appId)) {
     Controller::error403Forbbiden();
