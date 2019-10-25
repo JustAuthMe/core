@@ -58,6 +58,6 @@ if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
 
 require_once Router::get()->getPathToRequire();
 if (Request::get()->getArg(0) == 'api') {
-    Logger::logInfo($_GET['args'] . ': ' . json_encode(Data::get()->getData()));
+    Logger::logInfo($_GET['arg'] . ': ' . json_encode(Data::get()->getData()));
     Controller::renderView('json/json', false);
 }
