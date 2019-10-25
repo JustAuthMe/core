@@ -40,7 +40,6 @@ abstract class Controller {
 
     public static function renderApiSuccess() {
         Data::get()->setData(array_merge(['status' => 'success'], Data::get()->getData()));
-        Logger::logInfo('API Request succeed: ' . json_encode(Data::get()->getData()));
     }
 
     public static function sendNoCacheHeaders() {
