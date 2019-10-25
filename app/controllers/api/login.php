@@ -15,11 +15,13 @@ Controller::sendNoCacheHeaders();
 if (!isset($_POST['data'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('No data given');
+    Logger::logError('No data given');
 }
 
 if (!isset($_POST['sign'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('Data signature is required');
+    Logger::logError('Data signature is required');
 }
 
 $posted_data = is_string($_POST['data']) && json_decode($_POST['data']) !== null ?
@@ -37,22 +39,27 @@ $stringified_data = str_replace(
 if (!is_array($posted_data)) {
     Controller::error400BadRequest();
     Controller::renderApiError('Wrong data format');
+    Logger::logError('Wrong data format');
+    Logger::logInfo(json_encode($posted_data));
 }
 
 if (!isset($posted_data['token'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('No token provided');
+    Logger::logError('No token provided');
 }
 
 if (!isset($posted_data['jam_id'])) {
     Controller::error400BadRequest();
     Controller::renderApiError('JAM ID is required');
+    Logger::logError('JAM ID is required');
 }
 
 $token = $posted_data['token'];
 if (!Persist::exists('UserAuth', 'token', $token)) {
     Controller::error404NotFound();
     Controller::renderApiError('No such token');
+    Logger::logError('No such token: ' . $token);
 }
 
 /*
@@ -70,13 +77,13 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
              */
 
             // (Verifying manually)
-            /*openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
+            openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
             $toSave = $_POST['plain'] . "\n\n" .
                 $stringified_data . "\n\n" .
                 hash('sha512', $stringified_data) . "\n\n" .
                 substr(bin2hex($clair), -128) . "\n\n" .
                 $_POST['sign'];
-            Logger::logInfo($toSave);*/
+            Logger::logInfo($toSave);
 
             /*
              * (/Logging)
@@ -85,9 +92,11 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
 if ($verify === -1) {
     Controller::error500InternalServerError();
     Controller::renderApiError('Can\'t verify data signature');
+    Logger::logError('Can\'t verify data signature');
 } elseif ($verify === 0) {
     Controller::error400BadRequest();
     Controller::renderApiError('Wrong data signature');
+    Logger::logError('Wrong data signature');
 }
 
 /*
@@ -110,6 +119,7 @@ foreach ($data as $d) {
     if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
         Controller::error400BadRequest();
         Controller::renderApiError('Missing param ' . $d);
+        Logger::logError('Missing param ' . $d);
     }
 }
 
@@ -141,6 +151,7 @@ Persist::delete($auth);
         if ($obj !== null && isset($obj->error)) {
             Controller::error400BadRequest();
             Controller::renderApiError($obj->error);
+            Logger::logError($obj->error);
         }
     });
 
@@ -161,6 +172,7 @@ Persist::delete($auth);
 }, function (Exception $e) {
     error_log($e->getMessage());
     Controller::error500InternalServerError();
+    Logger::logError($e->getMessage());
 });
 
 Controller::renderApiSuccess();
