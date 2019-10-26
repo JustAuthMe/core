@@ -4,7 +4,8 @@
         "php": "^7.2",
         "chillerlan/php-qrcode": "^3.0",
         "cboden/ratchet": "^0.4.1",
-        "ratchet/pawl": "^0.3.3"
+        "ratchet/pawl": "^0.3.3",
+        "ext-json": "*"
     },
     "authors": [
         {
