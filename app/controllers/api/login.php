@@ -60,20 +60,28 @@ if (!Persist::exists('UserAuth', 'token', $token)) {
     Logger::logError('No such token: ' . $token);
 }
 
-/*
- * Verigying data signature
- */
-
 /**
  * @var \Entity\User $user
  */
 $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
+
+if (!$user->isActive()) {
+    Controller::error403Forbidden();
+    Controller::renderApiError('You haven\'t activated your E-Mail address yet.');
+    Logger::logError('User #' . $user->getId() . ' have a unactive account');
+}
+
+/*
+ * Verigying data signature
+ */
+
 $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user->getPublicKey());
 
             /*
              * (Logging)
              */
 
+            /**
             // (Verifying manually)
             openssl_public_decrypt(base64_decode($_POST['sign']), $clair, $user->getPublicKey());
             $toSave = $_POST['plain'] . "\n\n" .
@@ -82,6 +90,7 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
                 substr(bin2hex($clair), -128) . "\n\n" .
                 $_POST['sign'];
             Logger::logInfo($toSave);
+            /**/
 
             /*
              * (/Logging)
@@ -101,7 +110,8 @@ if ($verify === -1) {
  * Hashing JAM ID
  */
 
-$posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $user->getHashKey());
+$auth = Persist::readBy('UserAuth', 'token', $token);
+$posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $auth->client_app->getHashKey());
 
 /*
  * Verifying dataset
@@ -110,7 +120,6 @@ $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $user->getH
 /**
  * @var \Entity\UserAuth $auth
  */
-$auth = Persist::readBy('UserAuth', 'token', $token);
 $data = json_decode($auth->getData());
 
 foreach ($data as $d) {

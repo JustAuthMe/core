@@ -19,7 +19,7 @@ class UserAuth implements \Resourceable, \JsonSerializable {
 	public function __construct($id = 0, $token = '', $client_app_id = 0, $callback_url = '', $data = [], $timestamp = null, $ip_address = '') {
 		$this->id = $id;
 		$this->token = $token;
-		$this->client_app_id = $client_app_id;
+		$this->setClientAppId($client_app_id);
 		$this->callback_url = $callback_url;
 		$this->data = $data;
 		$this->timestamp = $timestamp;

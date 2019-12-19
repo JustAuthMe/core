@@ -16,4 +16,13 @@ class ClientApp {
     public static function getClientDetails($appId) {
         return \Persist::readBy('ClientApp', 'app_id', $appId);
     }
+
+    public static function generateHashKey($length = 64) {
+        if ($length % 4 !== 0) {
+            throw new \Exception('$length must be a factor of 4');
+        }
+
+        $bytes_number = 0.75 * $length;
+        return base64_encode(openssl_random_pseudo_bytes($bytes_number));
+    }
 }

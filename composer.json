@@ -5,7 +5,9 @@
         "chillerlan/php-qrcode": "^3.0",
         "cboden/ratchet": "^0.4.1",
         "ratchet/pawl": "^0.3.3",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-openssl": "*"
     },
     "authors": [
         {

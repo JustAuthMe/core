@@ -10,18 +10,20 @@ namespace Entity;
 class User implements \Resourceable, \JsonSerializable {
 	private $id;
 	private $username;
+	private $uniqid;
 	private $timestamp;
 	private $ip_address;
 	private $public_key;
-	private $hash_key;
+	private $active;
 
-	public function __construct($id = 0, $username = '', $timestamp = null, $ip_address = '', $public_key = '', $hash_key = '') {
+	public function __construct($id = 0, $username = '', $uniqid = '', $timestamp = null, $ip_address = '', $public_key = '', $active = 0) {
 		$this->id = $id;
 		$this->username = $username;
+		$this->uniqid = $uniqid;
 		$this->timestamp = $timestamp;
 		$this->ip_address = $ip_address;
 		$this->public_key = $public_key;
-		$this->hash_key = $hash_key;
+		$this->active = $active;
 	}
 
     function jsonSerialize() {
@@ -50,6 +52,14 @@ class User implements \Resourceable, \JsonSerializable {
 		$this->username = $username;
 	}
 
+    public function getUniqid() {
+        return $this->uniqid;
+    }
+
+    public function setUniqid($uniqid) {
+        $this->uniqid = $uniqid;
+    }
+
 	public function getTimestamp() {
         return $this->timestamp;
     }
@@ -74,11 +84,15 @@ class User implements \Resourceable, \JsonSerializable {
         $this->public_key = $public_key;
     }
 
-    public function getHashKey() {
-        return $this->hash_key;
+    public function getActive() {
+        return $this->active;
     }
 
-    public function setHashKey($hash_key) {
-        $this->hash_key = $hash_key;
+    public function isActive() {
+	    return $this->getActive();
+    }
+
+    public function setActive($active) {
+        $this->active = $active;
     }
 }

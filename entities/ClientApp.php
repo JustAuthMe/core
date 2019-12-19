@@ -17,8 +17,9 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 	private $data;
 	private $public_key;
 	private $secret;
+	private $hash_key;
 
-	public function __construct($id = 0, $domain = '', $app_id = '', $name = '', $logo = '', $redirect_url = '', $data = '', $public_key = '', $secret = '') {
+	public function __construct($id = 0, $domain = '', $app_id = '', $name = '', $logo = '', $redirect_url = '', $data = '', $public_key = '', $secret = '', $hash_key = '') {
 		$this->id = $id;
 		$this->domain = $domain;
 		$this->app_id = $app_id;
@@ -28,6 +29,7 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 		$this->data = $data;
 		$this->public_key = $public_key;
 		$this->secret = $secret;
+		$this->hash_key = $hash_key;
 	}
 
     function jsonSerialize() {
@@ -97,19 +99,27 @@ class ClientApp implements \Resourceable, \JsonSerializable {
         $this->data = $data;
     }
 
-    public function getPublicKey(): string {
+    public function getPublicKey() {
         return $this->public_key;
     }
 
-    public function setPublicKey(string $public_key) {
+    public function setPublicKey($public_key) {
         $this->public_key = $public_key;
     }
 
-    public function getSecret(): string {
+    public function getSecret() {
         return $this->secret;
     }
 
-    public function setSecret(string $secret) {
+    public function setSecret($secret) {
         $this->secret = $secret;
+    }
+
+    public function getHashKey() {
+        return $this->hash_key;
+    }
+
+    public function setHashKey($hash_key) {
+        $this->hash_key = $hash_key;
     }
 }
