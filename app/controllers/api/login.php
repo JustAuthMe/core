@@ -107,28 +107,43 @@ if ($verify === -1) {
 }
 
 /*
- * Hashing JAM ID
- */
-
-$auth = Persist::readBy('UserAuth', 'token', $token);
-$posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'], $auth->client_app->getHashKey());
-
-/*
  * Verifying dataset
  */
 
 /**
  * @var \Entity\UserAuth $auth
  */
-$data = json_decode($auth->getData());
+$auth = Persist::readBy('UserAuth', 'token', $token);
 
-foreach ($data as $d) {
-    if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
-        Controller::error400BadRequest();
-        Controller::renderApiError('Missing param ' . $d);
-        Logger::logError('Missing param ' . $d);
+$login_hash = \Model\UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->app_id);
+if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
+    $data = json_decode($auth->getData());
+
+    foreach ($data as $d) {
+        if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
+            Controller::error400BadRequest();
+            Controller::renderApiError('Missing param ' . $d);
+            Logger::logError('Missing param ' . $d);
+        }
     }
+
+    $salt = \Model\UserAuth::generateLoginSalt();
+    $user_login = new \Entity\UserLogin(
+        0,
+        $login_hash,
+        $salt
+    );
+    $ul_id = Persist::create($user_login);
+    $user_login->setId($ul_id);
+} else {
+    $user_login = Persist::readBy('UserLogin', 'hash', $login_hash);
 }
+
+/*
+ * Hashing JAM ID
+ */
+
+$posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'] . $user_login->getSalt(), $auth->client_app->getHashKey());
 
 /*
  * Data storage

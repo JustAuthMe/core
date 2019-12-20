@@ -25,4 +25,20 @@ class ClientApp {
         $bytes_number = 0.75 * $length;
         return base64_encode(openssl_random_pseudo_bytes($bytes_number));
     }
+
+    public static function generateAppId($domain) {
+        return substr(sha1($domain . UserAuth::generateLoginSalt()), 0, 32);
+    }
+
+    public static function generateSecret($length = 32) {
+        do {
+            $secret = UserAuth::generateAuthToken($length);
+        } while (\Persist::exists('ClientApp', 'secret', $secret));
+
+        return $secret;
+    }
+
+    public static function isJamConsole() {
+        return isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && $_SERVER['HTTP_X_ACCESS_TOKEN'] === JAM_CONSOLE_API_KEY;
+    }
 }

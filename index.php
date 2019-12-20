@@ -51,8 +51,13 @@ spl_autoload_register(function ($classname) {
 });
 
 if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
-    if ($json_data = json_decode(file_get_contents('php://input'), true)) {
+    $php_input = file_get_contents('php://input');
+    $json_data = json_decode($php_input, true);
+    parse_str($php_input, $http_data);
+    if ($json_data !== NULL) {
         $_POST = $json_data;
+    } else {
+        $_POST = $http_data;
     }
 }
 

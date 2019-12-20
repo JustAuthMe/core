@@ -8,6 +8,8 @@ const PROD_HOST = 'localhost';
 const LOGGING = true;
 
 const DATA_TRANSFERT_KEY = 'some random shit';
+const JAM_CONSOLE_API_KEY = 'some OTHER random shit (DIFFERENT from above)';
+
 const DB_HOST = 'do host';
 const DB_NAME = 'justauthme';
 const DB_USER = 'db user';

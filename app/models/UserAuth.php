@@ -19,7 +19,7 @@ class UserAuth {
         }
 
         $bytes_number = 0.75 * $length;
-        return str_replace('+', '_', str_replace('/', '_', base64_encode(openssl_random_pseudo_bytes($bytes_number))));
+        return str_replace('+', '', str_replace('/', '', base64_encode(openssl_random_pseudo_bytes($bytes_number))));
     }
 
     public static function generateOAuthToken($length = 32) {
@@ -44,5 +44,13 @@ class UserAuth {
 
     public static function checkDataSign($data, $sign) {
         return self::signData($data) === $sign;
+    }
+
+    public static function generateUserAppPairHash($jam_id, $app_id) {
+        return hash('sha512', $jam_id . $app_id);
+    }
+
+    public static function generateLoginSalt($length = 8) {
+        return self::generateAuthToken($length);
     }
 }

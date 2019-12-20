@@ -13,6 +13,7 @@ const ROUTES = [
         'auth' => 'auth',
         'register' => 'register',
         'login' => 'login',
-        'data' => 'data'
+        'data' => 'data',
+        'client_app' => 'client_app'
     ]
 ];
