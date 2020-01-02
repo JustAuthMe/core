@@ -10,10 +10,9 @@ ini_set('display_startup_errors', $bool);
 error_reporting($econst ^ E_DEPRECATED);
 date_default_timezone_set('UTC');
 
-define('NAME', 'JustAuth.Me');
-define('POST', $_SERVER['REQUEST_METHOD'] == 'POST');
 define('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']), true);
 define('WEBROOT', str_replace('index.php', '', $_SERVER['SCRIPT_NAME']), true);
+define('POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST');
 define('ENTITIES', ROOT.'entities/');
 define('SYSTEM', ROOT.'system/');
 define('APP', ROOT.'app/');

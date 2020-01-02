@@ -37,8 +37,4 @@ class ClientApp {
 
         return $secret;
     }
-
-    public static function isJamConsole() {
-        return isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && $_SERVER['HTTP_X_ACCESS_TOKEN'] === JAM_CONSOLE_API_KEY;
-    }
 }

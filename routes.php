@@ -9,11 +9,13 @@
 const ROUTES = [
     'home' => 'home',
     'auth' => 'auth',
+    'cron' => 'cron',
     'api' => [
         'auth' => 'auth',
         'register' => 'register',
         'login' => 'login',
         'data' => 'data',
-        'client_app' => 'client_app'
+        'client_app' => 'client_app',
+        'mailer' => 'mailer'
     ]
 ];

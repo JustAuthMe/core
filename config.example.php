@@ -6,9 +6,12 @@
 const PROD_ENV = false;
 const PROD_HOST = 'localhost';
 const LOGGING = true;
+const NAME = 'JustAuth.Me';
+const CLI_BASE_URL = 'http://localhost/JustAuth.Me/server';
 
 const DATA_TRANSFERT_KEY = 'some random shit';
 const JAM_CONSOLE_API_KEY = 'some OTHER random shit (DIFFERENT from above)';
+const EMAIL_RENDERING_KEY = 'some OTHER random shit (DIFFERENT from above)';
 
 const DB_HOST = 'do host';
 const DB_NAME = 'justauthme';
@@ -28,3 +31,8 @@ const WEBSOCKET_SOCKET_REMOTE = 'ws://' . PROD_HOST . (
         WEBSOCKET_PATH :
         ':' . WEBSOCKET_PORT
     );
+
+const SMTP_HOST = 'mail.justauth.me';
+const SMTP_PORT = 587;
+const SMTP_USER = 'phpmailer@justauth.me';
+const SMTP_PASS = '';

@@ -15,7 +15,7 @@ class Redis extends \Redis {
         $this->auth(REDIS_PASS);
     }
 
-    public function set($key, $value, $ttl = 0) {
+    public function set($key, $value, $ttl = null) {
         if (!is_string($value)) {
             $value = json_encode($value);
         }
@@ -33,6 +33,4 @@ class Redis extends \Redis {
 
         return $value;
     }
-
-
 }

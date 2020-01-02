@@ -1,5 +1,5 @@
 <?php
-if (!\Model\ClientApp::isJamConsole()) {
+if (!Utils::isJamConsole()) {
     Controller::http401Unauthorized();
     Controller::renderApiError('Authentication failed');
 }
