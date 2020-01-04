@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mamp_mysql:3306
--- Généré le :  jeu. 19 déc. 2019 à 16:22
+-- Généré le :  sam. 04 jan. 2020 à 20:55
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.2.14
 
@@ -32,11 +32,11 @@ USE `justauthme`;
 
 DROP TABLE IF EXISTS `banned_ip`;
 CREATE TABLE IF NOT EXISTS `banned_ip` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ip_address` (`ip_address`)
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+UNIQUE KEY `ip_address` (`ip_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -47,25 +47,22 @@ CREATE TABLE IF NOT EXISTS `banned_ip` (
 
 DROP TABLE IF EXISTS `client_app`;
 CREATE TABLE IF NOT EXISTS `client_app` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `domain` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `app_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `logo` varchar(1023) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `redirect_url` varchar(1023) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `public_key` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `secret` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `hash_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Déchargement des données de la table `client_app`
---
-
-INSERT INTO `client_app` (`id`, `domain`, `app_id`, `name`, `logo`, `redirect_url`, `data`, `public_key`, `secret`, `hash_key`) VALUES
-(1, 'localhost', 'demo', 'Démo', '', 'http://localhost/JustAuth.Me/demo/login', '[\"email\"]', '', 'iknowyoumasturbateinfrontofyourcamera', 'ArQ8pPOt3YtPKDCMvncvsSl8TAUt5qXyGyAvXf4qMIp863mLOU2sdas/v2YyNTAv');
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`domain` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`app_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`logo` varchar(1023) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`redirect_url` varchar(1023) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`public_key` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`secret` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`hash_key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `domain` (`domain`),
+UNIQUE KEY `app_id` (`app_id`),
+UNIQUE KEY `name` (`name`),
+UNIQUE KEY `redirect_url` (`redirect_url`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -75,15 +72,15 @@ INSERT INTO `client_app` (`id`, `domain`, `app_id`, `name`, `logo`, `redirect_ur
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `uniqid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `public_key` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniqid` (`uniqid`)
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`uniqid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`public_key` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`active` tinyint(1) NOT NULL DEFAULT '0',
+PRIMARY KEY (`id`),
+UNIQUE KEY `uniqid` (`uniqid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -94,23 +91,31 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 DROP TABLE IF EXISTS `user_auth`;
 CREATE TABLE IF NOT EXISTS `user_auth` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `token` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `client_app_id` int(11) DEFAULT NULL,
-  `callback_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `timestamp` bigint(20) NOT NULL,
-  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `client_app_id` (`client_app_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`token` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`client_app_id` int(11) DEFAULT NULL,
+`callback_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+`timestamp` bigint(20) NOT NULL,
+`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+PRIMARY KEY (`id`),
+KEY `client_app_id` (`client_app_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Déchargement des données de la table `user_auth`
+-- Structure de la table `user_login`
 --
 
-INSERT INTO `user_auth` (`id`, `token`, `client_app_id`, `callback_url`, `data`, `timestamp`, `ip_address`) VALUES
-(10, 'mZGDEHCGecWhaMK4K92Tsry0wrF3_7ft3Bbq_L1gg765OKBh1CsyY3EoVRT2CQgp', 1, 'http://localhost/JustAuth.Me/demo/login', '[\"email!\"]', 1576695452, '172.30.0.1');
+DROP TABLE IF EXISTS `user_login`;
+CREATE TABLE IF NOT EXISTS `user_login` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+`salt` varchar(31) COLLATE utf8_unicode_ci NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `hash` (`hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -120,13 +125,13 @@ INSERT INTO `user_auth` (`id`, `token`, `client_app_id`, `callback_url`, `data`,
 
 DROP TABLE IF EXISTS `user_spam`;
 CREATE TABLE IF NOT EXISTS `user_spam` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ip_address` (`ip_address`),
-  KEY `user_id` (`user_id`)
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) DEFAULT NULL,
+`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+PRIMARY KEY (`id`),
+UNIQUE KEY `ip_address` (`ip_address`),
+KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -137,13 +142,13 @@ CREATE TABLE IF NOT EXISTS `user_spam` (
 -- Contraintes pour la table `user_auth`
 --
 ALTER TABLE `user_auth`
-  ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`client_app_id`) REFERENCES `client_app` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`client_app_id`) REFERENCES `client_app` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `user_spam`
 --
 ALTER TABLE `user_spam`
-  ADD CONSTRAINT `user_spam_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ADD CONSTRAINT `user_spam_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

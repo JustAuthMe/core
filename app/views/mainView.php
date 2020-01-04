@@ -9,8 +9,13 @@
 	</head>
 
 	<body>
-		<?php require_once @$appView; ?>
-		
+        <div class="container">
+            <?php require_once @$appView; ?>
+
+            <div class="footer">
+                <img src="assets/img/logo.png" alt="JustAuthMe Logo" />
+            </div>
+        </div>
 		<script type="text/javascript" src="<?php echo JS.'jquery.min.js'; ?>"></script>
 		<script type="text/javascript" src="<?php echo JS.'script.js'; ?>"></script>
 	</body>

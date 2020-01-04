@@ -12,6 +12,8 @@ class UserAuth {
     const EXPIRATION_TIME = 120; // 2 minutes
     const OAUTH_TOKEN_CACHE_PREFIX = 'token_';
     const URL_SCHEME = 'jam://';
+    const EMAIL_CONFIRM_CACHE_PREFIX = 'confirm_';
+    const EMAIL_CONFIRM_EXPIRATION_TIME = 86400; // 24 hours
 
     public static function generateAuthToken($length = 64) {
         if ($length % 4 !== 0) {

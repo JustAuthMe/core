@@ -10,6 +10,7 @@ const ROUTES = [
     'home' => 'home',
     'auth' => 'auth',
     'cron' => 'cron',
+    'confirm' => 'confirm',
     'api' => [
         'auth' => 'auth',
         'register' => 'register',

@@ -17,4 +17,8 @@ class User {
 
         return $username;
     }
+
+    public static function hashEmail($email) {
+        return hash('sha512', $email);
+    }
 }
