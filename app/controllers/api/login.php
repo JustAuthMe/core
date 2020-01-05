@@ -115,7 +115,7 @@ if ($verify === -1) {
  */
 $auth = Persist::readBy('UserAuth', 'token', $token);
 
-$login_hash = \Model\UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->app_id);
+$login_hash = \Model\UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->getAppId());
 if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
     $data = json_decode($auth->getData());
 
