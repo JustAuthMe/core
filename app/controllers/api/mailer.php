@@ -65,18 +65,3 @@ $queue_id = $mailer->queueMail($_POST['to'], $_POST['subject'], $template, $para
 
 Data::get()->add('queue_id', $queue_id);
 Controller::renderApiSuccess();
-
-/* $firstname = 'Peter';
-$confirm_link = 'https://justauth.me/confirm/edfghjtjgncfxbdvdgwhdjfkglklhgfd';
-Data::get()->add('subject', 'Confirmation de votre adresse E-Mail');
-Data::get()->add('body', 'Bonjour ' . $firstname . ',<br />
-Vous avez récemment créé un compte JustAuth.Me sur votre appareil mobile.
-Afin de compléter le processus d\'inscription, nous vous invitons à valider
-votre adresse E-Mail en cliquant sur le bouton ci-dessous.
-Si celui-ci ne s\'affiche pas ou si vous rencontrez des difficultés pour l\'utiliser, copiez
-simplement ce lien dans votre navigateur web :<br />
-<span style="color:blue">' . $confirm_link . '</span>');
-Data::get()->add('call_to_action', [
-    'title' => 'Vérifier mon E-Mail',
-    'link' => $confirm_link
-]); */

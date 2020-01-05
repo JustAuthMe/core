@@ -10,7 +10,7 @@ Controller::sendNoCacheHeaders();
 \Model\UserAuth::flushOutdatedAuths();
 
 if (Request::get()->getArg(2) === '') {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('No token provided');
 }
 
@@ -21,7 +21,7 @@ $token = Request::get()->getArg(2);
  */
 
 if (!Persist::exists('UserAuth', 'token', $token)) {
-    Controller::error404NotFound();
+    Controller::http404NotFound();
     Controller::renderApiError('No such token');
 }
 

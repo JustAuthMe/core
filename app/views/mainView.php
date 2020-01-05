@@ -13,7 +13,7 @@
             <?php require_once @$appView; ?>
 
             <div class="footer">
-                <img src="assets/img/logo.png" alt="JustAuthMe Logo" />
+                <img src="<?= WEBROOT ?>assets/img/logo.png" alt="JustAuthMe Logo" />
             </div>
         </div>
 		<script type="text/javascript" src="<?php echo JS.'jquery.min.js'; ?>"></script>

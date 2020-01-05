@@ -13,13 +13,13 @@ Controller::sendNoCacheHeaders();
  */
 
 if (!isset($_POST['data'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('No data given');
     Logger::logError('No data given');
 }
 
 if (!isset($_POST['sign'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Data signature is required');
     Logger::logError('Data signature is required');
 }
@@ -35,27 +35,27 @@ $stringified_data = urlencode(
 );
 
 if (!is_array($posted_data)) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Wrong data format');
     Logger::logError('Wrong data format');
     Logger::logInfo(json_encode($posted_data));
 }
 
 if (!isset($posted_data['token'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('No token provided');
     Logger::logError('No token provided');
 }
 
 if (!isset($posted_data['jam_id'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('JAM ID is required');
     Logger::logError('JAM ID is required');
 }
 
 $token = $posted_data['token'];
 if (!Persist::exists('UserAuth', 'token', $token)) {
-    Controller::error404NotFound();
+    Controller::http404NotFound();
     Controller::renderApiError('No such token');
     Logger::logError('No such token: ' . $token);
 }
@@ -66,7 +66,7 @@ if (!Persist::exists('UserAuth', 'token', $token)) {
 $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
 
 if (!$user->isActive()) {
-    Controller::error403Forbidden();
+    Controller::http403Forbidden();
     Controller::renderApiError('You haven\'t activated your E-Mail address yet.');
     Logger::logError('User #' . $user->getId() . ' have a unactive account');
 }
@@ -97,11 +97,11 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
              */
 
 if ($verify === -1) {
-    Controller::error500InternalServerError();
+    Controller::http500InternalServerError();
     Controller::renderApiError('Can\'t verify data signature');
     Logger::logError('Can\'t verify data signature');
 } elseif ($verify === 0) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Wrong data signature');
     Logger::logError('Wrong data signature');
 }
@@ -121,7 +121,7 @@ if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
 
     foreach ($data as $d) {
         if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
-            Controller::error400BadRequest();
+            Controller::http400BadRequest();
             Controller::renderApiError('Missing param ' . $d);
             Logger::logError('Missing param ' . $d);
         }
@@ -171,7 +171,7 @@ Persist::delete($auth);
     $conn->on('message', function($msg) use ($conn) {
         $obj = json_decode($msg);
         if ($obj !== null && isset($obj->error)) {
-            Controller::error400BadRequest();
+            Controller::http400BadRequest();
             Controller::renderApiError($obj->error);
             Logger::logError($obj->error);
         }
@@ -193,7 +193,7 @@ Persist::delete($auth);
 
 }, function (Exception $e) {
     error_log($e->getMessage());
-    Controller::error500InternalServerError();
+    Controller::http500InternalServerError();
     Logger::logError($e->getMessage());
 });
 

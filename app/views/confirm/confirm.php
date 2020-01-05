@@ -1,0 +1,1 @@
+<h1 style="width:100%;text-align:center;margin-top:40vh;"><?= isset($error) ? 'This link is invalid. Maybe you\'ve waited too long, those links are only valid for 24 hours' : 'Your E-Mail address have been validated, you can now use the App!' ?></h1>

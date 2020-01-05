@@ -17,6 +17,8 @@ const ROUTES = [
         'login' => 'login',
         'data' => 'data',
         'client_app' => 'client_app',
-        'mailer' => 'mailer'
+        'mailer' => 'mailer',
+        'applogin' => 'applogin',
+        'checkmail' => 'checkmail'
     ]
 ];

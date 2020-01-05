@@ -9,7 +9,7 @@
 \Model\UserAuth::flushOutdatedAuths();
 
 if (!isset($_GET['app_id'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('No App ID provided');
 }
 
@@ -23,12 +23,12 @@ if ($appId === 'ad') {
 }
 
 if (!\Model\ClientApp::authenticate($appId)) {
-    Controller::error403Forbbiden();
+    Controller::http403Forbbiden();
     Controller::renderApiError('Authentication failed');
 }
 
 if (!isset($_GET['redirect_url']) || !isset($_GET['data'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Missing params');
 }
 
@@ -38,7 +38,7 @@ if (!isset($_GET['redirect_url']) || !isset($_GET['data'])) {
 $clientApp = \Model\ClientApp::getClientDetails($appId);
 
 if ($clientApp->getRedirectUrl() !== $_GET['redirect_url']) {
-    Controller::error403Forbidden();
+    Controller::http403Forbidden();
     Controller::renderApiError('Wrong redirection URL');
 }
 
@@ -50,7 +50,7 @@ $data = explode(',', $_GET['data']);
 $allowed_data = json_decode($clientApp->getData());
 foreach($data as $d) {
     if (!in_array(\Model\UserAuth::getDataSlug($d), $allowed_data)) {
-        Controller::error403Forbidden();
+        Controller::http403Forbidden();
         Controller::renderApiError('Unauthorized data type');
     }
 }

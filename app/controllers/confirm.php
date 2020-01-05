@@ -1,10 +1,11 @@
 <?php
 $redis = new \PHPeter\Redis();
-$cache_key = \Model\UserAuth::EMAIL_CONFIRM_CACHE_PREFIX . Request::get()->getArg(1);
+$cache_key = \Model\User::EMAIL_CONFIRM_CACHE_PREFIX . Request::get()->getArg(1);
 $cached = $redis->get($cache_key);
 
 if ($cached === false) {
-    echo 'erreur'; // TODO
+    Data::get()->add('error', true);
+    Controller::renderView('confirm/confirm');
     die;
 }
 
@@ -14,4 +15,4 @@ $user->setActive(1);
 Persist::update($user);
 $redis->del($cache_key);
 
-echo 'Ok'; // TODO
+Controller::renderView('confirm/confirm');

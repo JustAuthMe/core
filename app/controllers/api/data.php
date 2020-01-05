@@ -13,17 +13,17 @@ Controller::sendNoCacheHeaders();
  */
 
 if (!isset($_GET['token'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Token required');
 }
 
 if (!isset($_GET['secret'])) {
-    Controller::error400BadRequest();
+    Controller::http400BadRequest();
     Controller::renderApiError('Secret required');
 }
 
 if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
-    Controller::error403Forbidden();
+    Controller::http403Forbidden();
     Controller::renderApiError('Wrong secret');
 }
 
@@ -45,12 +45,12 @@ $cached = $redis->get($cacheKey, true);
  */
 
 if ($cached === false) {
-    Controller::error403Forbidden();
+    Controller::http403Forbidden();
     Controller::renderApiError('No such token');
 }
 
 if (!is_array($cached)) {
-    Controller::error500InternalServerError();
+    Controller::http500InternalServerError();
     Controller::renderApiError('Wrong data format');
 }
 
