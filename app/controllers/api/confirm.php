@@ -19,6 +19,6 @@ if (!Persist::exists('User', 'uniqid', $hashed_email)) {
 $user = Persist::readBy('User', 'uniqid', $hashed_email);
 \Model\User::sendConfirmMail($user->getId(), $_POST['email']);
 
-// TODO COOLDOWN (user based, not IP based)
+// TODO user based cooldown
 
 Controller::renderApiSuccess();

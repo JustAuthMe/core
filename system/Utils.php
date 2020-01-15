@@ -64,4 +64,34 @@ class Utils {
     public static function isJamConsole() {
         return isset($_SERVER['HTTP_X_ACCESS_TOKEN']) && $_SERVER['HTTP_X_ACCESS_TOKEN'] === JAM_CONSOLE_API_KEY;
     }
+
+    public static function expandIPV6($ip) {
+        $is_ipv6 = strpos($ip, ':') !== false;
+        if (!$is_ipv6) {
+            return $ip;
+        }
+
+        $hex = bin2hex(inet_pton($ip));
+        return implode(':', str_split($hex, 4));
+    }
+
+    public static function truncateIPV6($ip, $blocksCnt = 0) {
+        $is_ipv6 = strpos($ip, ':') !== false;
+        if (!$is_ipv6) {
+            return $ip;
+        }
+
+        $blocks = explode(':', $ip);
+        return implode(':', array_slice($blocks, 0, count($blocks) - $blocksCnt));
+    }
+
+    public static function slugifyIp($ip) {
+	    $is_ipv6 = strpos($ip, ':') !== false;
+	    $full_length_ip = $is_ipv6 ? self::expandIPV6($ip) : $ip;
+	    $slugified_ip = $is_ipv6 ?
+            str_replace(':', '_', $full_length_ip) :
+            str_replace('.', '_', $full_length_ip);
+
+	    return $slugified_ip;
+    }
 }

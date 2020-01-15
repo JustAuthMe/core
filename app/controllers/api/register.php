@@ -9,6 +9,7 @@
 Controller::sendNoCacheHeaders();
 
 \Model\UserSpam::flushOutdatedBans();
+// TODO Redis cooldown istead of MySQL
 if (\Model\UserSpam::isIpBanned($_SERVER['REMOTE_ADDR'])) {
     Controller::http429TooManyRequests();
     Controller::renderApiError('You cannot register twice in a row.');
