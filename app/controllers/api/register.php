@@ -8,9 +8,16 @@
 
 Controller::sendNoCacheHeaders();
 
-\Model\UserSpam::flushOutdatedBans();
-// TODO Redis cooldown istead of MySQL
-if (\Model\UserSpam::isIpBanned($_SERVER['REMOTE_ADDR'])) {
+$redis = new \PHPeter\Redis();
+$cache_key = \Model\User::REGISTER_CACHE_PREFIX . Utils::slugifyIp(
+    Utils::truncateIPV6(
+        $_SERVER['REMOTE_ADDR'],
+        4
+    )
+);
+$cached = $redis->get($cache_key);
+
+if ($cached !== false) {
     Controller::http429TooManyRequests();
     Controller::renderApiError('You cannot register twice in a row.');
 }
@@ -41,7 +48,7 @@ $user_id = Persist::create($user);
 $user->setId($user_id);
 
 \Model\User::sendConfirmMail($user->getId(), $_POST['email']);
+$redis->set($cache_key, 1, \Model\User::REGISTER_EXPIRATION_TIME);
 
-\Model\UserSpam::banIp($_SERVER['REMOTE_ADDR'], $user->getId());
 Data::get()->add('user', $user);
 Controller::renderApiSuccess();

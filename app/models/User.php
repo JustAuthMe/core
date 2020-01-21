@@ -10,11 +10,16 @@ namespace Model;
 
 
 class User {
+    const REGISTER_CACHE_PREFIX = 'register_';
+    const REGISTER_EXPIRATION_TIME = 30;
+
     const EMAIL_CONFIRM_CACHE_PREFIX = 'confirm_';
     const EMAIL_CONFIRM_EXPIRATION_TIME = 86400; // 24 hours
     const EMAIL_CONFIRM_COOLDOWN = 600; // 10 minutes
+
     const EMAIL_CHECK_CACHE_PREFIX = 'checkmail_';
     const EMAIL_CHECK_COOLDOWN = 300; // 2 minutes
+
     const APPLOGIN_CACHE_PREFIX = 'applogin_';
     const APPLOGIN_EXPIRATION_TIME = 600; // 10 minutes
     const APPLOGIN_EMAIL_COOLDOWN = 120; // 2 minutes

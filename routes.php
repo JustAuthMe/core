@@ -19,6 +19,7 @@ const ROUTES = [
         'client_app' => 'client_app',
         'mailer' => 'mailer',
         'applogin' => 'applogin',
-        'checkmail' => 'checkmail'
+        'checkmail' => 'checkmail',
+        'confirm' => 'confirm'
     ]
 ];

@@ -9,7 +9,7 @@
 namespace Model;
 
 class UserAuth {
-    const EXPIRATION_TIME = 120; // 2 minutes
+    const EXPIRATION_TIME = 30; // 2 minutes
     const OAUTH_TOKEN_CACHE_PREFIX = 'token_';
     const URL_SCHEME = 'jam://';
 

@@ -27,21 +27,6 @@ USE `justauthme`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `banned_ip`
---
-
-DROP TABLE IF EXISTS `banned_ip`;
-CREATE TABLE IF NOT EXISTS `banned_ip` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-`datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (`id`),
-UNIQUE KEY `ip_address` (`ip_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `client_app`
 --
 
@@ -117,23 +102,6 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `hash` (`hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `user_spam`
---
-
-DROP TABLE IF EXISTS `user_spam`;
-CREATE TABLE IF NOT EXISTS `user_spam` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`user_id` int(11) DEFAULT NULL,
-`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-`ip_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-PRIMARY KEY (`id`),
-UNIQUE KEY `ip_address` (`ip_address`),
-KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 --
 -- Contraintes pour les tables déchargées
 --
@@ -143,13 +111,6 @@ KEY `user_id` (`user_id`)
 --
 ALTER TABLE `user_auth`
 ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`client_app_id`) REFERENCES `client_app` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `user_spam`
---
-ALTER TABLE `user_spam`
-ADD CONSTRAINT `user_spam_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
