@@ -5,7 +5,12 @@
 <div class="centered">
     <img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
     <form style="display:none" id="submit_form"></form>
-    <a href="<?= \Model\UserAuth::URL_SCHEME . $auth->getToken() ?>" style="display: block;margin-top: 30px;color: white; font-size: 14px">You are using your mobile device ? Click here to login directly via our app</a>
+    <?php
+    $detect = new Mobile_Detect;
+    if ($detect->isMobile() || $detect->isTablet()) {
+    ?>
+    <a href="<?= \Model\UserAuth::URL_SCHEME . $auth->getToken() ?>" class="btn-mobile">Open in JustAuthMe app</a>
+    <?php } ?>
 </div>
 <script type="text/javascript">
     <?php if ($_GET['app_id'] !== 'ad'): ?>

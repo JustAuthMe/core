@@ -9,7 +9,8 @@
         "ext-pdo": "*",
         "ext-openssl": "*",
         "phpmailer/phpmailer": "^6.1",
-      "ext-redis": "*"
+      "ext-redis": "*",
+        "mobiledetect/mobiledetectlib": "^2.8"
     },
     "authors": [
         {

@@ -72,3 +72,14 @@ body {
 	width: 250px;
 	max-width: 90%;
 }
+
+.btn-mobile{
+	background: #fff;
+	color: #000;
+	display: block;
+	margin-top: 30px;
+	font-size: 14px;
+	padding: 10px;
+	border-radius: 10px;
+	text-decoration: none;
+}
