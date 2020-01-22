@@ -27,9 +27,9 @@ if (!\Model\ClientApp::authenticate($appId)) {
     Controller::renderApiError('Authentication failed');
 }
 
-if (!isset($_GET['redirect_url']) || !isset($_GET['data'])) {
+if (!isset($_GET['redirect_url'])) {
     Controller::http400BadRequest();
-    Controller::renderApiError('Missing params');
+    Controller::renderApiError('Redirect URL is missing');
 }
 
 /**
@@ -42,26 +42,12 @@ if ($clientApp->getRedirectUrl() !== $_GET['redirect_url']) {
     Controller::renderApiError('Wrong redirection URL');
 }
 
-/**
- * TODO: Ajouter la vérification de la liste des datas et de leur format
- */
-
-$data = explode(',', $_GET['data']);
-$allowed_data = json_decode($clientApp->getData());
-foreach($data as $d) {
-    if (!in_array(\Model\UserAuth::getDataSlug($d), $allowed_data)) {
-        Controller::http403Forbidden();
-        Controller::renderApiError('Unauthorized data type');
-    }
-}
 $authToken = \Model\UserAuth::generateAuthToken();
-
 $userAuth = new \Entity\UserAuth(
     0,
     $authToken,
     $clientApp->getId(),
     $_GET['redirect_url'],
-    json_encode($data),
     Utils::time(),
     $_SERVER['REMOTE_ADDR']
 );

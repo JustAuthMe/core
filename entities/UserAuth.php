@@ -12,16 +12,14 @@ class UserAuth implements \Resourceable, \JsonSerializable {
 	private $token;
 	private $client_app_id;
 	private $callback_url;
-	private $data;
 	private $timestamp;
 	private $ip_address;
 
-	public function __construct($id = 0, $token = '', $client_app_id = 0, $callback_url = '', $data = [], $timestamp = null, $ip_address = '') {
+	public function __construct($id = 0, $token = '', $client_app_id = 0, $callback_url = '', $timestamp = null, $ip_address = '') {
 		$this->id = $id;
 		$this->token = $token;
 		$this->setClientAppId($client_app_id);
 		$this->callback_url = $callback_url;
-		$this->data = $data;
 		$this->timestamp = $timestamp;
 		$this->ip_address = $ip_address;
 	}
@@ -70,14 +68,6 @@ class UserAuth implements \Resourceable, \JsonSerializable {
 
 	public function setCallbackUrl($callback_url) {
 		$this->callback_url = $callback_url;
-	}
-
-	public function getData() {
-		return $this->data;
-	}
-
-	public function setData($data) {
-		$this->data = $data;
 	}
 
     public function getTimestamp() {

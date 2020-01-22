@@ -117,7 +117,7 @@ $auth = Persist::readBy('UserAuth', 'token', $token);
 
 $login_hash = \Model\UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->getAppId());
 if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
-    $data = json_decode($auth->getData());
+    $data = json_decode($auth->client_app->getData());
 
     foreach ($data as $d) {
         if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
