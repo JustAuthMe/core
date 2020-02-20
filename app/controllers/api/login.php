@@ -101,7 +101,7 @@ if ($verify === -1) {
     Controller::renderApiError('Can\'t verify data signature');
     Logger::logError('Can\'t verify data signature');
 } elseif ($verify === 0) {
-    Controller::http400BadRequest();
+    Controller::http401Unauthorized();
     Controller::renderApiError('Wrong data signature');
     Logger::logError('Wrong data signature');
 }
@@ -190,7 +190,6 @@ Persist::delete($auth);
 
     $conn->send(json_encode($data));
     $conn->close();
-
 }, function (Exception $e) {
     error_log($e->getMessage());
     Controller::http500InternalServerError();

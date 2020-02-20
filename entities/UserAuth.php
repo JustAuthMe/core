@@ -27,7 +27,6 @@ class UserAuth implements \Resourceable, \JsonSerializable {
     function jsonSerialize() {
         $it = clone $this;
         unset($it->id, $it->client_app_id, $it->ip_address);
-        $it->setData(json_decode($it->getData()));
         return get_object_vars($it);
     }
 
