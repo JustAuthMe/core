@@ -6,11 +6,13 @@ class UserLogin implements \Resourceable {
     private $id;
     private $hash;
     private $salt;
+    private $active;
 
-    public function __construct($id = 0, $hash = '', $salt = '') {
+    public function __construct($id = 0, $hash = '', $salt = '', $active = 0) {
         $this->id = $id;
         $this->hash = $hash;
         $this->salt = $salt;
+        $this->active = $active;
     }
 
     public static function getTableName(): string {
@@ -39,5 +41,17 @@ class UserLogin implements \Resourceable {
 
     public function setSalt($salt) {
         $this->salt = $salt;
+    }
+
+    public function getActive() {
+        return $this->active;
+    }
+
+    public function isActive() {
+        return !!$this->getActive();
+    }
+
+    public function setActive($active) {
+        $this->active = $active;
     }
 }

@@ -73,4 +73,30 @@ class User {
             ['confirm_link' => $confirm_link]
         );
     }
+
+    public static function authenticateRequest(?array $data = null, ?string $sign = null): bool {
+        if (is_null($data) || is_null($sign) || !is_array($data) || !isset($data['jam_id'])) {
+            return false;
+        }
+
+        $stringified_data = urlencode(
+            json_encode($data, JSON_UNESCAPED_UNICODE)
+        );
+
+        /**
+         * @var \Entity\User $user
+         */
+        $user = \Persist::readBy('User', 'username', $data['jam_id']);
+
+        if (!$user->isActive()) {
+            return false;
+        }
+
+        /*
+         * Verigying data signature
+         */
+        $verify = \Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user->getPublicKey());
+
+        return $verify === 1;
+    }
 }

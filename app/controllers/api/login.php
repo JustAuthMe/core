@@ -6,6 +6,9 @@
  * Time: 12:04
  */
 
+use Entity\UserLogin;
+use Model\UserAuth;
+
 Controller::sendNoCacheHeaders();
 
 /*
@@ -115,28 +118,36 @@ if ($verify === -1) {
  */
 $auth = Persist::readBy('UserAuth', 'token', $token);
 
-$login_hash = \Model\UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->getAppId());
+$login_hash = UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->getAppId());
+$isFirstTime = true;
+$user_login = null;
 if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
+    /** @var UserLogin $user_login */
+    $user_login = Persist::readBy('UserLogin', 'hash', $login_hash);
+    $isFirstTime = !$user_login->isActive();
+}
+
+if ($isFirstTime) {
     $data = json_decode($auth->client_app->getData());
 
     foreach ($data as $d) {
-        if (\Model\UserAuth::isDataRequired($d) && !isset($posted_data[\Model\UserAuth::getDataSlug($d)])) {
+        if (UserAuth::isDataRequired($d) && !isset($posted_data[UserAuth::getDataSlug($d)])) {
             Controller::http400BadRequest();
             Controller::renderApiError('Missing param ' . $d);
             Logger::logError('Missing param ' . $d);
         }
     }
 
-    $salt = \Model\UserAuth::generateLoginSalt();
-    $user_login = new \Entity\UserLogin(
-        0,
-        $login_hash,
-        $salt
-    );
-    $ul_id = Persist::create($user_login);
-    $user_login->setId($ul_id);
-} else {
-    $user_login = Persist::readBy('UserLogin', 'hash', $login_hash);
+    if (!is_null($user_login)) {
+        $salt = UserAuth::generateLoginSalt();
+        $user_login = new UserLogin(
+            0,
+            $login_hash,
+            $salt
+        );
+        $ul_id = Persist::create($user_login);
+        $user_login->setId($ul_id);
+    }
 }
 
 /*
@@ -149,10 +160,10 @@ $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'] . $user_logi
  * Data storage
  */
 
-$oauth_token = \Model\UserAuth::generateOAuthToken();
-$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $oauth_token;
+$oauth_token = UserAuth::generateOAuthToken();
+$cacheKey = UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $oauth_token;
 $redis = new \PHPeter\Redis();
-$redis->set($cacheKey, $posted_data, \Model\UserAuth::EXPIRATION_TIME);
+$redis->set($cacheKey, $posted_data, UserAuth::EXPIRATION_TIME);
 
 /*
  * Auth deletion
@@ -185,7 +196,7 @@ Persist::delete($auth);
         'type' => 'data',
         'auth_id' => $token,
         'data' => $dataToSend,
-        'sign' => \Model\UserAuth::signData($dataToSend)
+        'sign' => UserAuth::signData($dataToSend)
     ];
 
     $conn->send(json_encode($data));

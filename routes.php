@@ -21,6 +21,7 @@ const ROUTES = [
         'applogin' => 'applogin',
         'checkmail' => 'checkmail',
         'confirm' => 'confirm',
-        'alert' => 'alert'
+        'alert' => 'alert',
+        'user_login' => 'user_login'
     ]
 ];
