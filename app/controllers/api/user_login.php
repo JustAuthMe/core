@@ -20,6 +20,8 @@ if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
     Controller::renderApiError('Resource not found');
 }
 
+/** @var \Entity\UserLogin $user_login */
 $user_login = Persist::readBy('UserLogin', 'hash', $login_hash);
-Persist::delete($user_login);
+$user_login->setActive(0);
+Persist::update($user_login);
 Controller::renderApiSuccess();

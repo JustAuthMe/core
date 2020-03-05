@@ -138,7 +138,7 @@ if ($isFirstTime) {
         }
     }
 
-    if (!is_null($user_login)) {
+    if (is_null($user_login)) {
         $salt = UserAuth::generateLoginSalt();
         $user_login = new UserLogin(
             0,
@@ -147,6 +147,9 @@ if ($isFirstTime) {
         );
         $ul_id = Persist::create($user_login);
         $user_login->setId($ul_id);
+    } else {
+        $user_login->setActive(1);
+        Persist::update($user_login);
     }
 }
 
