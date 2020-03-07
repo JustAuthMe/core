@@ -13,7 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     Controller::renderApiError('Only DELETE requests are allowed');
 }
 
-$data = $_POST['data'];
+$data = is_string($_POST['data']) && json_decode($_POST['data']) !== null ?
+    json_decode($_POST['data'], true) :
+    $_POST['data'];
+
 $login_hash = UserAuth::generateUserAppPairHash($data['jam_id'], $data['app_id']);
 if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
     Controller::http404NotFound();

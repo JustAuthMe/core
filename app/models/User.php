@@ -74,13 +74,19 @@ class User {
         );
     }
 
-    public static function authenticateRequest(?array $data = null, ?string $sign = null): bool {
-        if (is_null($data) || is_null($sign) || !is_array($data) || !isset($data['jam_id'])) {
+    public static function authenticateRequest(?array $data = null, ?string $sign = null, bool $mustHaveValidAccount = true): bool {
+        if (is_null($data) || is_null($sign) || !is_array($data) || !isset($data['jam_id'], $data['timestamp'])) {
+            return false;
+        }
+
+        if ($data['timestamp'] + 30 < time()) {
             return false;
         }
 
         $stringified_data = urlencode(
-            json_encode($data, JSON_UNESCAPED_UNICODE)
+            is_string($data) && json_decode($data) !== null ?
+                $data :
+                json_encode($data, JSON_UNESCAPED_UNICODE)
         );
 
         /**
@@ -88,14 +94,14 @@ class User {
          */
         $user = \Persist::readBy('User', 'username', $data['jam_id']);
 
-        if (!$user->isActive()) {
+        if ($mustHaveValidAccount && !$user->isActive()) {
             return false;
         }
 
         /*
          * Verigying data signature
          */
-        $verify = \Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user->getPublicKey());
+        $verify = \Crypt::verify($stringified_data, base64_decode($sign), $user->getPublicKey());
 
         return $verify === 1;
     }

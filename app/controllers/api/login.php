@@ -15,16 +15,9 @@ Controller::sendNoCacheHeaders();
  * Common error cases
  */
 
-if (!isset($_POST['data'])) {
-    Controller::http400BadRequest();
-    Controller::renderApiError('No data given');
-    Logger::logError('No data given');
-}
-
-if (!isset($_POST['sign'])) {
-    Controller::http400BadRequest();
-    Controller::renderApiError('Data signature is required');
-    Logger::logError('Data signature is required');
+if (!isset($_POST['data'], $_POST['sign'])) {
+    Controller::http401Unauthorized();
+    Controller::renderApiError('You\'re not allowed to access this resource');
 }
 
 $posted_data = is_string($_POST['data']) && json_decode($_POST['data']) !== null ?
@@ -37,30 +30,15 @@ $stringified_data = urlencode(
         json_encode($_POST['data'], JSON_UNESCAPED_UNICODE)
 );
 
-if (!is_array($posted_data)) {
-    Controller::http400BadRequest();
-    Controller::renderApiError('Wrong data format');
-    Logger::logError('Wrong data format');
-    Logger::logInfo(json_encode($posted_data));
-}
-
-if (!isset($posted_data['token'])) {
-    Controller::http400BadRequest();
-    Controller::renderApiError('No token provided');
-    Logger::logError('No token provided');
-}
-
-if (!isset($posted_data['jam_id'])) {
-    Controller::http400BadRequest();
-    Controller::renderApiError('JAM ID is required');
-    Logger::logError('JAM ID is required');
+if (!is_array($posted_data) || !isset($posted_data['token'], $posted_data['jam_id'])) {
+    Controller::http401Unauthorized();
+    Controller::renderApiError('You\'re not allowed to access this resource');
 }
 
 $token = $posted_data['token'];
 if (!Persist::exists('UserAuth', 'token', $token)) {
     Controller::http404NotFound();
     Controller::renderApiError('No such token');
-    Logger::logError('No such token: ' . $token);
 }
 
 /**
@@ -71,7 +49,6 @@ $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
 if (!$user->isActive()) {
     Controller::http403Forbidden();
     Controller::renderApiError('You haven\'t activated your E-Mail address yet.');
-    Logger::logError('User #' . $user->getId() . ' have a unactive account');
 }
 
 /*
@@ -99,14 +76,9 @@ $verify = Crypt::verify($stringified_data, base64_decode($_POST['sign']), $user-
              * (/Logging)
              */
 
-if ($verify === -1) {
-    Controller::http500InternalServerError();
-    Controller::renderApiError('Can\'t verify data signature');
-    Logger::logError('Can\'t verify data signature');
-} elseif ($verify === 0) {
+if ($verify < 1) {
     Controller::http401Unauthorized();
-    Controller::renderApiError('Wrong data signature');
-    Logger::logError('Wrong data signature');
+    Controller::renderApiError('You\'re not allowed to access this resource');
 }
 
 /*
@@ -134,7 +106,6 @@ if ($isFirstTime) {
         if (UserAuth::isDataRequired($d) && !isset($posted_data[UserAuth::getDataSlug($d)])) {
             Controller::http400BadRequest();
             Controller::renderApiError('Missing param ' . $d);
-            Logger::logError('Missing param ' . $d);
         }
     }
 
@@ -187,7 +158,6 @@ Persist::delete($auth);
         if ($obj !== null && isset($obj->error)) {
             Controller::http400BadRequest();
             Controller::renderApiError($obj->error);
-            Logger::logError($obj->error);
         }
     });
 
@@ -207,7 +177,6 @@ Persist::delete($auth);
 }, function (Exception $e) {
     error_log($e->getMessage());
     Controller::http500InternalServerError();
-    Logger::logError($e->getMessage());
 });
 
 Controller::renderApiSuccess();
