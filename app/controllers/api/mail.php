@@ -88,7 +88,7 @@ switch (Request::get()->getArg(2)) {
         break;
 
     case 'update':
-        if (!isset($_POST['data'], $_POST['data']['email'], $_POST['sign']) || !User::authenticateRequest($_POST['data'], $_POST['sign'])) {
+        if (!isset($_POST['data'], $_POST['data']['email'], $_POST['sign']) || !User::authenticateRequest($_POST['data'], $_POST['sign'], false)) {
             Controller::http401Unauthorized();
             Controller::renderApiError('You\'re not allowed to access this resource');
         }

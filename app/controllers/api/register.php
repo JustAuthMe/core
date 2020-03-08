@@ -6,10 +6,12 @@
  * Time: 22:22
  */
 
+use Model\User;
+
 Controller::sendNoCacheHeaders();
 
 $redis = new \PHPeter\Redis();
-$cache_key = \Model\User::REGISTER_CACHE_PREFIX . Utils::slugifyIp(
+$cache_key = User::REGISTER_CACHE_PREFIX . Utils::slugifyIp(
     Utils::truncateIPV6(
         $_SERVER['REMOTE_ADDR'],
         4
@@ -22,18 +24,18 @@ if ($cached !== false) {
     Controller::renderApiError('You cannot register twice in a row.');
 }
 
-if (!isset($_POST['pubkey'], $_POST['email'])) {
+if (!isset($_POST['pubkey'], $_POST['email']) || !preg_match(User::PUBKEY_REGEX, $_POST['pubkey'])) {
     Controller::http400BadRequest();
-    Controller::renderApiError('Public key and email needed.');
+    Controller::renderApiError('E-Mail is required');
 }
 
-$uniqid = \Model\User::hashInfo($_POST['email']);
+$uniqid = User::hashInfo($_POST['email']);
 if (Persist::exists('User', 'uniqid', $uniqid)) {
     Controller::http409Conflict();
     Controller::renderApiError('You already have a JAM account. Please log in.');
 }
 
-$username = \Model\User::generateUsername();
+$username = User::generateUsername();
 $user = new \Entity\User(
     0,
     $username,
@@ -47,8 +49,8 @@ $user = new \Entity\User(
 $user_id = Persist::create($user);
 $user->setId($user_id);
 
-\Model\User::sendConfirmMail($user->getId(), $_POST['email']);
-$redis->set($cache_key, 1, \Model\User::REGISTER_EXPIRATION_TIME);
+User::sendConfirmMail($user->getId(), $_POST['email']);
+$redis->set($cache_key, 1, User::REGISTER_EXPIRATION_TIME);
 
 Data::get()->add('user', $user);
 Controller::renderApiSuccess();
