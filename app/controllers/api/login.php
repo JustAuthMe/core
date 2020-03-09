@@ -93,7 +93,8 @@ $auth = Persist::readBy('UserAuth', 'token', $token);
 $login_hash = UserAuth::generateUserAppPairHash($posted_data['jam_id'], $auth->client_app->getAppId());
 $isFirstTime = true;
 $user_login = null;
-if (!Persist::exists('UserLogin', 'hash', $login_hash)) {
+
+if (Persist::exists('UserLogin', 'hash', $login_hash)) {
     /** @var UserLogin $user_login */
     $user_login = Persist::readBy('UserLogin', 'hash', $login_hash);
     $isFirstTime = !$user_login->isActive();
