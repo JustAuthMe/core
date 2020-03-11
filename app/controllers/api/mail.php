@@ -88,14 +88,14 @@ switch (Request::get()->getArg(2)) {
         break;
 
     case 'update':
+        if (!POST) {
+            Controller::http405MethodNotAllowed();
+            Controller::renderApiError('Only POST requests are allowed');
+        }
+
         if (!isset($_POST['data'], $_POST['data']['email'], $_POST['sign']) || !User::authenticateRequest($_POST['data'], $_POST['sign'], false)) {
             Controller::http401Unauthorized();
             Controller::renderApiError('You\'re not allowed to access this resource');
-        }
-
-        if (POST) {
-            Controller::http405MethodNotAllowed();
-            Controller::renderApiError('Only POST requests are allowed');
         }
 
         $data = is_string($_POST['data']) && json_decode($_POST['data']) !== null ?
