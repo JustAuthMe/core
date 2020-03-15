@@ -115,7 +115,8 @@ if ($isFirstTime) {
         $user_login = new UserLogin(
             0,
             $login_hash,
-            $salt
+            $salt,
+            1
         );
         $ul_id = Persist::create($user_login);
         $user_login->setId($ul_id);

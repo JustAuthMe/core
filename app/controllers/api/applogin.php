@@ -25,10 +25,10 @@ if ($ip_cooldown > 5) {
 
 switch (Request::get()->getArg(2)) {
     case 'request':
-        if (isset($_POST['email'])) {
+        if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
             Controller::http400BadRequest();
-            Controller::renderApiError('E-Mail is required');
+            Controller::renderApiError('Invalid E-Mail address');
         }
 
         $hashed_email = User::hashInfo($_POST['email']);

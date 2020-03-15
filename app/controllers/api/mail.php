@@ -9,9 +9,9 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('Only POST requests are allowed');
         }
 
-        if (!isset($_POST['email'])) {
+        if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             Controller::http400BadRequest();
-            Controller::renderApiError('E-Mail address is required');
+            Controller::renderApiError('Invalid E-Mail address');
         }
 
         $redis = new \PHPeter\Redis();
