@@ -4,6 +4,12 @@ use Model\User;
 
 switch (Request::get()->getArg(2)) {
     case 'check':
+        // USELESS ENDPOINT BUT STILL HERE IF NEEDED...
+        if (!Utils::isJamConsole()) {
+            Controller::http401Unauthorized();
+            Controller::renderApiError('You are not allowed to access this endpoint');
+        }
+
         if (!POST) {
             Controller::http405MethodNotAllowed();
             Controller::renderApiError('Only POST requests are allowed');

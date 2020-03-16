@@ -73,12 +73,13 @@ switch (Request::get()->getArg(2)) {
         break;
 
     case 'challenge':
-        if (!isset($_POST['email'], $_POST['passcode'], $_POST['pubkey']) || !preg_match(User::PUBKEY_REGEX, $_POST['pubkey'])) {
+        if (!isset($_POST['email'], $_POST['passcode'], $_POST['pubkey'])) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
             Controller::http400BadRequest();
             Controller::renderApiError('E-Mail and passcode are required');
         }
 
+        $hashed_email = User::hashInfo($_POST['email']);
         $passcode_cache_key = User::APPLOGIN_CACHE_PREFIX . User::hashInfo($_POST['passcode']);
         $redis = new \PHPeter\Redis();
         $cached = $redis->get($passcode_cache_key);

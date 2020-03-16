@@ -24,7 +24,7 @@ if ($cached !== false) {
     Controller::renderApiError('You cannot register twice in a row.');
 }
 
-if (!isset($_POST['pubkey'], $_POST['email']) || !preg_match(User::PUBKEY_REGEX, $_POST['pubkey'])) {
+if (!isset($_POST['pubkey'], $_POST['email'])) {
     Controller::http400BadRequest();
     Controller::renderApiError('E-Mail is required');
 }
