@@ -25,8 +25,6 @@ class User {
     const APPLOGIN_EMAIL_COOLDOWN = 120; // 2 minutes
     const APPLOGIN_IP_COOLDOWN = 300; // 5 minutes
 
-    const PUBKEY_REGEX = "#^-----BEGIN PUBLIC KEY-----\n([a-zA-Z0-9+/]+\n)+-----END PUBLIC KEY-----\n?$#";
-
     public static function generateUsername() {
         do {
             $username = bin2hex(openssl_random_pseudo_bytes(32));
@@ -52,7 +50,7 @@ class User {
                 $pick = rand(1, 9);
             } while ($pick === $doNotPick);
 
-            $doNotPick = $lastPicked;
+            $doNotPick = $pick === $lastPicked ? $pick : null;
             $lastPicked = $pick;
             $passcode .= $pick;
         }
