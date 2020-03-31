@@ -8,7 +8,7 @@ body {
     padding: 0;
 
     color: white;
-    font-family: arial;
+    font-family: "Helvetica Neue", Verdana, sans-serif;
 }
 
 @-webkit-keyframes progressive {

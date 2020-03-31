@@ -11,6 +11,7 @@ const ROUTES = [
     'auth' => 'auth',
     'cron' => 'cron',
     'confirm' => 'confirm',
+    'rescue' => 'rescue',
     'api' => [
         'auth' => 'auth',
         'register' => 'register',

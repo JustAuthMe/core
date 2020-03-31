@@ -1,0 +1,110 @@
+html, body{
+    margin: 0;
+    height: 100%;
+    font-family: "Helvetica Neue", Verdana, sans-serif;
+}
+
+h1{
+    text-align: center;
+    font-family: "Helvetica Neue", Verdana, sans-serif;
+}
+
+.container{
+    padding-right: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    background-color: #3498DB;
+}
+
+.brand{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    max-width: 24rem;
+}
+
+.brand img{
+    width: 100%;
+    height: auto;
+}
+
+.description{
+    width: 24rem;
+    max-width: 95%;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.375rem;
+}
+
+.description p {
+    font-size: 14px;
+}
+
+.footer {
+    flex: 1;
+}
+
+.success{
+    text-align: center;
+}
+
+.success .icon{
+    height: 4rem;
+    width: 4rem;
+}
+
+.success p {
+    margin-top: 2rem;
+    font-size: 16px;
+}
+
+.recovery{
+    max-width: 32rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.recovery input{
+    padding: 0.5rem 0.75em 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    border-width: 1px;
+    border-color: #EAEAEA;
+    border-style: solid;
+    border-radius: 0.25rem;
+    font-size: 12px;
+}
+
+.recovery button[type=submit]{
+    font-size: 12px;
+    background-color: #EAEAEA;
+    color: #000;
+    padding: 0.5rem 0.75em 0.5rem 0.75rem;
+    border-width: 0;
+    border-radius: 0.25rem;
+}
+
+.recovery button[type=submit]:hover{
+    background-color: #DEDEDE;
+}
+
+.error .icon{
+    float: left;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.error{
+    border-color: #c0392b;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.25rem;
+    margin-top: 1.5rem;
+}

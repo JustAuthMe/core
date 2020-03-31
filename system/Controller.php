@@ -12,14 +12,14 @@ abstract class Controller {
         }
     }
 
-    public static function renderView(string $path, bool $layout = true) {
+    public static function renderView(string $path, ?string $layout = 'mainView.php') {
         $file = VIEWS.$path.'.php';
         if (file_exists($file) ) {
             $appView = $file;
             $data = Request::get()->getArg(0) !== 'api' ? Utils::secure(Data::get()->getData()) : Data::get()->getData();
             extract($data);
-            if ($layout) {
-                require_once VIEWS.'mainView.php';
+            if (!is_null($layout) && file_exists(VIEWS . $layout)) {
+                require_once VIEWS . $layout;
             }
             else {
                 require_once $appView;

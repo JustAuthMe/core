@@ -19,3 +19,4 @@ entity_gen.php
 demo/
 .htaccess
 log/*.log
+design_recovery/
