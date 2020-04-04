@@ -40,6 +40,10 @@ switch (Request::get()->getArg(2)) {
 
         /** @var \Entity\User $user */
         $user = Persist::readBy('User', 'uniqid', $hashed_email);
+        if (isset($_GET['lock']) && $user->getPublicKey() === '') {
+            Controller::http423Locked();
+            Controller::renderApiError('This account is already locked');
+        }
 
         $email_cooldown_cache_key = User::APPLOGIN_CACHE_PREFIX . $hashed_email;
         $email_cooldown = $redis->get($email_cooldown_cache_key);
@@ -64,8 +68,8 @@ switch (Request::get()->getArg(2)) {
         $mailer = new Mailer();
         $mailer->queueMail(
             $_POST['email'],
-            'Your JustAuth.Me passcode',
-            'mail/passcode',
+            'Your JustAuthMe passcode',
+            'mail/passcode' . (isset($_GET['lock']) ? '_lock' : ''),
             ['passcode' => $passcode]
         );
 

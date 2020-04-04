@@ -10,7 +10,7 @@ if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
     }
 
     Data::get()->setData((array) $cached->params);
-    Controller::renderView($cached->template, false);
+    Controller::renderView($cached->template, null);
     die;
 }
 

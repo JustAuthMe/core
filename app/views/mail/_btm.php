@@ -36,7 +36,7 @@
                                 <td>
                                     <p align="center" style="font-size:13px;color:#555;line-height:20px;">
                                         Vous recevez cet E-Mail car votre adresse E-Mail est associée à un
-                                        compte <a href="https://justauth.me">JustAuth.Me</a>.<br />
+                                        compte <a href="https://justauth.me">JustAuthMe</a>.<br />
                                         S'il ne s'agit pas de vous, merci de nous le faire savoir en répondant à cet
                                         E-Mail. Sachez néanmoins que la sécurité de votre compte E-Mail ou de vos
                                         informations personnelles n'a pas été compromise.

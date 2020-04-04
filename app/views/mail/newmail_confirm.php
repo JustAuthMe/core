@@ -8,10 +8,9 @@
     <td>
         <p align="justify" style="font-size:14px;line-height:28px">
             Bonjour,<br />
-            Vous avez récemment créé un compte JustAuthMe sur votre appareil mobile.
-            Afin de compléter le processus d'inscription, nous vous invitons à valider
-            votre adresse E-Mail en cliquant sur le bouton ci-dessous.
-            Attention, ce lien n'est valide que 24h !
+            Vous avez récemment souhaité modifier votre E-Mail associé à votre compte JustAuthMe.
+            Afin de compléter le processus, nous vous invitons à valider votre adresse E-Mail en cliquant sur le
+            bouton ci-dessous. Attention, ce lien n'est valide que 24h !
             Si le bouton ne s'affiche pas ou si vous rencontrez des difficultés pour l'utiliser, copiez
             simplement ce lien dans votre navigateur web :<br />
             <span style="color:blue"><?= $confirm_link ?></span>

@@ -1,7 +1,4 @@
-	
-		<div class="container">
-			<div class="centered">
-				<h1>Welcome to <?= NAME ?></h1>
-				<img src="assets/img/logo.png" alt="JustAuthMe Logo" />
-			</div>
-		</div>
+<div class="home-container">
+    <h1>Are you lost? No worry!</h1>
+    <a href="https://justauth.me/">&larr; Return to website.</a>
+</div>

@@ -12,6 +12,7 @@ date_default_timezone_set('UTC');
 
 define('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']), true);
 define('WEBROOT', str_replace('index.php', '', $_SERVER['SCRIPT_NAME']), true);
+define('SELF_API_URL', 'http' . (PROD_ENV ? 's' : '') . '://' . PROD_HOST . WEBROOT . 'api/');
 define('POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST');
 define('ENTITIES', ROOT.'entities/');
 define('SYSTEM', ROOT.'system/');
@@ -63,5 +64,5 @@ if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
 require_once Router::get()->getPathToRequire();
 if (Request::get()->getArg(0) == 'api') {
     Logger::logInfo($_GET['arg'] . ': ' . json_encode(Data::get()->getData()));
-    Controller::renderView('json/json', false);
+    Controller::renderView('json/json', null);
 }

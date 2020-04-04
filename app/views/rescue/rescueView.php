@@ -4,7 +4,7 @@
         <title>JustAuthMe - Verrouiller votre compte</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" href="<?= IMG ?>favicon.ico"/>
+        <link rel="shortcut icon" href="<?= IMG ?>icon.png"/>
         <link rel="stylesheet" href="<?= CSS ?>recovery.css"/>
     </head>
     <body>

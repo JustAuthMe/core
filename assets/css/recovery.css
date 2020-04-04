@@ -108,3 +108,7 @@ h1{
     border-radius: 0.25rem;
     margin-top: 1.5rem;
 }
+
+.wildcard {
+    color: #555;
+}

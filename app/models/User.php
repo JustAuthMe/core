@@ -58,7 +58,7 @@ class User {
         return $passcode;
     }
 
-    public static function sendConfirmMail($user_id, $email) {
+    public static function sendConfirmMail($user_id, $email, $updating = false) {
         $confirm_token = self::generateEmailConfirmToken();
         $cache_key = self::EMAIL_CONFIRM_CACHE_PREFIX . $confirm_token;
         $redis = new \PHPeter\Redis();
@@ -69,7 +69,7 @@ class User {
         $mailer->queueMail(
             $email,
             'E-Mail address confirmation',
-            'mail/email_confirm',
+            'mail/' . ($updating ? 'new' : 'e') . 'mail_confirm',
             ['confirm_link' => $confirm_link]
         );
     }
@@ -93,6 +93,10 @@ class User {
          * @var \Entity\User $user
          */
         $user = \Persist::readBy('User', 'username', $data['jam_id']);
+        if ($user->getPublicKey() === '') {
+            \Controller::http423Locked();
+            \Controller::renderApiError('This account is locked');
+        }
 
         if ($mustHaveValidAccount && !$user->isActive()) {
             return false;

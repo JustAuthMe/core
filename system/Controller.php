@@ -34,14 +34,14 @@ abstract class Controller {
         Logger::logError($message);
         Data::get()->add('status', 'error');
         Data::get()->add('message', $message);
-        Controller::renderView('json/json', false);
+        Controller::renderView('json/json', null);
         die;
     }
 
     public static function renderApiSuccess() {
         Data::get()->setData(array_merge(['status' => 'success'], Data::get()->getData()));
         Logger::logInfo($_GET['arg'] . ': ' . json_encode(Data::get()->getData()));
-        Controller::renderView('json/json', false);
+        Controller::renderView('json/json', null);
         die;
     }
 

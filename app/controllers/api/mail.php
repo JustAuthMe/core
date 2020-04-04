@@ -111,8 +111,13 @@ switch (Request::get()->getArg(2)) {
         /** @var \Entity\User $user */
         $user = Persist::readBy('User', 'username', $data['jam_id']);
         if ($user->getUniqid() === User::hashInfo($data['email'])) {
-            Controller::http429Conflict();
+            Controller::http400BadRequest();
             Controller::renderApiError('You already have registered this E-Mail');
+        }
+
+        if (Persist::exists('User', 'uniqid', User::hashInfo($data['email']))) {
+            Controller::http429Conflict();
+            Controller::renderApiError('This E-Mail is already registered');
         }
 
         $user->setUniqid(User::hashInfo($data['email']));

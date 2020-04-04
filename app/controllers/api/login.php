@@ -51,6 +51,11 @@ if (!$user->isActive()) {
     Controller::renderApiError('You haven\'t activated your E-Mail address yet.');
 }
 
+if ($user->getPublicKey() === '') {
+    Controller::http423Locked();
+    Controller::renderApiError('This account is locked');
+}
+
 /*
  * Verigying data signature
  */

@@ -20,3 +20,4 @@ demo/
 .htaccess
 log/*.log
 design_recovery/
+.DS_Store
