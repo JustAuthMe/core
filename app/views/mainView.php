@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title><?php echo (isset($TITLE)) ? $TITLE.' - ' : ''; echo NAME; ?></title>
+		<title><?= NAME . (isset($TITLE) ? ' - ' . $TITLE : '') ?></title>
 		<meta charset="utf-8" />
 		<link type="text/css" rel="stylesheet" href="<?php echo CSS.'style.css'; ?>" media="screen" />
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />

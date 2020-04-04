@@ -7,10 +7,10 @@
     <button type="submit">Lock</button>
 </form>
 <?php if (isset($error)): ?>
-<div class="error">
-    <p>
+    <div class="error">
         <img src="<?= IMG ?>icon_error.png" class="icon" alt="">
-        <?= html_entity_decode($error) ?>
-    </p>
-</div>
+        <p class="text">
+            <?= html_entity_decode($error) ?>
+        </p>
+    </div>
 <?php endif ?>

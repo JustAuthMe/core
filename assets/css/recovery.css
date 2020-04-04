@@ -93,20 +93,25 @@ h1{
     background-color: #DEDEDE;
 }
 
-.error .icon{
-    float: left;
-    height: 1.5rem;
-    width: 1.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
 .error{
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
     border-color: #c0392b;
     border-width: 1px;
     border-style: solid;
     border-radius: 0.25rem;
     margin-top: 1.5rem;
+}
+
+.error .icon{
+    float: left;
+    height: 25px;
+    min-width: 25px;
+}
+
+.error .text {
+    padding-left: .5rem;
 }
 
 .wildcard {

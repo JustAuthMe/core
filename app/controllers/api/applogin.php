@@ -34,6 +34,15 @@ switch (Request::get()->getArg(2)) {
         $hashed_email = User::hashInfo($_POST['email']);
         if (!Persist::exists('User', 'uniqid', $hashed_email)) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
+
+            $latest_update = \Model\UniqidUpdate::getLatestUpdate($hashed_email);
+            if ($latest_update !== false) {
+                /** @var \Entity\UniqidUpdate $latest_update */
+                Data::get()->add('updated_at', (int) $latest_update->getTimestamp());
+                Controller::http410Gone();
+                Controller::renderApiError('This E-Mail address was associated with a valid account, but has been updated');
+            }
+
             Controller::http404NotFound();
             Controller::renderApiError('Unknown account, please register');
         }

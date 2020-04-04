@@ -47,7 +47,7 @@ class UserLogin implements \Resourceable {
         return $this->active;
     }
 
-    public function isActive() {
+    public function isActive(): bool {
         return !!$this->getActive();
     }
 

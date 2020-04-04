@@ -70,6 +70,11 @@ switch (\Request::get()->getArg(1)) {
                     $error = 'email';
                     break;
 
+                case 410:
+                    $error = 'updated';
+                    $_SESSION['rescue_updated'] = $response->updated_at;
+                    break;
+
                 case 423:
                     $error = 'locked';
                     break;
@@ -80,14 +85,26 @@ switch (\Request::get()->getArg(1)) {
             }
         }
 
-        header('location: ' . WEBROOT . 'rescue' . (isset($error) ? '?error=' . $error : ''));
+        if (isset($error)) {
+            $_SESSION['rescue_error'] = $error;
+        }
+        header('location: ' . WEBROOT . 'rescue');
         die;
 
     default:
-        if (isset($_GET['error'])) {
-            switch ($_GET['error']) {
+        if (isset($_SESSION['rescue_error'])) {
+            switch ($_SESSION['rescue_error']) {
                 case 'email':
                     Data::get()->add('error', 'Unknow E-Mail.');
+                    break;
+
+                case 'updated':
+                    Data::get()->add('error', '
+                        Your account has had it\'s E-Mail address updated' .
+                        (isset($_SESSION['rescue_updated']) ? ' at <strong>' . date('Y/m/d H:i:s', $_SESSION['rescue_updated']) . '</strong>' : '') . '.
+                        If this update doesn\'t come from you, contact <a href="mailto:support@justauth.me">rescue@justauth.me</a>
+                        as soon as possible!
+                    ');
                     break;
 
                 case 'spam':
@@ -105,6 +122,8 @@ switch (\Request::get()->getArg(1)) {
                 default:
                     Data::get()->add('error', 'Unknow error, please contact <a href="mailto:support@justauth.me">support@justauth.me</a>.');
             }
+
+            unset($_SESSION['rescue_error']);
         }
 
         \Controller::renderView('rescue/email', 'rescue/rescueView.php');

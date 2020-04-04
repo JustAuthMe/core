@@ -109,4 +109,5 @@ class User {
 
         return $verify === 1;
     }
+
 }

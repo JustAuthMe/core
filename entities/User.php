@@ -88,8 +88,8 @@ class User implements \Resourceable, \JsonSerializable {
         return $this->active;
     }
 
-    public function isActive() {
-	    return $this->getActive();
+    public function isActive(): bool {
+	    return !!$this->getActive();
     }
 
     public function setActive($active) {

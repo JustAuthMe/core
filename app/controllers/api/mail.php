@@ -1,5 +1,7 @@
 <?php
 
+use Entity\UniqidUpdate;
+use Model\UniqidUpdate as UniqidUpdateModel;
 use Model\User;
 
 switch (Request::get()->getArg(2)) {
@@ -60,21 +62,28 @@ switch (Request::get()->getArg(2)) {
         $hashed_email = User::hashInfo($_POST['email']);
 
         if (!Persist::exists('User', 'uniqid', $hashed_email)) {
-            Controller::http404NotFound();
-            Controller::renderApiError('User not found');
-        }
+            if (!UniqidUpdateModel::isThereAnActiveUpdateByNewUniqid($hashed_email)) {
+                Controller::http404NotFound();
+                Controller::renderApiError('User not found');
+            }
 
-        /** @var \Entity\User $user */
-        $user = Persist::readBy('User', 'uniqid', $hashed_email);
-        if ($user->isActive()) {
-            Controller::http409Conflict();
+            /** @var UniqidUpdate $uniqid_update */
+            $uniqid_update = UniqidUpdateModel::getActiveUpdateByNewUniqid($hashed_email);
+            $user_id = $uniqid_update->getUserId();
+        } else {
+            /** @var \Entity\User $user */
+            $user = Persist::readBy('User', 'uniqid', $hashed_email);
+            if ($user->isActive()) {
+                /*
+                 * False reason for not to give hackers a chance to know which email is registered or not
+                 * However, they could call this endpoint with any email, asking for a confirmation email,
+                 * waiting for the API to respond "E-Mail already confirmed"
+                 */
+                Controller::http404NotFound();
+                Controller::renderApiError('User not found');
+            }
 
-            /*
-             * False reason for not to give hackers a chance to know which email is registered or not
-             * However, they could call this endpoint with any email, asking for a confirmation email,
-             * waiting for the API to respond "E-Mail already confirmed"
-             */
-            Controller::renderApiError('User not found');
+            $user_id = $user->getId();
         }
 
         $redis = new \PHPeter\Redis();
@@ -83,11 +92,10 @@ switch (Request::get()->getArg(2)) {
 
         if ($cached !== false) {
             Controller::http429TooManyRequests();
-            Controller::renderApiError('Please wait at least 10 minutes before asking for a new confirmation E-Mail. Please check your junk mail.');
+            Controller::renderApiError('Please wait at least 10 minutes before asking for a new confirmation E-Mail.');
         }
 
-        User::sendConfirmMail($user->getId(), $_POST['email']);
-
+        User::sendConfirmMail($user_id, $_POST['email']);
         $redis->set($cache_key, 1, User::EMAIL_CONFIRM_COOLDOWN);
 
         Controller::renderApiSuccess();
@@ -115,15 +123,29 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('You already have registered this E-Mail');
         }
 
-        if (Persist::exists('User', 'uniqid', User::hashInfo($data['email']))) {
-            Controller::http429Conflict();
+        if (Persist::exists('User', 'uniqid', User::hashInfo($data['email'])) || UniqidUpdateModel::isThisEmailAlmostTaken($data['email'])) {
+            Controller::http409Conflict();
             Controller::renderApiError('This E-Mail is already registered');
         }
 
-        $user->setUniqid(User::hashInfo($data['email']));
+        if (UniqidUpdateModel::isThereAnActiveUpdate($user->getId())) {
+            UniqidUpdateModel::removeActiveUpdates($user->getId());
+        }
+
+        $uniqid_update = new UniqidUpdate(
+            0,
+            $user->getId(),
+            $user->getUniqid(),
+            User::hashInfo($data['email']),
+            $_SERVER['REMOTE_ADDR'],
+            Utils::time(),
+            1
+        );
+        Persist::create($uniqid_update);
+
         $user->setActive(0);
         Persist::update($user);
-        User::sendConfirmMail($user->getId(), $data['email']);
+        User::sendConfirmMail($user->getId(), $data['email'], true);
 
         Controller::renderApiSuccess();
         break;

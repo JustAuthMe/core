@@ -12,8 +12,8 @@
 </form>
 <?php if (isset($error)): ?>
     <div class="error">
-        <p>
-            <img src="<?= IMG ?>icon_error.png" class="icon" alt="">
+        <img src="<?= IMG ?>icon_error.png" class="icon" alt="">
+        <p class="text">
             <?= html_entity_decode($error) ?>
         </p>
     </div>

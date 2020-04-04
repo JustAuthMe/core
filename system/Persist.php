@@ -15,7 +15,7 @@ abstract class Persist {
         return 'get'.Utils::fromSnakeCaseToCamelCase($column);
     }
 
-    private static function getFilledObject(string $classname, array $rep): \Resourceable {
+    public static function getFilledObject(string $classname, array $rep) {
         $res = new $classname();
         foreach ($rep as $key => $value) {
             if (!is_numeric($key)) {
@@ -142,6 +142,13 @@ abstract class Persist {
         $id = $object->getId();
         $req = DB::get()->prepare("DELETE FROM $table_name WHERE id = ?");
         $req->execute([$id]);
+    }
+
+    public static function deleteBy(string $classname, string $column, $value) {
+        $classname = '\Entity\\'.$classname;
+        $table_name = $classname::getTableName();
+        $req = DB::get()->prepare("DELETE FROM $table_name WHERE $column = ?");
+        $req->execute([$value]);
     }
 
     public static function deleteById(string $classname, int $id) {
