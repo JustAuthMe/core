@@ -9,16 +9,16 @@ class UniqidUpdate implements \Resourceable, \JsonSerializable {
     private $user_id;
     private $old_uniqid;
     private $new_uniqid;
-    private $ip;
+    private $ip_address;
     private $timestamp;
     private $active;
 
-    public function __construct($id = 0, $user_id = 0, $old_uniqid = '', $new_uniqid = '', $ip = '', $timestamp = 0, $active = 0) {
+    public function __construct($id = 0, $user_id = 0, $old_uniqid = '', $new_uniqid = '', $ip_address = '', $timestamp = 0, $active = 0) {
         $this->id = $id;
         $this->setUserId($user_id);
         $this->old_uniqid = $old_uniqid;
         $this->new_uniqid = $new_uniqid;
-        $this->ip = $ip;
+        $this->ip_address = $ip_address;
         $this->timestamp = $timestamp;
         $this->active = $active;
     }
@@ -71,12 +71,12 @@ class UniqidUpdate implements \Resourceable, \JsonSerializable {
         $this->new_uniqid = $new_uniqid;
     }
 
-    public function getIp() {
-        return $this->ip;
+    public function getIpAddress() {
+        return $this->ip_address;
     }
 
-    public function setIp($ip) {
-        $this->ip = $ip;
+    public function setIpAddress($ip_address) {
+        $this->ip_address = $ip_address;
     }
 
     public function getTimestamp() {
