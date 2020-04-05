@@ -59,7 +59,7 @@ class Mailer extends PHPMailer {
             }
 
             $this->Subject = $cached->subject;
-            $this->Body = file_get_contents(BASE_URL . 'api/mailer/' . $cache_key . '?render_key=' . EMAIL_RENDERING_KEY);
+            $this->Body = file_get_contents(CLI_BASE_URL . 'api/mailer/' . $cache_key . '?render_key=' . EMAIL_RENDERING_KEY);
 
             if ($this->send() === false) {
                 Logger::logError('PHPMailer error: ' . $this->ErrorInfo);

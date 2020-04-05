@@ -63,7 +63,7 @@ class User {
         $cache_key = self::EMAIL_CONFIRM_CACHE_PREFIX . $confirm_token;
         $redis = new \PHPeter\Redis();
         $redis->set($cache_key, $user_id, self::EMAIL_CONFIRM_EXPIRATION_TIME);
-        $confirm_link = BASE_URL . 'confirm/' . $confirm_token;
+        $confirm_link = CLI_BASE_URL . 'confirm/' . $confirm_token;
 
         $mailer = new \Mailer();
         $mailer->queueMail(
