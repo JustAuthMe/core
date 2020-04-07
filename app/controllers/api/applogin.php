@@ -25,6 +25,10 @@ if ($ip_cooldown > 5) {
 
 switch (Request::get()->getArg(2)) {
     case 'request':
+        if (ENABLE_APPLE_DEMO_ACCOUNT && $_POST['email'] === APPLE_DEMO_EMAIL) {
+            Controller::renderApiSuccess();
+        }
+
         if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
             Controller::http400BadRequest();
@@ -93,6 +97,13 @@ switch (Request::get()->getArg(2)) {
         }
 
         $hashed_email = User::hashInfo($_POST['email']);
+        if (ENABLE_APPLE_DEMO_ACCOUNT && $_POST['email'] === APPLE_DEMO_EMAIL) {
+            /** @var \Entity\User $apple_user */
+            $apple_user = Persist::readBy('User', 'uniqid', $hashed_email);
+            Data::get()->add('jam_id', $apple_user->getUsername());
+            Controller::renderApiSuccess();
+        }
+
         $passcode_cache_key = User::APPLOGIN_CACHE_PREFIX . User::hashInfo($_POST['passcode']);
         $redis = new \PHPeter\Redis();
         $cached = $redis->get($passcode_cache_key);

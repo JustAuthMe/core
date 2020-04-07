@@ -36,3 +36,6 @@ const SMTP_HOST = 'mail.justauth.me';
 const SMTP_PORT = 587;
 const SMTP_USER = 'phpmailer@justauth.me';
 const SMTP_PASS = '';
+
+const ENABLE_APPLE_DEMO_ACCOUNT = true;
+const APPLE_DEMO_EMAIL = 'apple-program@justauth.me';
