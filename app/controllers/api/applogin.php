@@ -100,6 +100,8 @@ switch (Request::get()->getArg(2)) {
         if (ENABLE_APPLE_DEMO_ACCOUNT && $_POST['email'] === APPLE_DEMO_EMAIL) {
             /** @var \Entity\User $apple_user */
             $apple_user = Persist::readBy('User', 'uniqid', $hashed_email);
+            $apple_user->setPublicKey($_POST['pubkey']);
+            Persist::update($apple_user);
             Data::get()->add('jam_id', $apple_user->getUsername());
             Controller::renderApiSuccess();
         }
