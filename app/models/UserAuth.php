@@ -9,7 +9,7 @@
 namespace Model;
 
 class UserAuth {
-    const EXPIRATION_TIME = 30; // 30s
+    const EXPIRATION_TIME = ENABLE_APPLE_DEMO_ACCOUNT ? 600 : 60;
     const OAUTH_TOKEN_CACHE_PREFIX = 'token_';
     const URL_SCHEME = 'jam://';
 
