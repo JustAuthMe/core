@@ -5,6 +5,10 @@
  * Date: 02/01/2019
  * Time: 23:23
  */
+if (!isset($argc)) {
+    die('error');
+}
+
 require_once 'config.dist.php';
 require_once 'vendor/autoload.php';
 require_once 'system/Redis.php';

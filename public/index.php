@@ -3,8 +3,8 @@
 use Model\UserAuth;
 
 session_start();
-require_once 'config.dist.php';
-require_once 'vendor/autoload.php';
+require_once '../config.dist.php';
+require_once '../vendor/autoload.php';
 
 $bool = PROD_ENV ? 0 : 1;
 $econst = PROD_ENV ? 0 : E_ALL;
@@ -13,7 +13,7 @@ ini_set('display_startup_errors', $bool);
 error_reporting($econst ^ E_DEPRECATED);
 date_default_timezone_set('UTC');
 
-define('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']), true);
+define('ROOT', str_replace('public/index.php', '', $_SERVER['SCRIPT_FILENAME']), true);
 define('WEBROOT', str_replace('index.php', '', $_SERVER['SCRIPT_NAME']), true);
 define('SELF_API_URL', 'http' . (PROD_ENV ? 's' : '') . '://' . PROD_HOST . WEBROOT . 'api/');
 define('POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST');
