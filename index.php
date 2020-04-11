@@ -1,4 +1,7 @@
 <?php
+
+use Model\UserAuth;
+
 session_start();
 require_once 'config.dist.php';
 require_once 'vendor/autoload.php';
@@ -61,8 +64,11 @@ if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
     }
 }
 
+header("Access-Control-Allow-Origin: *");
+UserAuth::flushOutdatedAuths();
+
 require_once Router::get()->getPathToRequire();
+
 if (Request::get()->getArg(0) == 'api') {
     Logger::logInfo($_GET['arg'] . ': ' . json_encode(Data::get()->getData()));
-    Controller::renderView('json/json', null);
 }

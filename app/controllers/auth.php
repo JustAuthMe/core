@@ -6,8 +6,6 @@
  * Time: 14:50
  */
 
-\Model\UserAuth::flushOutdatedAuths();
-
 if (!isset($_GET['app_id'])) {
     Controller::http400BadRequest();
     Controller::renderApiError('No App ID provided');

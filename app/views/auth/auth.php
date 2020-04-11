@@ -19,18 +19,15 @@
     form.action = '<?= $auth->getCallbackUrl() ?>';
     var conn = new WebSocket('<?= WEBSOCKET_SOCKET_REMOTE ?>');
     conn.onopen = function(e) {
-        console.log("Connection established!");
         var msg = {
             'type': 'await',
             'auth_id': '<?= $auth->getToken() ?>'
         };
-        console.log('Message sent', msg);
         conn.send(JSON.stringify(msg));
     };
 
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        console.log('Message received', data);
         if (data.type && data.type === 'data') {
             for (var i in data.data) {
                 var input = document.createElement('input');
@@ -40,18 +37,12 @@
                 form.appendChild(input);
             }
 
-            console.log(form);
             form.submit();
             conn.close();
         }
     };
 
-    conn.onerror = function(e) {
-        console.log(e);
-    };
-
-    conn.onclose = function(e) {
-        console.log('Connection closed');
-    };
+    conn.onerror = function(e) {};
+    conn.onclose = function(e) {};
     <?php endif ?>
 </script>

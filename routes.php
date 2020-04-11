@@ -23,6 +23,7 @@ const ROUTES = [
         'mail' => 'mail',
         'alert' => 'alert',
         'user_login' => 'user_login',
-        'qr' => 'qr'
+        'token' => 'token',
+        'auth_listener.js' => 'auth_listener'
     ]
 ];

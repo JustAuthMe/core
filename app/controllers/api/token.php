@@ -1,9 +1,9 @@
 <?php
-Controller::sendNoCacheHeaders();
 
-/*
- * Common error cases
- */
+use chillerlan\QRCode\QRCode;
+use Model\UserAuth;
+
+Controller::sendNoCacheHeaders();
 
 if (!isset($_GET['secret'])) {
     Controller::http400BadRequest();
@@ -19,8 +19,12 @@ if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
  * @var \Entity\ClientApp $clientApp
  */
 $clientApp = Persist::readBy('ClientApp', 'secret', $_GET['secret']);
+if (!in_array($clientApp->getAppId(), ['jam_admin', 'jam_console'])) {
+    Controller::http403Forbidden();
+    Controller::renderApiError('This feature is still in internal beta test');
+}
 
-$authToken = \Model\UserAuth::generateAuthToken();
+$authToken = UserAuth::generateAuthToken();
 $userAuth = new \Entity\UserAuth(
     0,
     $authToken,
@@ -32,8 +36,9 @@ $userAuth = new \Entity\UserAuth(
 $auth_id = Persist::create($userAuth);
 $userAuth->setId($auth_id);
 
-$qrCode = new \chillerlan\QRCode\QRCode();
-$imgUrl = $qrCode->render(\Model\UserAuth::URL_SCHEME . $authToken);
+$qrCode = new QRCode();
+$imgUrl = $qrCode->render(UserAuth::URL_SCHEME . $authToken);
 
+Data::get()->add('token', $authToken);
 Data::get()->add('qr', $imgUrl);
 Controller::renderApiSuccess();
