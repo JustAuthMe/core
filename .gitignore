@@ -14,7 +14,7 @@ fabric.properties
 .buildpath
 vendor/
 *.dist.php
-qr.php
+/qr.php
 entity_gen.php
 demo/
 .htaccess

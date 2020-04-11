@@ -23,7 +23,7 @@ if (!isset($_GET['secret'])) {
 }
 
 if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
-    Controller::http403Forbidden();
+    Controller::http401Unauthorized();
     Controller::renderApiError('Wrong secret');
 }
 

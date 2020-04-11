@@ -22,6 +22,7 @@ const ROUTES = [
         'applogin' => 'applogin',
         'mail' => 'mail',
         'alert' => 'alert',
-        'user_login' => 'user_login'
+        'user_login' => 'user_login',
+        'qr' => 'qr'
     ]
 ];
