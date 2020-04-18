@@ -31,7 +31,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             'type' => $_POST['alert_type'],
             'text' => htmlentities($_POST['alert_text'])
         ]);
-        $ttl = $_POST['alert_ttl'] ?? Alert::ALERT_MINIMUM_TTL;
+        $ttl = isset($_POST['alert_ttl']) ? (int) $_POST['alert_ttl'] : Alert::ALERT_MINIMUM_TTL;
 
         $redis->set(Alert::ALERT_CACHE_KEY, $to_cache, $ttl);
         Controller::renderApiSuccess();

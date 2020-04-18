@@ -18,38 +18,23 @@ if (!in_array($user_auth->client_app->getAppId(), ['jam_admin', 'jam_console']))
 
 header('Content-Type: text/javascript;charset=utf-8');
 ?>
-const form = document.createElement('form');
-form.style.display = 'none';
-form.method = 'post';
-form.action = '<?= $user_auth->getCallbackUrl() ?>';
-document.body.append(form);
-
 const conn = new WebSocket('<?= WEBSOCKET_SOCKET_REMOTE ?>');
-conn.onopen = function (e) {
-    var msg = {
+conn.onopen = e => {
+    const msg = {
         'type': 'await',
         'auth_id': '<?= $user_auth->getToken() ?>'
     };
     conn.send(JSON.stringify(msg));
 };
 
-conn.onmessage = function (e) {
-    var data = JSON.parse(e.data);
-    if (data.type && data.type === 'data') {
-        for (var i in data.data) {
-            var input = document.createElement('input');
-            input.type = 'text';
-            input.name = i;
-            input.value = data.data[i];
-            form.appendChild(input);
-        }
+conn.onmessage = e => {
+    const data = JSON.parse(e.data);
 
-        form.submit();
+    if (data.type && data.type === 'data') {
+        document.location.href = '<?= $user_auth->getCallbackUrl() . (strpos($user_auth->getCallbackUrl(), '?') !== false ? '&' : '?') . 'access_token=' ?>' + data.data['access_token'];
         conn.close();
     }
 };
 
-conn.onerror = function (e) {
-};
-conn.onclose = function (e) {
-};
+conn.onerror = e => {};
+conn.onclose = e => {};
