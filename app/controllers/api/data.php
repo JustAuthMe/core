@@ -12,7 +12,7 @@ Controller::sendNoCacheHeaders();
  * Common error cases
  */
 
-if (!isset($_GET['token'])) {
+if (!isset($_GET['access_token'])) {
     Controller::http400BadRequest();
     Controller::renderApiError('Token required');
 }
@@ -37,7 +37,7 @@ if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
 $clientApp = Persist::readBy('ClientApp', 'secret', $_GET['secret']);
 
 $redis = new \PHPeter\Redis();
-$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_GET['token'];
+$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_GET['access_token'];
 $cached = $redis->get($cacheKey, true);
 
 /*

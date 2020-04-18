@@ -80,6 +80,7 @@ class DataTransfertSocket implements MessageComponentInterface {
                 echo 'Message "data" received from ' . $from->resourceId . ': ' . $msg . "\n";
                 echo 'Sending data...' . "\n";
 
+                unset($obj['sign']);
                 $this->clients[$conn_id]->send(json_encode($obj));
                 $this->redis->del($cacheKey);
 

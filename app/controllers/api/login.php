@@ -169,8 +169,7 @@ Persist::delete($auth);
     });
 
     $dataToSend = [
-        'access_token' => $oauth_token,
-        'token_type' => 'bearer'
+        'access_token' => $oauth_token
     ];
     $data = [
         'type' => 'data',
