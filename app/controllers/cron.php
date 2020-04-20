@@ -1,4 +1,7 @@
 <?php
+
+use Entity\EmailQueue;
+
 if (!isset($argc)) {
     Controller::http403Forbidden();
 }
@@ -8,14 +11,21 @@ if ($argc !== 2) {
     die;
 }
 
+$start_time = time();
+$end_time = $start_time + 60;
+
 $redis = new \PHPeter\Redis();
-$cached_keys = $redis->keys(Mailer::CACHE_PREFIX . '*');
 $mailer = new Mailer();
 
-foreach ($cached_keys as $cached_key) {
-    $mailer->sendMail($cached_key);
-    echo 'Mail ' . $cached_key . ' sent!' . "\n";
-    $redis->del($cached_key);
+while ($end_time > time()) {
+    DB::get()->beginTransaction();
+    $req = DB::get()->query("SELECT * FROM email_queue WHERE sent_at IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
+    $email = $req->fetch();
+    if ($email !== false) {
+        $mailer->sendMail($email);
+        echo 'Mail #' . $email['id'] . ' sent!' . "\n";
+    }
+    DB::get()->commit();
 }
 
-echo 'Done.' . "\n";
+echo 'Done in ' . (time() - $start_time) . ' seconds.' . "\n";

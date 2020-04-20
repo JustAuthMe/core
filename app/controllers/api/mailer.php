@@ -1,16 +1,21 @@
 <?php
-if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
-    $cache_key = Request::get()->getArg(2);
-    $redis = new \PHPeter\Redis();
-    $cached = $redis->get($cache_key);
 
-    if ($cached === false) {
+use Entity\EmailQueue;
+use Model\User;
+
+if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
+    /** @var EmailQueue $email */
+    $email = Persist::read('EmailQueue', Request::get()->getArg(2));
+
+    if ($email === false) {
         Controller::http404NotFound();
         Controller::renderApiError('E-Mail not found');
     }
 
-    Data::get()->setData((array) $cached->params);
-    Controller::renderView($cached->template, null);
+    Data::get()->setData(json_decode($email->getParams(), true));
+    Data::get()->add('unsubscribe_email', $email->getRecipient());
+    Data::get()->add('unsubscribe_key', User::hashInfo($email->getRecipient() . UNSUBSCRIBE_SALT));
+    Controller::renderView($email->getTemplate(), null);
     die;
 }
 
@@ -31,7 +36,7 @@ if (!isset($_POST['to'], $_POST['subject'], $_POST['body']) || $_POST['to'] === 
 
 if (!filter_var($_POST['to'], FILTER_VALIDATE_EMAIL)) {
     Controller::http400BadRequest();
-    Controller::renderApiError('The destination E-Mail address lust be valid');
+    Controller::renderApiError('The destination E-Mail address must be valid');
 }
 
 $params = [

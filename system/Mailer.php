@@ -1,5 +1,6 @@
 <?php
 
+use Entity\EmailQueue;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mailer extends PHPMailer {
@@ -40,13 +41,12 @@ class Mailer extends PHPMailer {
         ];
     }
 
-    public function sendMail($cache_key) {
-        $redis = new \PHPeter\Redis();
-        $cached = $redis->get($cache_key);
+    public function sendMail(array $email) {
+        $bcc = json_decode($email['bcc']);
 
         $contact_from = self::getContactDetailsFromString(self::SEND_AS);
-        $contact_to = self::getContactDetailsFromString($cached->to);
-        array_walk($cached->bcc, function(&$item, $key) {
+        $contact_to = self::getContactDetailsFromString($email['recipient']);
+        array_walk($bcc, function(&$item, $key) {
             $item = self::getContactDetailsFromString($item);
         });
 
@@ -54,32 +54,47 @@ class Mailer extends PHPMailer {
             $this->isHtml(true);
             $this->setFrom($contact_from['email'], $contact_from['name']);
             $this->addAddress($contact_to['email'], $contact_to['name']);
-            foreach ($cached->bcc as $contact) {
+            foreach ($bcc as $contact) {
                 $this->addBCC($contact['email'], $contact['name']);
             }
 
-            $this->Subject = $cached->subject;
-            $this->Body = file_get_contents(CLI_BASE_URL . 'api/mailer/' . $cache_key . '?render_key=' . EMAIL_RENDERING_KEY);
+            $this->Subject = $email['subject'];
+            $body = file_get_contents(CLI_BASE_URL . 'api/mailer/' . $email['id'] . '?render_key=' . EMAIL_RENDERING_KEY);
+            $this->Body = $body;
 
+            $text = html_entity_decode($body);
+            $text = strip_tags($text);
+            $text = trim($text);
+            $text = preg_replace("#(\s*\\n){3,}#", "\n\n", $text);
+            $text = preg_replace("#( ){2,}#", "", $text);
+            $text = wordwrap($text);
+            $this->AltBody = $text;
+
+            $sent_at = null;
+            $error = null;
             if ($this->send() === false) {
+                $error = $this->ErrorInfo;
                 Logger::logError('PHPMailer error: ' . $this->ErrorInfo);
+            } else {
+                $sent_at = date('Y-m-d H:i:s');
             }
+
+            $req = DB::get()->prepare("UPDATE email_queue SET sent_at = ?, error = ? WHERE id = ?");
+            $req->execute([$sent_at, $error, $email['id']]);
         } catch (Exception $e) {
             Logger::logError('PHPMailer exception: ' . $e->getMessage());
         }
     }
 
     public function queueMail($to, $subject, $template = 'mail/default', $params = [], $bcc = []) {
-        $redis = new \PHPeter\Redis();
-        $cache_key = self::CACHE_PREFIX . ((int) (microtime(true) * 1000));
-        $redis->set($cache_key, json_encode([
-            'to' => $to,
-            'subject' => $subject,
-            'template' => $template,
-            'params' => $params,
-            'bcc' => $bcc
-        ]));
-
-        return $cache_key;
+        $email_queue = new EmailQueue(
+            0,
+            $to,
+            $subject,
+            $template,
+            json_encode($params),
+            json_encode($bcc)
+        );
+        Persist::create($email_queue);
     }
 }

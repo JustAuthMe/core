@@ -25,5 +25,7 @@ const ROUTES = [
         'user_login' => 'user_login',
         'token' => 'token',
         'auth_listener.js' => 'auth_listener'
-    ]
+    ],
+    'unsubscribe' => 'unsubscribe',
+    'customers' => 'early_access_mail',
 ];

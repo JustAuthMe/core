@@ -6,8 +6,8 @@
 </tr>
 <tr>
     <td>
-        <p align="justify" style="font-size:14px;line-height:28px">
-            <?= $body ?>
+        <p align="justify" style="font-size:14px;line-height:22px">
+            <?= nl2br($body) ?>
         </p>
     </td>
 </tr>
