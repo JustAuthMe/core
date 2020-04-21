@@ -32,7 +32,7 @@ abstract class Persist {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
         $cond = ($cond != '') ? ' '.$cond : '';
-        $req = DB::get()->prepare("SELECT * FROM $table_name".$cond);
+        $req = DB::getSlave()->prepare("SELECT * FROM $table_name".$cond);
         $req->execute($values);
         $res = [];
         $i = 0;
@@ -71,16 +71,16 @@ abstract class Persist {
         $columns = implode(', ', $columns);
         $qms = implode(', ', $qms);
 
-        $req = DB::get()->prepare("INSERT INTO $table_name ($columns) VALUES ($qms)");
+        $req = DB::getMaster()->prepare("INSERT INTO $table_name ($columns) VALUES ($qms)");
         $req->execute($values);
 
-        return DB::get()->lastInsertId();
+        return DB::getMaster()->lastInsertId();
     }
 
     public static function exists(string $classname, string $column, string $value): bool {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("SELECT COUNT(*) AS nb FROM $table_name WHERE $column = ?");
+        $req = DB::getSlave()->prepare("SELECT COUNT(*) AS nb FROM $table_name WHERE $column = ?");
         $req->execute([$value]);
         $res = $req->fetch();
         $req->closeCursor();
@@ -90,7 +90,7 @@ abstract class Persist {
     public static function read(string $classname, int $id): \Resourceable {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("SELECT * FROM $table_name WHERE id = ?");
+        $req = DB::getSlave()->prepare("SELECT * FROM $table_name WHERE id = ?");
         $req->execute([$id]);
         $res = $req->fetch();
         return self::getFilledObject($classname, $res);
@@ -99,7 +99,7 @@ abstract class Persist {
     public static function readBy(string $classname, string $column, string $value): \Resourceable {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("SELECT * FROM $table_name WHERE $column = ?");
+        $req = DB::getSlave()->prepare("SELECT * FROM $table_name WHERE $column = ?");
         $req->execute([$value]);
         $res = $req->fetch();
         $req->closeCursor();
@@ -109,7 +109,7 @@ abstract class Persist {
     public static function count(string $classname, string $cond = '', array $values = []): int {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("SELECT COUNT(*) AS nb FROM $table_name $cond");
+        $req = DB::getSlave()->prepare("SELECT COUNT(*) AS nb FROM $table_name $cond");
         $req->execute($values);
         $res = $req->fetch();
         $req->closeCursor();
@@ -132,7 +132,7 @@ abstract class Persist {
         }
         $qms = implode(', ', $qms);
 
-        $req = DB::get()->prepare("UPDATE $table_name SET $qms WHERE id = ?");
+        $req = DB::getMaster()->prepare("UPDATE $table_name SET $qms WHERE id = ?");
         $req->execute(array_merge($values, [$id]));
     }
 
@@ -140,21 +140,21 @@ abstract class Persist {
         $classname = get_class($object);
         $table_name = $classname::getTableName();
         $id = $object->getId();
-        $req = DB::get()->prepare("DELETE FROM $table_name WHERE id = ?");
+        $req = DB::getMaster()->prepare("DELETE FROM $table_name WHERE id = ?");
         $req->execute([$id]);
     }
 
     public static function deleteBy(string $classname, string $column, $value) {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("DELETE FROM $table_name WHERE $column = ?");
+        $req = DB::getMaster()->prepare("DELETE FROM $table_name WHERE $column = ?");
         $req->execute([$value]);
     }
 
     public static function deleteById(string $classname, int $id) {
         $classname = '\Entity\\'.$classname;
         $table_name = $classname::getTableName();
-        $req = DB::get()->prepare("DELETE FROM $table_name WHERE id = ?");
+        $req = DB::getMaster()->prepare("DELETE FROM $table_name WHERE id = ?");
         $req->execute([$id]);
     }
 }

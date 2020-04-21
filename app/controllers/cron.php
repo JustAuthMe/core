@@ -18,14 +18,14 @@ $redis = new \PHPeter\Redis();
 $mailer = new Mailer();
 
 while ($end_time > time()) {
-    DB::get()->beginTransaction();
-    $req = DB::get()->query("SELECT * FROM email_queue WHERE sent_at IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
+    DB::getMaster()->beginTransaction();
+    $req = DB::getMaster()->query("SELECT * FROM email_queue WHERE sent_at IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
     $email = $req->fetch();
     if ($email !== false) {
         $mailer->sendMail($email);
         echo 'Mail #' . $email['id'] . ' sent!' . "\n";
     }
-    DB::get()->commit();
+    DB::getMaster()->commit();
 }
 
 echo 'Done in ' . (time() - $start_time) . ' seconds.' . "\n";

@@ -27,7 +27,7 @@ class UserAuth {
     }
 
     public static function flushOutdatedAuths() {
-        \DB::get()->query("DELETE FROM user_auth WHERE timestamp + " . self::EXPIRATION_TIME . " < " . \Utils::time());
+        \DB::getMaster()->query("DELETE FROM user_auth WHERE timestamp + " . self::EXPIRATION_TIME . " < " . \Utils::time());
     }
 
     public static function isDataRequired($data) {

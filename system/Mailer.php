@@ -79,7 +79,7 @@ class Mailer extends PHPMailer {
                 $sent_at = date('Y-m-d H:i:s');
             }
 
-            $req = DB::get()->prepare("UPDATE email_queue SET sent_at = ?, error = ? WHERE id = ?");
+            $req = DB::getMaster()->prepare("UPDATE email_queue SET sent_at = ?, error = ? WHERE id = ?");
             $req->execute([$sent_at, $error, $email['id']]);
         } catch (Exception $e) {
             Logger::logError('PHPMailer exception: ' . $e->getMessage());

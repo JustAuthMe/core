@@ -13,10 +13,15 @@ const DATA_TRANSFERT_KEY = 'some random shit';
 const JAM_CONSOLE_API_KEY = 'some OTHER random shit (DIFFERENT from above)';
 const EMAIL_RENDERING_KEY = 'some OTHER random shit (DIFFERENT from above)';
 
-const DB_HOST = 'do host';
-const DB_NAME = 'justauthme';
-const DB_USER = 'db user';
-const DB_PASS = 'db pass';
+const DB_MASTER_HOST = 'db host';
+const DB_MASTER_NAME = 'justauthme';
+const DB_MASTER_USER = 'db user';
+const DB_MASTER_PASS = 'db pass';
+
+const DB_SLAVE_HOST = 'db host';
+const DB_SLAVE_NAME = 'justauthme';
+const DB_SLAVE_USER = 'db user';
+const DB_SLAVE_PASS = 'db pass';
 
 const REDIS_HOST = '127.0.0.1';
 const REDIS_PORT = 6379;
