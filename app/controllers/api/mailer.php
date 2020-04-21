@@ -19,7 +19,7 @@ if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
     die;
 }
 
-if (!Utils::isJamConsole()) {
+if (!Utils::isJamInternal()) {
     Controller::http401Unauthorized();
     Controller::renderApiError('Authentication failed');
 }

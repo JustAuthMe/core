@@ -7,7 +7,7 @@ use Model\User;
 switch (Request::get()->getArg(2)) {
     case 'check':
         // USELESS ENDPOINT BUT STILL HERE IF NEEDED...
-        if (!Utils::isJamConsole()) {
+        if (!Utils::isJamInternal()) {
             Controller::http401Unauthorized();
             Controller::renderApiError('You are not allowed to access this endpoint');
         }

@@ -35,7 +35,7 @@ class ClientApp implements \Resourceable, \JsonSerializable {
     function jsonSerialize() {
         $it = clone $this;
 
-        if (!\Utils::isJamConsole()) {
+        if (!\Utils::isJamInternal()) {
             unset($it->id, $it->public_key, $it->secret);
         }
         unset($it->hash_key);

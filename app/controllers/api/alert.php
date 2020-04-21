@@ -2,7 +2,7 @@
 
 use Model\Alert;
 
-if (in_array($_SERVER['REQUEST_METHOD'], ['POST', 'DELETE']) && !Utils::isJamConsole()) {
+if (in_array($_SERVER['REQUEST_METHOD'], ['POST', 'DELETE']) && !Utils::isJamInternal()) {
     Controller::http401Unauthorized();
     Controller::renderApiError('Authentication failed');
 }

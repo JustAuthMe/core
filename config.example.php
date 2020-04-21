@@ -10,7 +10,7 @@ const NAME = 'JustAuth.Me';
 const CLI_BASE_URL = 'http://localhost/JustAuth.Me/server';
 
 const DATA_TRANSFERT_KEY = 'some random shit';
-const JAM_CONSOLE_API_KEY = 'some OTHER random shit (DIFFERENT from above)';
+const JAM_INTERNAL_API_KEY = 'some OTHER random shit (DIFFERENT from above)';
 const EMAIL_RENDERING_KEY = 'some OTHER random shit (DIFFERENT from above)';
 
 const DB_MASTER_HOST = 'db host';

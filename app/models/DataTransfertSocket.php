@@ -13,7 +13,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
 class DataTransfertSocket implements MessageComponentInterface {
-    const CACHE_KEY_PREFIX = 'auth_';
+    const CACHE_KEY_PREFIX = 'ws_auth_';
 
     protected $clients;
     protected $redis;
@@ -63,7 +63,6 @@ class DataTransfertSocket implements MessageComponentInterface {
                 break;
 
             case 'data':
-                var_dump($obj);
                 $conn_id = $this->redis->get($cacheKey);
                 if ($conn_id === false) {
                     $error_data = 'Unknown Auth ID (' . $obj['auth_id'] . ')';
