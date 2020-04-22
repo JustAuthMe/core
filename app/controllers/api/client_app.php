@@ -1,10 +1,14 @@
 <?php
+
+use Entity\ClientApp;
+use Model\ClientApp as ClientAppModel;
+
 if (!Utils::isJamInternal()) {
     Controller::http401Unauthorized();
     Controller::renderApiError('Authentication failed');
 }
 
-/** @var \Entity\ClientApp $client_app */
+/** @var ClientApp $client_app */
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
@@ -53,12 +57,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             Controller::renderApiError('Data set is not a valid JSON');
         }
 
-        $app_id = \Model\ClientApp::generateAppId($_POST['domain']);
+        $app_id = ClientAppModel::generateAppId($_POST['domain']);
         $logo = $_POST['logo'] === 'undefined' ? '' : $_POST['logo'];
-        $secret = \Model\ClientApp::generateSecret();
-        $hash_key = \Model\ClientApp::generateHashKey();
+        $secret = ClientAppModel::generateSecret();
+        $hash_key = ClientAppModel::generateHashKey();
 
-        $client_app = new \Entity\ClientApp(
+        $client_app = new ClientApp(
             0,
             $_POST['domain'],
             $app_id,
@@ -80,6 +84,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
         if (!Persist::exists('ClientApp', 'id', Request::get()->getArg(2))) {
+            if (isset($_GET['list'])) {
+                if (preg_match("#^[0-9]+(\,[0-9]+)+$#", $_GET['list'])) {
+                    $ids = explode(',', $_GET['list']);
+                    Data::get()->add('client_apps', Persist::fetchAll('ClientApp', "WHERE id IN (" . $_GET['list'] . ")"));
+                    Controller::renderApiSuccess();
+                }
+
+                Controller::http400BadRequest();
+                Controller::renderApiError('Wrong list format');
+            }
+
             Controller::http404NotFound();
             Controller::renderApiError('Client App not found');
         }
@@ -97,7 +112,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $client_app = Persist::read('ClientApp', Request::get()->getArg(2));
         if (Request::get()->getArg(3) === 'revoke_secret') {
-            $new_secret = \Model\ClientApp::generateSecret();
+            $new_secret = ClientAppModel::generateSecret();
             $client_app->setSecret($new_secret);
             Persist::update($client_app);
 
