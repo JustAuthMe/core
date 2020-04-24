@@ -1,0 +1,72 @@
+cache:
+  paths:
+    - vendor/
+stages:
+  - setup_staging
+  - deploy_staging
+  - setup_prod
+  - deploy_prod
+
+before_script:
+  - chmod u+x ./deploy/*.sh
+
+setup:staging:
+  stage: setup_staging
+  script:
+    - rm .git -r
+    - composer install --no-dev
+    - ENV_PREFIX="STAGING_" ENV_NAME="staging" php deploy/before_deploy.php > config/config.dist.php
+    - touch build.tar.gz
+    - tar --exclude=build.tar.gz -czvf build.tar.gz .
+  artifacts:
+    paths:
+      - ./build.tar.gz
+    expire_in: 1 week
+  only:
+    - tags
+
+deploy:staging:
+  stage: deploy_staging
+  environment:
+    name: staging
+    url: http://core.staging.justauthme.net/
+  script:
+    - chmod 600 $STAGING_PK
+    - DEPLOY_HOSTS="$STAGING_HOSTS" PK_PATH="$STAGING_PK" ./deploy/deploy.sh
+    - DEPLOY_HOSTS="$STAGING_HOSTS" PK_PATH="$STAGING_PK" ./deploy/after_deploy.sh
+    - rm $STAGING_PK
+  dependencies:
+    - setup:staging
+  only:
+    - tags
+
+setup:prod:
+  stage: setup_prod
+  script:
+    - rm .git -r
+    - composer install --no-dev
+    - ENV_PREFIX="PROD_" ENV_NAME="prod" php deploy/before_deploy.php > config/config.dist.php
+    - touch build.tar.gz
+    - tar --exclude=build.tar.gz -czvf build.tar.gz .
+  artifacts:
+    paths:
+      - ./build.tar.gz
+    expire_in: 1 week
+  only:
+    - tags
+
+deploy:prod:
+  stage: deploy_prod
+  environment:
+    name: prod
+    url: https://core.justauth.me
+  script:
+    - chmod 600 $PROD_PK
+    - DEPLOY_HOSTS="$PROD_HOSTS" PK_PATH="$PROD_PK" ./deploy/deploy.sh
+    - DEPLOY_HOSTS="$PROD_HOSTS" PK_PATH="$PROD_PK" ./deploy/after_deploy.sh
+    - rm $PROD_PK
+  dependencies:
+    - setup:prod
+  when: manual
+  only:
+    - tags

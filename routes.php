@@ -13,6 +13,7 @@ const ROUTES = [
     'confirm' => 'confirm',
     'rescue' => 'rescue',
     'api' => [
+        'version' => 'version',
         'auth' => 'auth',
         'register' => 'register',
         'login' => 'login',

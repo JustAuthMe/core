@@ -5,7 +5,7 @@ use Model\UserAuth;
 session_start();
 define('ROOT', str_replace('public/index.php', '', $_SERVER['SCRIPT_FILENAME']));
 
-require_once ROOT . 'config.dist.php';
+require_once ROOT . 'config/config.php';
 require_once ROOT . 'vendor/autoload.php';
 
 $bool = PROD_ENV ? 0 : 1;

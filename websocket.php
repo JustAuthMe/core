@@ -9,7 +9,7 @@ if (!isset($argc)) {
     die('error');
 }
 
-require_once 'config.dist.php';
+require_once 'config/config.php';
 require_once 'vendor/autoload.php';
 require_once 'system/Redis.php';
 require_once 'app/models/UserAuth.php';
