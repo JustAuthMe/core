@@ -45,7 +45,7 @@ $cached = $redis->get($cacheKey, true);
  */
 
 if ($cached === false) {
-    Controller::http403Forbidden();
+    Controller::http404NotFound();
     Controller::renderApiError('No such token');
 }
 
