@@ -12,7 +12,7 @@
                 </tr>
                 <tr>
                     <td height="80" align="center">
-                        <img height="80" src="https://static.justauth.me/TXT_ONLY_BLUE_80.png" alt="JustAuthMe" />
+                        <img height="80" src="https://static.justauth.me/medias/TXT_ONLY_BLUE_80.png" alt="JustAuthMe" />
                     </td>
                 </tr>
                 <tr>
