@@ -30,11 +30,12 @@ deploy:staging:
   environment:
     name: staging
     url: http://core.staging.justauthme.net/
+  variables:
+    DEPLOY_HOSTS: "$STAGING_HOSTS"
+    ROOT_PATH: "/var/www/$STAGING_ROOT_PATH"
   script:
-    - chmod 600 $STAGING_PK
-    - DEPLOY_HOSTS="$STAGING_HOSTS" PK_PATH="$STAGING_PK" ./deploy/deploy.sh
-    - DEPLOY_HOSTS="$STAGING_HOSTS" PK_PATH="$STAGING_PK" ./deploy/after_deploy.sh
-    - rm $STAGING_PK
+    - PK_PATH="$STAGING_PK" ./deploy/deploy.sh
+    - PK_PATH="$STAGING_PK" ./deploy/after_deploy.sh
   dependencies:
     - setup:staging
   only:
@@ -60,11 +61,12 @@ deploy:prod:
   environment:
     name: prod
     url: https://core.justauth.me
+  variables:
+    DEPLOY_HOSTS: "$PROD_HOSTS"
+    ROOT_PATH: "/var/www/$PROD_ROOT_PATH"
   script:
-    - chmod 600 $PROD_PK
-    - DEPLOY_HOSTS="$PROD_HOSTS" PK_PATH="$PROD_PK" ./deploy/deploy.sh
-    - DEPLOY_HOSTS="$PROD_HOSTS" PK_PATH="$PROD_PK" ./deploy/after_deploy.sh
-    - rm $PROD_PK
+    - PK_PATH="$PROD_PK" ./deploy/deploy.sh
+    - PK_PATH="$PROD_PK" ./deploy/after_deploy.sh
   dependencies:
     - setup:prod
   when: manual
