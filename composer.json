@@ -10,7 +10,8 @@
         "ext-openssl": "*",
         "ext-redis": "*",
         "phpmailer/phpmailer": "^6.1",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "philipp15b/php-i18n": "^4.0"
     },
     "authors": [
         {

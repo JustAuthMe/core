@@ -1,7 +1,5 @@
 <?php
 
-use Model\User;
-
 switch (\Request::get()->getArg(1)) {
     case 'challenge':
         if (POST && isset($_POST['email'])) {
@@ -28,15 +26,15 @@ switch (\Request::get()->getArg(1)) {
                         die;
 
                     case 403:
-                        Data::get()->add('error', 'Wrong passcode.');
+                        Data::get()->add('error', L::rescue_error_wrong_pass);
                         break;
 
                     case 429:
-                        Data::get()->add('error', 'You have tried too any times. Please wait a few minutes.');
+                        Data::get()->add('error', L::rescue_error_too_many_times);
                         break;
 
                     default:
-                        Data::get()->add('error', 'Unknow error, please contact <a href="mailto:support@justauth.me">support@justauth.me</a>.');
+                        Data::get()->add('error', L::rescue_error_unknown('<a href="mailto:support@justauth.me">support@justauth.me</a>'));
                 }
 
                 Data::get()->add('email', htmlentities($_POST['email']));
@@ -95,32 +93,30 @@ switch (\Request::get()->getArg(1)) {
         if (isset($_SESSION['rescue_error'])) {
             switch ($_SESSION['rescue_error']) {
                 case 'email':
-                    Data::get()->add('error', 'Unknow E-Mail.');
+                    Data::get()->add('error', L::rescue_error_email_unknow);
                     break;
 
                 case 'updated':
-                    Data::get()->add('error', '
-                        Your account has had it\'s E-Mail address updated' .
-                        (isset($_SESSION['rescue_updated']) ? ' at <strong>' . date('Y/m/d H:i:s', $_SESSION['rescue_updated']) . '</strong>' : '') . '.
-                        If this update doesn\'t come from you, contact <a href="mailto:support@justauth.me">rescue@justauth.me</a>
-                        as soon as possible!
-                    ');
+                    Data::get()->add('error', L::rescue_error_email_updated(
+                        isset($_SESSION['rescue_updated']) ? ' ' . L::at . ' <strong>' . date('d/m/Y H:i:s', $_SESSION['rescue_updated']) . '</strong>': '',
+                        '<a href="mailto:support@justauth.me">rescue@justauth.me</a>'
+                    ));
                     break;
 
                 case 'spam':
-                    Data::get()->add('error', 'You have tried too any times. Please wait a few minutes.');
+                    Data::get()->add('error', L::rescue_error_too_many_times);
                     break;
 
                 case 'sent':
-                    Data::get()->add('error', 'Please wait at least 2 minutes before asking for another code.');
+                    Data::get()->add('error', L::rescue_error_other_code);
                     break;
 
                 case 'locked':
-                    Data::get()->add('error', 'This account is already locked.');
+                    Data::get()->add('error', L::rescue_ettor_locked);
                     break;
 
                 default:
-                    Data::get()->add('error', 'Unknow error, please contact <a href="mailto:support@justauth.me">support@justauth.me</a>.');
+                    Data::get()->add('error', L::rescue_error_unknown('<a href="mailto:support@justauth.me">support@justauth.me</a>.'));
             }
 
             unset($_SESSION['rescue_error']);

@@ -21,3 +21,4 @@ log/*.log
 design_recovery/
 .DS_Store
 app/controllers/early_access_mail.php
+/cache/*

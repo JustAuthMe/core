@@ -9,7 +9,7 @@ $cached = $redis->get($cache_key);
 
 if ($cached === false || !Persist::exists('User', 'id', $cached)) {
     Data::get()->add('error', true);
-    Data::get()->add('TITLE', 'Invalid link');
+    Data::get()->add('TITLE', L::confirm_title_ko);
     Controller::renderView('confirm/confirm');
     die;
 }
@@ -19,7 +19,7 @@ $user = Persist::read('User', $cached);
 if ($user->getPublicKey() === '') {
     $redis->del($cache_key);
     Data::get()->add('error', true);
-    Data::get()->add('TITLE', 'Invalid link');
+    Data::get()->add('TITLE', L::confirm_title_ok);
     Controller::renderView('confirm/confirm');
     die;
 }
@@ -35,5 +35,5 @@ $user->setActive(1);
 Persist::update($user);
 $redis->del($cache_key);
 
-Data::get()->add('TITLE', 'E-Mail address validated');
+Data::get()->add('TITLE', L::confirm_title_ok);
 Controller::renderView('confirm/confirm');

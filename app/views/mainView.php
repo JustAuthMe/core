@@ -12,11 +12,14 @@
 
 	<body>
         <div class="container">
-            <?php require_once @$appView; ?>
-
-            <div class="footer">
-                <img src="<?= WEBROOT ?>assets/img/logo.png" alt="JustAuthMe Logo" />
-            </div>
+            <main class="content">
+                <?php require_once @$appView; ?>
+            </main>
+            <footer class="footer">
+                <a href="https://justauth.me">
+                    <img src="<?= WEBROOT ?>assets/img/logo.png" alt="JustAuthMe Logo" />
+                </a>
+            </footer>
         </div>
 		<script type="text/javascript" src="<?php echo JS.'jquery.min.js'; ?>"></script>
 		<script type="text/javascript" src="<?php echo JS.'script.js'; ?>"></script>

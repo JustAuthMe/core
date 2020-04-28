@@ -80,10 +80,15 @@ class DataTransfertSocket implements MessageComponentInterface {
                 echo 'Sending data...' . "\n";
 
                 unset($obj['sign']);
-                $this->clients[$conn_id]->send(json_encode($obj));
+                if (isset($this->clients[$conn_id])) {
+                    $this->clients[$conn_id]->send(json_encode($obj));
+                    echo 'Data sent to ' . $conn_id . "\n";
+                } else {
+                    echo 'Client ' . $conn_id . ' disconnected before receiving data.' . "\n";
+                }
+
                 $this->redis->del($cacheKey);
 
-                echo 'Data sent to ' . $conn_id . "\n";
                 break;
         }
     }

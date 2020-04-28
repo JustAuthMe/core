@@ -31,30 +31,37 @@ body {
 	100% { width:205px; }
 }
 
+h1 {
+	font-size: 28px;
+}
+
 .container{
-	height: 100%;
+	min-height: 100%;
 	width: auto;
-	display: flex;
 	text-align: center;
-	background: #3598db;	
+	background: #3598db;
+}
+
+.content {
+	padding: 0 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	min-height: calc(100vh - 100px);
 }
 
 .header{
-	position: absolute; 
 	width: 100%;
 	top: 0;
-	padding-top: 5%;
-}
-
-.centered{
-	margin: auto;
+	padding-top: 3%;
 }
 
 .qrcode{
-	margin-top: 5%;
+	margin: auto;
 	background: white;
-	border-radius: 10px;	
-	
+	border-radius: 10px;
+
 	-webkit-animation: progressive 1s;
 	-moz-animation:    progressive 1s;
 	-o-animation:      progressive 1s;
@@ -62,10 +69,8 @@ body {
 }
 
 .footer{
-	position: absolute; 
 	width: 100%;
-	bottom: 0;
-	padding-bottom: 5%;
+	padding: 20px 0 40px;
 }
 
 .footer img{

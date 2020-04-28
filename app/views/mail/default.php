@@ -17,10 +17,10 @@
     </tr>
     <tr>
         <td align="center">
-            <a href="<?= $call_to_action->link ?>" style="color:white;text-decoration:none;">
+            <a href="<?= $call_to_action['link'] ?>" style="color:white;text-decoration:none;">
                 <table width="200" bgcolor="#3598db" style="border-radius:20px">
                     <tr color="white">
-                        <td height="25" align="center" style="font-size: 11px;text-transform: uppercase; color: white;" color="white"><?= $call_to_action->title ?></td>
+                        <td height="25" align="center" style="font-size: 11px;text-transform: uppercase; color: white;" color="white"><?= $call_to_action['title'] ?></td>
                     </tr>
                 </table>
             </a>

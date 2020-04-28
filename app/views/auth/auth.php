@@ -4,18 +4,18 @@ use Model\UserAuth;
 
 ?>
 <div class="header">
-    <h1><?= $_GET['app_id'] !== 'ad' ? 'You\'re about to log into ' . $client->getDomain() : 'Vous êtes sur le point de vous connecter à monsupersite.com' ?></h1>
-    <p><?= $_GET['app_id'] !== 'ad' ? 'Just scan the following QR-Code with your JustAuthMe mobile App' : 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe' ?></p>
+    <h1 class="h2"><?= L::auth_header($_GET['app_id'] !== 'ad' ? $client->getDomain() : 'monsupersite.com') ?></h1>
+    <p><?= L::auth_text ?></p>
 </div>
 <div class="centered">
-    <img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
-    <?php
-    $detect = new Mobile_Detect();
-    if ($detect->isMobile() || $detect->isTablet()) {
-    ?>
-    <a href="<?= UserAuth::URL_SCHEME . $auth->getToken() ?>" class="btn-mobile">Open in JustAuthMe app</a>
-    <?php } ?>
+    <div class="qrcode_container">
+        <img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
+    </div>
+    <?php if ($is_mobile): ?>
+    <a href="<?= $_GET['app_id'] !== 'ad' ? UserAuth::URL_SCHEME . $auth->getToken() : 'https://justauth.me' ?>" class="btn-mobile"><?= L::auth_button ?></a>
+    <?php endif ?>
 </div>
+<div></div>
 
 <?php if ($_GET['app_id'] !== 'ad'): ?>
 <script type="text/javascript">

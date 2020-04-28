@@ -1,1 +1,1 @@
-<h1 style="width:100%;text-align:center;margin-top:40vh;">Your E-Mail address <?= $email ?> have successfully been removed from our mailing lists.</h1>
+<h1 style="width:100%;text-align:center;margin-top:40vh;"><?= L::unsubscribe_text_ok($email) ?></h1>

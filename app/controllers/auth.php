@@ -11,6 +11,11 @@ if (!isset($_GET['app_id'])) {
     Controller::renderApiError('No App ID provided');
 }
 
+$detect = new Mobile_Detect();
+$is_mobile = $detect->isMobile() || $detect->isTablet();
+Data::get()->add('is_mobile', $is_mobile);
+Data::get()->add('TITLE', L::auth_title);
+
 $appId = $_GET['app_id'];
 if ($appId === 'ad') {
     $qrCode = new \chillerlan\QRCode\QRCode();

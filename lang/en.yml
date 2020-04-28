@@ -1,0 +1,34 @@
+lost: 'Are you lost? No worry!'
+return_web: 'Return to website.'
+at: 'at'
+auth:
+  title: 'Authentication'
+  header: 'You''re about to log into %s'
+  text: 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe'
+  button: 'Open in JustAuthMe app'
+confirm:
+  title_ok: 'E-Mail address validated'
+  title_ko: 'Invalid link'
+  text_ok: 'Your E-Mail address have been validated, you can now use the App!'
+  text_ko: 'This link is invalid. Maybe you''ve waited too long, those links are only valid for 24 hours.'
+rescue:
+  title: 'Lock your account'
+  next_step: 'Next step'
+  lock: 'Lock'
+  step1:
+    text: 'You lost access to your phone?<br />Lock your JustAuthMe account using this form.<br /><br /><small class="wildcard">Your account will still exists and you''ll be able to recover it later</small>'
+    placeholder: 'E-Mail address'
+  step2:
+    text: 'We just sent you a passcode at <strong>%s</strong>,<br/>Fill it in below to lock your account.'
+    placeholder: 'Passcode'
+  error:
+    wrong_code: 'Wrong passcode.'
+    too_many_times: 'You have tried too any times. Please wait a few minutes.'
+    unknown: 'Unknown error, please contact %s.'
+    other_code: 'Please wait at least 2 minutes before asking for another code.'
+    locked: 'This account is already locked.'
+    email_unknow: 'Unknow E-Mail'
+    email_updated: 'Your account has had it''s E-Mail address updated %s. If this update doesn''t come from you, contact %s as soon as possible!'
+unsubscribe:
+  title: 'Unsubscribe'
+  text_ok: 'Your E-Mail address %s have successfully been removed from our mailing lists.'

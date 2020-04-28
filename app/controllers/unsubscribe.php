@@ -14,5 +14,6 @@ if (Persist::exists('Customer', 'email', $_GET['email'])) {
     Persist::deleteBy('Customer', 'email', $_GET['email']);
 }
 
+Data::get()->add('TITLE', L::unsubscribe_title);
 Data::get()->add('email', $_GET['email']);
 Controller::renderView('unsubscribe/unsubscribe');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "55ffdbfa27e08ac68479f3c6e3dbdab9",
+    "content-hash": "318a6885cf41b46629c7e1e0298a5d4e",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -340,6 +340,94 @@
                 "php mobile detect"
             ],
             "time": "2019-09-18T18:44:20+00:00"
+        },
+        {
+            "name": "mustangostang/spyc",
+            "version": "0.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mustangostang/spyc.git",
+                "reference": "23c35ae854d835f2d7bcc3e3ad743d7e57a8c14d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mustangostang/spyc/zipball/23c35ae854d835f2d7bcc3e3ad743d7e57a8c14d",
+                "reference": "23c35ae854d835f2d7bcc3e3ad743d7e57a8c14d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.3.*@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Spyc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mustangostang",
+                    "email": "vlad.andersen@gmail.com"
+                }
+            ],
+            "description": "A simple YAML loader/dumper class for PHP",
+            "homepage": "https://github.com/mustangostang/spyc/",
+            "keywords": [
+                "spyc",
+                "yaml",
+                "yml"
+            ],
+            "time": "2017-02-24T16:06:33+00:00"
+        },
+        {
+            "name": "philipp15b/php-i18n",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Philipp15b/php-i18n.git",
+                "reference": "693bd6800134ef20e45c070ff382b7ebd143c745"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Philipp15b/php-i18n/zipball/693bd6800134ef20e45c070ff382b7ebd143c745",
+                "reference": "693bd6800134ef20e45c070ff382b7ebd143c745",
+                "shasum": ""
+            },
+            "require": {
+                "mustangostang/spyc": "0.6.2",
+                "php": ">= 5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "i18n.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philipp Schröer",
+                    "email": "github@philworld.de"
+                }
+            ],
+            "description": "Simple i18n class for PHP",
+            "homepage": "https://github.com/Philipp15b/php-i18n",
+            "time": "2018-03-26T12:50:46+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1285,7 +1373,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-openssl": "*",
+        "ext-redis": "*"
     },
     "platform-dev": []
 }

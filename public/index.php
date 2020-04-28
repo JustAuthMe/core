@@ -68,6 +68,23 @@ if (Request::get()->getArg(0) == 'api' && empty($_POST)) {
 header("Access-Control-Allow-Origin: *");
 UserAuth::flushOutdatedAuths();
 
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+$i18n = new i18n();
+$i18n->setCachePath(ROOT . 'cache/');
+$i18n->setFilePath(ROOT . 'lang/{LANGUAGE}.yml');
+$i18n->setFallbackLang('en');
+$i18n->setMergeFallback(true);
+
+try {
+    $i18n->init();
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    Controller::http500InternalServerError();
+}
+
 require_once Router::get()->getPathToRequire();
 
 if (Request::get()->getArg(0) == 'api') {
