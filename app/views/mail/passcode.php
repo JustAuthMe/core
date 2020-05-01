@@ -1,7 +1,7 @@
 <?php require VIEWS . 'mail/_top.php'; ?>
 <tr>
     <td height="30" align="center">
-        <h1 style="text-transform: uppercase;font-size: 24px;">Login passcode</h1>
+        <h1 style="text-transform: uppercase;font-size: 24px;">Votre code de confirmation JustAuthMe</h1>
     </td>
 </tr>
 <tr>
