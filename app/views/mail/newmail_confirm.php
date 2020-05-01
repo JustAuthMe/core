@@ -25,7 +25,7 @@
         <a href="<?= $confirm_link ?>" style="color:white;text-decoration:none;">
             <table width="200" bgcolor="#3598db" style="border-radius:20px">
                 <tr color="white">
-                    <td height="25" align="center" style="font-size: 11px;text-transform: uppercase; color: white;" color="white">Confirmer mon adresse E-Mail</td>
+                    <td height="25" align="center" style="font-size: 11px;text-transform: uppercase; color: white;" color="white">Confirmer mon adresse</td>
                 </tr>
             </table>
         </a>
