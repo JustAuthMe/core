@@ -41,7 +41,7 @@
                                         E-Mail.
                                     </p>
                                     <p align="center" style="font-size:13px;color:#555;line-height:20px;">
-                                        <a href="https://core.justauth.me/unsubscribe?email=<?= $unsubscribe_email ?>&key=<?= $unsubscribe_key ?>">Se désinscrire</a>
+                                        <a href="<?= CLI_BASE_URL ?>unsubscribe?email=<?= $unsubscribe_email ?>&key=<?= $unsubscribe_key ?>">Se désinscrire</a>
                                     </p>
                                 </td>
                                 <td width="30"></td>
