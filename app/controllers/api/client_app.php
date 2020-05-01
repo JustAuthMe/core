@@ -42,7 +42,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             Controller::renderApiError('Redirection URL is invalid');
         }
 
-        if (!preg_match("#^https:\/\/" . addslashes($_POST['domain']) . "(\/.*)?$#", $_POST['redirect_url'])) {
+        if (!preg_match("#^https:\/\/" . addslashes($_POST['domain']) . "(\:[0-9]+)?(\/.*)?$#", $_POST['redirect_url'])) {
             Controller::http400BadRequest();
             Controller::renderApiError('The redirection URL must be https and must be under the same domain');
         }

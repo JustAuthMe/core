@@ -68,7 +68,7 @@ class User {
         $mailer = new \Mailer();
         $mailer->queueMail(
             $email,
-            'E-Mail address confirmation',
+            'Confirmation de votre adresse E-Mail',
             'mail/' . ($updating ? 'new' : 'e') . 'mail_confirm',
             ['confirm_link' => $confirm_link]
         );

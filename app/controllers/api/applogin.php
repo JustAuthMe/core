@@ -81,7 +81,7 @@ switch (Request::get()->getArg(2)) {
         $mailer = new Mailer();
         $mailer->queueMail(
             $_POST['email'],
-            'Your JustAuthMe passcode',
+            'Votre code de confirmation JustAuthMe',
             'mail/passcode' . (isset($_GET['lock']) ? '_lock' : ''),
             ['passcode' => $passcode]
         );
