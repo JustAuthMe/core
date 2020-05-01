@@ -1,7 +1,7 @@
 <?php require VIEWS . 'mail/_top.php'; ?>
 <tr>
     <td height="30" align="center">
-        <h1 style="text-transform: uppercase;font-size: 24px;">Confirmation de votre adresse E-Mail</h1>
+        <h1 style="text-transform: uppercase;font-size: 24px;">Confirmation d'adresse E-Mail</h1>
     </td>
 </tr>
 <tr>
