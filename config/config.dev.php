@@ -24,7 +24,9 @@ const REDIS_HOST = '127.0.0.1';
 const REDIS_PORT = 6379;
 const REDIS_PASS = 'redis pass (must be loooooooooooooooong';
 
-const WEBSOCKET_HOST = 'localhost';
+const WEBSOCKET_PROTOCOL = 'ws';
+const WEBSOCKET_REMOTE_HOST = PROD_HOST;
+const WEBSOCKET_LOCAL_HOST = 'localhost';
 const WEBSOCKET_PORT = 1337;
 const WEBSOCKET_PATH = '';
 

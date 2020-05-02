@@ -25,7 +25,10 @@ $env_vars = [
     'REDIS_PORT' => 'int',
     'REDIS_PASS' => 'string',
 
-    'WEBSOCKET_HOST' => 'string',
+
+    'WEBSOCKET_PROTOCOL' => 'string',
+    'WEBSOCKET_REMOTE_HOST' => 'string',
+    'WEBSOCKET_LOCAL_HOST' => 'string',
     'WEBSOCKET_PORT' => 'int',
     'WEBSOCKET_PATH' => 'string',
 
