@@ -15,13 +15,13 @@ $start_time = time();
 $end_time = $start_time + 60;
 
 $redis = new \PHPeter\Redis();
-$mailer = new Mailer();
 
 while ($end_time > time()) {
     DB::getMaster()->beginTransaction();
     $req = DB::getMaster()->query("SELECT * FROM email_queue WHERE sent_at IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
     $email = $req->fetch();
     if ($email !== false) {
+        $mailer = new Mailer();
         $mailer->sendMail($email);
         echo 'Mail #' . $email['id'] . ' sent!' . "\n";
     }
