@@ -1,30 +1,88 @@
 <?php require VIEWS . 'mail/_top.php'; ?>
-<tr>
-    <td height="30" align="center">
-        <h1 style="text-transform: uppercase;font-size: 24px;"><?= $subject ?></h1>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p align="justify" style="font-size:14px;line-height:22px">
-            <?= nl2br($body) ?>
-        </p>
-    </td>
-</tr>
-<?php if (isset($call_to_action)): ?>
+<table  border="0" cellpadding="0" cellspacing="0"
+       style="font-family: Helvetica, Arial, sans-serif; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0px; border-collapse: separate !important; border-radius: 4px; width: 100%; overflow: hidden; border: 1px solid #dee2e6;"
+       bgcolor="#ffffff">
+    <tbody>
     <tr>
-        <td height="10"></td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a href="<?= $call_to_action['link'] ?>" style="color:white;text-decoration:none;">
-                <table width="200" bgcolor="#3598db" style="border-radius:20px">
-                    <tr color="white">
-                        <td height="25" align="center" style="font-size: 11px;text-transform: uppercase; color: white;" color="white"><?= $call_to_action['title'] ?></td>
+        <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; width: 100%; margin: 0;"
+            align="left">
+            <div style="border-top-width: 5px; border-top-color: #3498DB; border-top-style: solid;">
+                <table  border="0" cellpadding="0" cellspacing="0"
+                       style="font-family: Helvetica, Arial, sans-serif; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0px; border-collapse: collapse; width: 100%;">
+                    <tbody>
+                    <tr>
+                        <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; width: 100%; margin: 0; padding: 20px;"
+                            align="left">
+                            <div>
+                                <h4 class=""
+                                    style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;"
+                                    align="left"><?= $subject ?></h4>
+                                <table  border="0" cellpadding="0"
+                                       cellspacing="0" style="width: 100%;">
+                                    <tbody>
+                                    <tr>
+                                        <td height="16"
+                                            style="border-spacing: 0px; border-collapse: collapse; line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;"
+                                            align="left">
+                                             
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <p class=""
+                                   style="line-height: 24px; font-size: 14px; margin: 0;"
+                                   align="left"><?= nl2br($body) ?></p>
+                                <table  border="0" cellpadding="0"
+                                       cellspacing="0" style="width: 100%;">
+                                    <tbody>
+                                    <tr>
+                                        <td height="16"
+                                            style="border-spacing: 0px; border-collapse: collapse; line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;"
+                                            align="left">
+                                             
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <table  border="0" cellpadding="0"
+                                       cellspacing="0" style="width: 100%;">
+                                    <tbody>
+                                    <tr>
+                                        <td height="8"
+                                            style="border-spacing: 0px; border-collapse: collapse; line-height: 8px; font-size: 8px; width: 100%; height: 8px; margin: 0;"
+                                            align="left">
+                                             
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <?php if (isset($call_to_action)): ?>
+                                    <table 
+                                           align="center" border="0" cellpadding="0"
+                                           cellspacing="0"
+                                           style="font-family: Helvetica, Arial, sans-serif; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0px; border-collapse: separate !important; border-radius: 4px; margin: 0 auto;">
+                                        <tbody>
+                                        <tr>
+                                            <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-radius: 4px; margin: 0;"
+                                                align="center" bgcolor="#3498DB">
+                                                <a href="<?= $call_to_action['link'] ?>"
+                                                   style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 4.8px; line-height: 30px; display: inline-block; font-weight: normal; white-space: nowrap; background-color: #3498DB; color: #ffffff; padding: 8px 16px; border: 1px solid #3498DB;"><?= $call_to_action['title'] ?></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                <?php endif ?>
+
+                            </div>
+                        </td>
                     </tr>
+                    </tbody>
                 </table>
-            </a>
+            </div>
         </td>
     </tr>
-<?php endif ?>
+    </tbody>
+</table>
 <?php require VIEWS . 'mail/_btm.php'; ?>
