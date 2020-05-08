@@ -6,7 +6,7 @@ if (!isset($_GET['email'], $_GET['key'])) {
     Controller::http404NotFound();
 }
 
-if (User::hashInfo($_GET['email'] . UNSUBSCRIBE_SALT) !== $_GET['key']) {
+if (User::hashInfo(strtolower($_GET['email']) . UNSUBSCRIBE_SALT) !== $_GET['key']) {
     Controller::http403Forbidden();
 }
 

@@ -29,7 +29,7 @@ if (!isset($_POST['pubkey'], $_POST['email'])) {
     Controller::renderApiError('E-Mail is required');
 }
 
-$uniqid = User::hashInfo($_POST['email']);
+$uniqid = User::hashEmail($_POST['email']);
 if (Persist::exists('User', 'uniqid', $uniqid)) {
     Controller::http409Conflict();
     Controller::renderApiError('You already have a JAM account. Please log in.');

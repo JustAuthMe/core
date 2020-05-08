@@ -39,7 +39,7 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('You have tried to many times. Please wait a few minutes.');
         }
 
-        $is_available = !Persist::exists('User', 'uniqid', User::hashInfo($_POST['email']));
+        $is_available = !Persist::exists('User', 'uniqid', User::hashEmail($_POST['email']));
         if (!$is_available) {
             $redis->set($cache_key, $attempts, $new_ttl);
         }
@@ -59,7 +59,7 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('E-Mail is required');
         }
 
-        $hashed_email = User::hashInfo($_POST['email']);
+        $hashed_email = User::hashEmail($_POST['email']);
 
         if (!Persist::exists('User', 'uniqid', $hashed_email)) {
             if (!UniqidUpdateModel::isThereAnActiveUpdateByNewUniqid($hashed_email)) {
@@ -118,12 +118,12 @@ switch (Request::get()->getArg(2)) {
 
         /** @var \Entity\User $user */
         $user = Persist::readBy('User', 'username', $data['jam_id']);
-        if ($user->getUniqid() === User::hashInfo($data['email'])) {
+        if ($user->getUniqid() === User::hashEmail($data['email'])) {
             Controller::http400BadRequest();
             Controller::renderApiError('You already have registered this E-Mail');
         }
 
-        if (Persist::exists('User', 'uniqid', User::hashInfo($data['email'])) || UniqidUpdateModel::isThisEmailAlmostTaken($data['email'])) {
+        if (Persist::exists('User', 'uniqid', User::hashEmail($data['email'])) || UniqidUpdateModel::isThisEmailAlmostTaken($data['email'])) {
             Controller::http409Conflict();
             Controller::renderApiError('This E-Mail is already registered');
         }
@@ -136,7 +136,7 @@ switch (Request::get()->getArg(2)) {
             0,
             $user->getId(),
             $user->getUniqid(),
-            User::hashInfo($data['email']),
+            User::hashEmail($data['email']),
             $_SERVER['REMOTE_ADDR'],
             Utils::time(),
             1

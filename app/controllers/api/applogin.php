@@ -35,7 +35,7 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('Invalid E-Mail address');
         }
 
-        $hashed_email = User::hashInfo($_POST['email']);
+        $hashed_email = User::hashEmail($_POST['email']);
         if (!Persist::exists('User', 'uniqid', $hashed_email)) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
 
@@ -96,7 +96,7 @@ switch (Request::get()->getArg(2)) {
             Controller::renderApiError('E-Mail and passcode are required');
         }
 
-        $hashed_email = User::hashInfo($_POST['email']);
+        $hashed_email = User::hashEmail($_POST['email']);
         if (ENABLE_APPLE_DEMO_ACCOUNT && $_POST['email'] === APPLE_DEMO_EMAIL) {
             /** @var \Entity\User $apple_user */
             $apple_user = Persist::readBy('User', 'uniqid', $hashed_email);
@@ -110,8 +110,18 @@ switch (Request::get()->getArg(2)) {
         $redis = new \PHPeter\Redis();
         $cached = $redis->get($passcode_cache_key);
 
+        $attempts_cache_key = User::APPLOGIN_CACHE_PREFIX . 'attempts_' . $hashed_email;
+        $attempts = (int) $redis->get($attempts_cache_key);
+        if ($attempts >= 3) {
+            $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
+            $redis->set($attempts_cache_key, $attempts, user::APPLOGIN_ATTEMPTS_COOLDOWN);
+            Controller::http429TooManyRequests();
+            Controller::renderApiError('You have tried to many times. Please wait a few minutes.');
+        }
+
         if ($cached === false || $hashed_email !== $cached) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
+            $redis->set($attempts_cache_key, $attempts + 1);
             Controller::http403Forbidden();
             Controller::renderApiError('Wrong passcode');
         }
@@ -124,6 +134,7 @@ switch (Request::get()->getArg(2)) {
         $user_cache_key = User::APPLOGIN_CACHE_PREFIX . $user->getId();
         $redis->del($passcode_cache_key);
         $redis->del($user_cache_key);
+        $redis->del($attempts_cache_key);
 
         Data::get()->add('jam_id', $user->getUsername());
         Controller::renderApiSuccess();

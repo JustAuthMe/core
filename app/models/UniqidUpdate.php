@@ -22,7 +22,7 @@ class UniqidUpdate {
 
     public static function isThisEmailAlmostTaken($email) {
         $req = \DB::getSlave()->prepare("SELECT COUNT(*) AS cnt FROM uniqid_update WHERE new_uniqid = ? AND active = 1");
-        $req->execute([User::hashInfo($email)]);
+        $req->execute([User::hashEmail($email)]);
         $response = $req->fetch();
 
         return $response['cnt'] > 0;

@@ -37,7 +37,7 @@ if (!Persist::exists('ClientApp', 'secret', $_GET['secret'])) {
 $clientApp = Persist::readBy('ClientApp', 'secret', $_GET['secret']);
 
 $redis = new \PHPeter\Redis();
-$cacheKey = \Model\UserAuth::OAUTH_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_GET['access_token'];
+$cacheKey = \Model\UserAuth::ACCESS_TOKEN_CACHE_PREFIX . $clientApp->getId() . '_' . $_GET['access_token'];
 $cached = $redis->get($cacheKey, true);
 
 /*

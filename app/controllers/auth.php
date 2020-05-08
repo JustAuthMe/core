@@ -6,6 +6,9 @@
  * Time: 14:50
  */
 
+use chillerlan\QRCode\QRCode;
+use Model\ClientApp;
+
 if (!isset($_GET['app_id'])) {
     Controller::http400BadRequest();
     Controller::renderApiError('No App ID provided');
@@ -18,14 +21,14 @@ Data::get()->add('TITLE', L::auth_title);
 
 $appId = $_GET['app_id'];
 if ($appId === 'ad') {
-    $qrCode = new \chillerlan\QRCode\QRCode();
+    $qrCode = new QRCode();
     $imgUrl = $qrCode->render('https://justauth.me/?pk_campaign=ad_qr');
     Data::get()->add('qr_code', $imgUrl);
     Controller::renderView('auth/auth');
     die;
 }
 
-if (!\Model\ClientApp::authenticate($appId)) {
+if (!ClientApp::authenticate($appId)) {
     Controller::http403Forbbiden();
     Controller::renderApiError('Authentication failed');
 }
@@ -38,9 +41,14 @@ if (!isset($_GET['redirect_url'])) {
 /**
  * @var \Entity\ClientApp $clientApp
  */
-$clientApp = \Model\ClientApp::getClientDetails($appId);
+$clientApp = ClientApp::getClientDetails($appId);
 
-if ($clientApp->getRedirectUrl() !== $_GET['redirect_url']) {
+if (
+    $clientApp->getRedirectUrl() !== $_GET['redirect_url'] && (
+        !$clientApp->isDev() ||
+        !preg_match("#^https?\:\/\/(localhost|127(\.[0-9]{1,3}){3}|192\.168(\.[0-9]{1,3}){2}|10(\.[0-9]{1,3}){3})\b(?!\.)#", $_GET['redirect_url'])
+    )
+) {
     Controller::http403Forbidden();
     Controller::renderApiError('Wrong redirection URL');
 }
@@ -57,7 +65,7 @@ $userAuth = new \Entity\UserAuth(
 $auth_id = Persist::create($userAuth);
 $userAuth->setId($auth_id);
 
-$qrCode = new \chillerlan\QRCode\QRCode();
+$qrCode = new QRCode();
 $imgUrl = $qrCode->render(\Model\UserAuth::URL_SCHEME . $authToken);
 
 Data::get()->add('client', $clientApp);

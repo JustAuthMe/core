@@ -24,6 +24,7 @@ class User {
     const APPLOGIN_EXPIRATION_TIME = 600; // 10 minutes
     const APPLOGIN_EMAIL_COOLDOWN = 120; // 2 minutes
     const APPLOGIN_IP_COOLDOWN = 300; // 5 minutes
+    const APPLOGIN_ATTEMPTS_COOLDOWN = 300; // 5 minutes
 
     public static function generateUsername() {
         do {
@@ -35,6 +36,10 @@ class User {
 
     public static function hashInfo($info) {
         return hash('sha512', $info);
+    }
+
+    public static function hashEmail($email) {
+        return self::hashInfo(strtolower($email));
     }
 
     public static function generateEmailConfirmToken() {

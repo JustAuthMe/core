@@ -4,7 +4,7 @@ use Entity\EmailQueue;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mailer extends PHPMailer {
-    const SEND_AS = 'JustAuth.Me <hello@justauth.me>';
+    const SEND_AS = 'JustAuthMe <hello@justauth.me>';
     const CACHE_PREFIX = 'email_';
 
     public function __construct() {

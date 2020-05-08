@@ -14,7 +14,7 @@ if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
 
     Data::get()->setData(json_decode($email->getParams(), true));
     Data::get()->add('unsubscribe_email', $email->getRecipient());
-    Data::get()->add('unsubscribe_key', User::hashInfo($email->getRecipient() . UNSUBSCRIBE_SALT));
+    Data::get()->add('unsubscribe_key', User::hashInfo(strtolower($email->getRecipient()) . UNSUBSCRIBE_SALT));
     Controller::renderView($email->getTemplate(), null);
     die;
 }
@@ -66,7 +66,6 @@ switch (Request::get()->getArg(2)) {
 }
 
 $mailer = new Mailer();
-$queue_id = $mailer->queueMail($_POST['to'], $_POST['subject'], $template, $params);
+$mailer->queueMail($_POST['to'], $_POST['subject'], $template, $params);
 
-Data::get()->add('queue_id', $queue_id);
 Controller::renderApiSuccess();
