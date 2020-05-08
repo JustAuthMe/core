@@ -70,6 +70,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $logo,
             $_POST['redirect_url'],
             $_POST['data'],
+            isset($_POST['dev']) && $_POST['dev'] == 1 ? 1 : 0,
             '',
             $secret,
             $hash_key
