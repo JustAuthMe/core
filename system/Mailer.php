@@ -4,7 +4,7 @@ use Entity\EmailQueue;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mailer extends PHPMailer {
-    const SEND_AS = 'JustAuthMe <hello@justauth.me>';
+    const SEND_AS_DEFAULT = 'JustAuthMe <hello@justauth.me>';
     const CACHE_PREFIX = 'email_';
 
     public function __construct() {
@@ -42,9 +42,10 @@ class Mailer extends PHPMailer {
     }
 
     public function sendMail(array $email) {
+        $sender = $email['sender'] !== '' ? $email['sender'] : self::SEND_AS_DEFAULT;
         $bcc = json_decode($email['bcc']);
 
-        $contact_from = self::getContactDetailsFromString(self::SEND_AS);
+        $contact_from = self::getContactDetailsFromString($sender);
         $contact_to = self::getContactDetailsFromString($email['recipient']);
         array_walk($bcc, function(&$item, $key) {
             $item = self::getContactDetailsFromString($item);
@@ -86,9 +87,10 @@ class Mailer extends PHPMailer {
         }
     }
 
-    public function queueMail($to, $subject, $template = 'mail/default', $params = [], $bcc = []) {
+    public function queueMail($to, $subject, $template = 'mail/default', $params = [], $bcc = [], $from = self::SEND_AS_DEFAULT) {
         $email_queue = new EmailQueue(
             0,
+            $from,
             $to,
             $subject,
             $template,

@@ -11,16 +11,23 @@
     </tbody>
 </table>
 
-
-<div  style="color: #636c72;font-size: 10px;" align="center">
+<?php if ($is_automated): ?>
+<div  style="color: #636c72;font-size: 11px;" align="center">
     Vous recevez cet e-mail car vous possédez un compte <a
             href="https://justauth.me">JustAuthMe</a><br>
     ou car votre adresse e-mail est inscrite sur nos listes de diffusion.
 </div>
-<div  style="color: #636c72;font-size: 10px;" align="center">
+<div  style="color: #636c72;font-size: 11px;" align="center">
     <a href="<?= CLI_BASE_URL ?>unsubscribe?email=<?= $unsubscribe_email ?>&key=<?= $unsubscribe_key ?>">Se
         désinscrire</a>
 </div>
+<?php else: ?>
+<div  style="color: #636c72;font-size: 11px;" align="center">
+    Vous ne souhaitez plus que l'on vous présente nos produits ?<br>
+    Nous en sommes désolé. Dans ce cas, vous pouvez vous
+    <a href="<?= CLI_BASE_URL ?>unsubscribe?email=<?= $unsubscribe_email ?>&key=<?= $unsubscribe_key ?>">désinscrire</a>.
+</div>
+<?php endif ?>
 <table  border="0" cellpadding="0" cellspacing="0"
        style="width: 100%;">
     <tbody>

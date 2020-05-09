@@ -6,6 +6,7 @@ namespace Entity;
 
 class EmailQueue implements \Resourceable {
     private $id;
+    private $sender;
     private $recipient;
     private $subject;
     private $template;
@@ -15,8 +16,9 @@ class EmailQueue implements \Resourceable {
     private $sent_at;
     private $error;
 
-    public function __construct($id = 0, $recipient = '', $subject = '', $template = 'mail/default', $params = '', $bcc = '', $created_at = null, $sent_at = null, $error = null) {
+    public function __construct($id = 0, $sender = \Mailer::SEND_AS_DEFAULT, $recipient = '', $subject = '', $template = 'mail/default', $params = '', $bcc = '', $created_at = null, $sent_at = null, $error = null) {
         $this->id = $id;
+        $this->sender = $sender;
         $this->recipient = $recipient;
         $this->subject = $subject;
         $this->template = $template;
@@ -35,15 +37,23 @@ class EmailQueue implements \Resourceable {
         return $this->id;
     }
 
-    public function setId($id): void {
+    public function setId($id) {
         $this->id = $id;
+    }
+
+    public function getSender() {
+        return $this->sender;
+    }
+
+    public function setSender($sender) {
+        $this->sender = $sender;
     }
 
     public function getRecipient() {
         return $this->recipient;
     }
 
-    public function setRecipient($recipient): void {
+    public function setRecipient($recipient) {
         $this->recipient = $recipient;
     }
 
@@ -51,7 +61,7 @@ class EmailQueue implements \Resourceable {
         return $this->subject;
     }
 
-    public function setSubject($subject): void {
+    public function setSubject($subject) {
         $this->subject = $subject;
     }
 
@@ -59,7 +69,7 @@ class EmailQueue implements \Resourceable {
         return $this->template;
     }
 
-    public function setTemplate($template): void {
+    public function setTemplate($template) {
         $this->template = $template;
     }
 
@@ -67,7 +77,7 @@ class EmailQueue implements \Resourceable {
         return $this->params;
     }
 
-    public function setParams($params): void {
+    public function setParams($params) {
         $this->params = $params;
     }
 
@@ -75,7 +85,7 @@ class EmailQueue implements \Resourceable {
         return $this->bcc;
     }
 
-    public function setBcc($bcc): void {
+    public function setBcc($bcc) {
         $this->bcc = $bcc;
     }
 
@@ -83,7 +93,7 @@ class EmailQueue implements \Resourceable {
         return $this->created_at;
     }
 
-    public function setCreatedAt($created_at): void {
+    public function setCreatedAt($created_at) {
         $this->created_at = $created_at;
     }
 
@@ -95,7 +105,7 @@ class EmailQueue implements \Resourceable {
         return !is_null($this->getSentAt());
     }
 
-    public function setSentAt($sent_at): void {
+    public function setSentAt($sent_at) {
         $this->sent_at = $sent_at;
     }
 
@@ -107,7 +117,7 @@ class EmailQueue implements \Resourceable {
         return !is_null($this->getError());
     }
 
-    public function setError($error): void {
+    public function setError($error) {
         $this->error = $error;
     }
 }

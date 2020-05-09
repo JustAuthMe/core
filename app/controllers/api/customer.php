@@ -2,6 +2,7 @@
 
 use Entity\Customer;
 use Model\Customer as CustomerModel;
+use Model\User;
 
 if (!Utils::isJamInternal()) {
     Controller::http401Unauthorized();
@@ -42,6 +43,7 @@ if (POST) {
         $_POST['ip']
     );
     Persist::create($customer);
+    Persist::deleteBy('EmailBlacklist', 'email', User::hashEmail($_POST['email']));
 
     Controller::renderApiSuccess();
 }

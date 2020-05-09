@@ -13,6 +13,7 @@ if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
     }
 
     Data::get()->setData(json_decode($email->getParams(), true));
+    Data::get()->add('is_automated', $email->getSender() === '' || $email->getSender() === Mailer::SEND_AS_DEFAULT);
     Data::get()->add('unsubscribe_email', $email->getRecipient());
     Data::get()->add('unsubscribe_key', User::hashInfo(strtolower($email->getRecipient()) . UNSUBSCRIBE_SALT));
     Controller::renderView($email->getTemplate(), null);
@@ -39,10 +40,21 @@ if (!filter_var($_POST['to'], FILTER_VALIDATE_EMAIL)) {
     Controller::renderApiError('The destination E-Mail address must be valid');
 }
 
+$bcc = [];
+if (isset($_POST['bcc']) && is_array($_POST['bcc'])) {
+    $bcc = $_POST['bcc'];
+}
+
+$from = Mailer::SEND_AS_DEFAULT;
+if (isset($_POST['from']) && $_POST['from'] !== '') {
+    $from = $_POST['from'];
+}
+
 $params = [
     'subject' => Utils::secure($_POST['subject']),
     'body' => $_POST['body']
 ];
+
 switch (Request::get()->getArg(2)) {
     case 'default':
         if (isset($_POST['call_to_action'])) {
@@ -66,6 +78,6 @@ switch (Request::get()->getArg(2)) {
 }
 
 $mailer = new Mailer();
-$mailer->queueMail($_POST['to'], $_POST['subject'], $template, $params);
+$mailer->queueMail($_POST['to'], $_POST['subject'], $template, $params, $bcc, $from);
 
 Controller::renderApiSuccess();

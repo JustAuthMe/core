@@ -1,5 +1,6 @@
 <?php
 
+use Entity\EmailBlacklist;
 use Model\User;
 
 if (!isset($_GET['email'], $_GET['key'])) {
@@ -13,6 +14,12 @@ if (User::hashInfo(strtolower($_GET['email']) . UNSUBSCRIBE_SALT) !== $_GET['key
 if (Persist::exists('Customer', 'email', $_GET['email'])) {
     Persist::deleteBy('Customer', 'email', $_GET['email']);
 }
+
+$email_blacklist = new EmailBlacklist(
+    0,
+    User::hashEmail($_GET['email'])
+);
+Persist::create($email_blacklist);
 
 Data::get()->add('TITLE', L::unsubscribe_title);
 Data::get()->add('email', $_GET['email']);
