@@ -46,7 +46,7 @@ $clientApp = ClientApp::getClientDetails($appId);
 if (
     $clientApp->getRedirectUrl() !== $_GET['redirect_url'] && (
         !$clientApp->isDev() ||
-        !preg_match("#^https?\:\/\/(localhost|127(\.[0-9]{1,3}){3}|192\.168(\.[0-9]{1,3}){2}|10(\.[0-9]{1,3}){3})\b(?!\.)#", $_GET['redirect_url'])
+        !preg_match("#^https?\:\/\/(" . preg_quote($clientApp->getDomain(), '#') . "|localhost|127(\.[0-9]{1,3}){3}|192\.168(\.[0-9]{1,3}){2}|10(\.[0-9]{1,3}){3})\b(?!\.)#", $_GET['redirect_url'])
     )
 ) {
     Controller::http403Forbidden();
