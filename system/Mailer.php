@@ -51,6 +51,9 @@ class Mailer extends PHPMailer {
             $item = self::getContactDetailsFromString($item);
         });
 
+        $sent_at = null;
+        $error = null;
+
         try {
             $this->isHtml(true);
             $this->setFrom($contact_from['email'], $contact_from['name']);
@@ -71,20 +74,19 @@ class Mailer extends PHPMailer {
             $text = wordwrap($text);
             $this->AltBody = $text;
 
-            $sent_at = null;
-            $error = null;
             if ($this->send() === false) {
                 $error = $this->ErrorInfo;
                 Logger::logError('PHPMailer error: ' . $this->ErrorInfo);
             } else {
                 $sent_at = date('Y-m-d H:i:s');
             }
-
-            $req = DB::getMaster()->prepare("UPDATE email_queue SET sent_at = ?, error = ? WHERE id = ?");
-            $req->execute([$sent_at, $error, $email['id']]);
         } catch (Exception $e) {
+            $error = $e->getMessage();
             Logger::logError('PHPMailer exception: ' . $e->getMessage());
         }
+
+        $req = DB::getMaster()->prepare("UPDATE email_queue SET sent_at = ?, error = ? WHERE id = ?");
+        $req->execute([$sent_at, $error, $email['id']]);
     }
 
     public function queueMail($to, $subject, $template = 'mail/default', $params = [], $bcc = [], $from = self::SEND_AS_DEFAULT) {

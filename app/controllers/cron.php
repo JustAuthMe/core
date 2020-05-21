@@ -18,7 +18,7 @@ $redis = new \PHPeter\Redis();
 
 while ($end_time > time()) {
     DB::getMaster()->beginTransaction();
-    $req = DB::getMaster()->query("SELECT * FROM email_queue WHERE sent_at IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
+    $req = DB::getMaster()->query("SELECT * FROM email_queue WHERE sent_at IS NULL AND error IS NULL ORDER BY id LIMIT 1 FOR UPDATE");
     $email = $req->fetch();
     if ($email !== false) {
         $mailer = new Mailer();
