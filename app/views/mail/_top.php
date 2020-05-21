@@ -47,7 +47,7 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-                                                <img width="250"
+                                                <img width="250" alt="JustAuthMe"
                                                      src="https://static.justauth.me/medias/TXT_ONLY_BLUE_80.png"
                                                      style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0 none;">
                                                 <table  border="0" cellpadding="0" cellspacing="0"

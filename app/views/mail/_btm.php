@@ -71,7 +71,7 @@
                             <tr>
                                 <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; padding-left: 8px; margin: 0;"
                                     align="left">
-                                    <a href="https://www.facebook.com/justauthme"><img  width="20" height="20"
+                                    <a href="https://www.facebook.com/justauthme"><img  width="20" height="20" alt="Facebook"
                                                                                        src="https://static.justauth.me/medias/5eb31d11d73be.png"
                                                                                        style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0 none;"></a>
                                 </td>
@@ -98,7 +98,7 @@
                             <tr>
                                 <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; padding-left: 8px; margin: 0;"
                                     align="left">
-                                    <a href="https://twitter.com/justauthme"><img  width="20" height="20"
+                                    <a href="https://twitter.com/justauthme"><img  width="20" height="20" alt="Twitter"
                                                                                   src="https://static.justauth.me/medias/5eb31d417a204.png"
                                                                                   style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0 none;"></a>
                                 </td>
@@ -118,7 +118,7 @@
                 <tr>
                     <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; margin: 0;"
                         align="left">
-                        <a href="https://instagram.com/justauthme"><img class="" width="20" height="20"
+                        <a href="https://instagram.com/justauthme"><img class="" width="20" height="20" alt="Instagram"
                                                                         src="https://static.justauth.me/medias/5eb31d5d6eccb.png"
                                                                         style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0 none;"></a>
                     </td>
