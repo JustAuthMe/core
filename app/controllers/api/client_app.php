@@ -122,7 +122,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
 
         if (isset($_POST['name']) && $_POST['name'] !== '') {
-            if (Persist::exists('ClientApp', 'name', $_POST['name']) ) {
+            if (Persist::exists('ClientApp', 'name', $_POST['name'])) {
                 Controller::http409Conflict();
                 Controller::renderApiError('An app with this name already exists');
             }
@@ -160,6 +160,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
             }
 
             $client_app->setData($_POST['data']);
+        }
+
+        if (isset($_POST['dev'])) {
+            $client_app->setDev($_POST['dev'] == 1 ? 1 : 0);
         }
 
         Persist::update($client_app);
