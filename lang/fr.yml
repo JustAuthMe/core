@@ -1,11 +1,14 @@
+lang: 'fr'
 lost: 'Vous êtes perdu ? Pas d''inquiétude !'
 return_web: 'Retour à l''accueil'
 at: 'le'
 auth:
   title: 'Authentification'
-  header: 'Vous êtes sur le point de vous connecter à %s'
+  header: 'Vous êtes sur le point de vous connecter à <br /><strong>%s</strong>'
   text: 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe'
+  baseline: 'Dites adieu aux formulaires interminables, aux mots de passe, aux codes reçus par SMS. Laissez-vous porter par la simplicité de JustAuthMe.'
   button: 'Ouvrir dans l''application JustAuthMe'
+  what: 'Qu''est ce que c''est ?'
 confirm:
   title_ok: 'Validation de votre adresse E-Mail'
   title_ko: 'Lien invalide'

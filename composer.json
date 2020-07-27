@@ -1,5 +1,5 @@
 {
-    "name": "justauth.me/server",
+    "name": "justauthme/core",
     "require": {
         "php": "^7.2",
         "chillerlan/php-qrcode": "^3.0",
@@ -16,7 +16,7 @@
     "authors": [
         {
             "name": "Peter Cauty",
-            "email": "phpeter@phpeter.fr"
+            "email": "peter@justauth.me"
         }
     ]
 }

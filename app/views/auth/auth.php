@@ -3,20 +3,21 @@
 use Model\UserAuth;
 
 ?>
-<div class="header">
-    <h1 class="h2"><?= L::auth_header($_GET['app_id'] !== 'ad' ? $client->getDomain() : 'monsupersite.com') ?></h1>
-    <p><?= L::auth_text ?></p>
-</div>
-<div class="centered">
-    <div class="qrcode_container">
-        <img class="qrcode" src="<?= $qr_code ?>" alt="login qr code" />
-    </div>
-    <?php if ($is_mobile): ?>
-    <a href="<?= $_GET['app_id'] !== 'ad' ? UserAuth::URL_SCHEME . $auth->getToken() : 'https://justauth.me' ?>" class="btn-mobile"><?= L::auth_button ?></a>
-    <?php endif ?>
-</div>
-<div></div>
+<div class="text-center">
 
+    <h1 class="auth-header"><?= L::auth_header($_GET['app_id'] !== 'ad' ? $client->getDomain() : 'monsupersite.com') ?></h1>
+    <p><?= L::auth_text ?></p>
+
+    <div>
+        <img class="qrcode" src="<?= $qr_code ?>" alt="QR Code login" /><br>
+        <?php if ($is_mobile): ?>
+            <a href="<?= $_GET['app_id'] !== 'ad' ? UserAuth::URL_SCHEME . $auth->getToken() : 'https://justauth.me' ?>" class="btn btn-primary btn-sm mb-3 d-block mx-5"><?= L::auth_button ?></a>
+        <?php endif ?>
+        <a href="#notice" class="btn btn-sm btn-outline-secondary d-lg-none"><?= L::auth_what; ?></a>
+    </div>
+
+
+</div>
 <?php if ($_GET['app_id'] !== 'ad'): ?>
 <script type="text/javascript">
     const conn = new WebSocket('<?= WEBSOCKET_SOCKET_REMOTE ?>');

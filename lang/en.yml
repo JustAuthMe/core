@@ -1,11 +1,14 @@
+lang: 'en'
 lost: 'Are you lost? No worry!'
 return_web: 'Return to website.'
 at: 'at'
 auth:
   title: 'Authentication'
-  header: 'You''re about to log into %s'
-  text: 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe'
+  header: 'You''re about to log into <br /><strong>%s</strong>'
+  text: 'Simply scan the QR-Code below with your JustAuthMe app'
+  baseline: 'Say goodbye to endless forms, passwords, codes received by SMS. Let yourself be carried away by the simplicity of JustAuthMe.'
   button: 'Open in JustAuthMe app'
+  what: 'What is that?'
 confirm:
   title_ok: 'E-Mail address validated'
   title_ko: 'Invalid link'

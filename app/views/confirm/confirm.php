@@ -1,1 +1,1 @@
-<h1 style="width:100%;text-align:center;margin-top:40vh;"><?= isset($error) ? L::confirm_text_ko : L::confirm_text_ok ?></h1>
+<h1 style="width:100%;text-align:center;"><?= isset($error) ? L::confirm_text_ko : L::confirm_text_ok ?></h1>
