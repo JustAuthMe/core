@@ -23,7 +23,7 @@
                         <?= L::auth_baseline; ?>
                     </p>
                     <div class="stores text-center">
-                        <a href="https://apps.apple.com/<?= L::lang ?>/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>
+                        <a href="https://apps.apple.com/<?= L::lang === 'fr' ? 'fr' : 'us' ?>/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>
                         <a href="https://play.google.com/store/apps/details?id=me.justauth.app.android"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/google_'.L::lang.'.png'; ?>"></a>
                     </div>
                 </div>
