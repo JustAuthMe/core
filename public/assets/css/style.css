@@ -11,6 +11,11 @@ body{
 	background: #3498db;
 }
 
+.jam a {
+	color: #fff;
+	text-decoration: underline;
+}
+
 .baseline{
 	font-family: 'Lato Light', Helvetica, Verdana, sans-serif;
 	color: #ffffff;

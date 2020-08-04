@@ -11,9 +11,8 @@ use Model\UserAuth;
     <div>
         <img class="qrcode" src="<?= $qr_code ?>" alt="QR Code login" /><br>
         <?php if ($is_mobile): ?>
-            <a href="<?= $_GET['app_id'] !== 'ad' ? UserAuth::URL_SCHEME . $auth->getToken() : 'https://justauth.me' ?>" class="btn btn-primary btn-sm mb-3 d-block mx-5"><?= L::auth_button ?></a>
+            <a href="<?= $_GET['app_id'] !== 'ad' ? UserAuth::URL_SCHEME . $auth->getToken() : 'https://justauth.me' ?>" class="btn btn-primary btn-sm d-block mx-5"><?= L::auth_button ?></a>
         <?php endif ?>
-        <a href="#notice" class="btn btn-sm btn-outline-secondary d-lg-none"><?= L::auth_what; ?></a>
     </div>
 
 

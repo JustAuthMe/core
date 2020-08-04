@@ -2,11 +2,21 @@ lang: 'en'
 lost: 'Are you lost? No worry!'
 return_web: 'Return to website.'
 at: 'at'
+problem: 'It seems like something''s wrong here...'
+errors:
+  401: 'Authentication required'
+  403: 'Forbidden access'
+  404: 'Page not found'
+  500: 'Internal server error'
 auth:
   title: 'Authentication'
   header: 'You''re about to log into <br /><strong>%s</strong>'
   text: 'Simply scan the QR-Code below with your JustAuthMe app'
-  baseline: 'Say goodbye to endless forms, passwords, codes received by SMS. Let yourself be carried away by the simplicity of JustAuthMe.'
+  baseline:
+    default: 'With JustAuthMe, forget your passwords! Download the app and join the biometric revolution!<br /><a href="https://justauth.me">Read more.</a>'
+    auth:
+      desktop: 'With JustAuthMe, forget your passwords! Download the app then scan the qr-code, you''ll be instantly logged on <strong>%s</strong>, without effort.'
+      mobile: 'With JustAuthMe, forget your passwords! Download the app then click the button above, you''ll be instantly logged on <strong>%s</strong>, without effort.'
   button: 'Open in JustAuthMe app'
   what: 'What is that?'
 confirm:

@@ -1,3 +1,10 @@
+<?php
+
+/** @var UserAuth $auth */
+
+use Entity\UserAuth;
+
+?>
 <!doctype html>
 <html lang="en">
 	<head>
@@ -20,28 +27,29 @@
                         <img src="<?= ASSETS.'img/logo_typo.png'; ?>" alt="JustAuthMe Logo" style="height: 250px;">
                     </a>
                     <p class="baseline text-center mx-5 mb-5">
-                        <?= L::auth_baseline; ?>
+                        <?= Request::get()->getArg(0) === 'auth' ? L::auth_baseline_auth_desktop($auth->client_app->getDomain()) : L::auth_baseline_default; ?>
                     </p>
                     <div class="stores text-center">
                         <a href="https://apps.apple.com/<?= L::lang === 'fr' ? 'fr' : 'us' ?>/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>
                         <a href="https://play.google.com/store/apps/details?id=me.justauth.app.android"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/google_'.L::lang.'.png'; ?>"></a>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-8 d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+                <div class="col-md-12 col-lg-8 d-flex flex-column justify-content-start justify-content-lg-center align-items-center" style="height: 100vh;">
                     <a href="https://justauth.me" target="_blank" class="d-lg-none">
                         <img src="<?= ASSETS.'img/JustAuthMe_logo.svg'; ?>" style="height: 200px;" alt="JustAuthMe Logo" class="mb-3">
                     </a>
                     <?php require_once @$appView; ?>
+                    <a href="#notice" class="btn btn-sm btn-outline-secondary d-lg-none mt-3"><?= L::auth_what; ?></a>
                 </div>
-                <div class="jam d-lg-none col-md-12 col-lg-8 d-flex flex-column justify-content-center align-items-center" id="notice">
+                <div class="jam d-lg-none col-md-12 col-lg-8 d-flex flex-column justify-content-start justify-content-lg-center pt-5 pt-lg-0 align-items-center" id="notice">
                     <a href="https://justauth.me" target="_blank">
                         <img src="<?= ASSETS.'img/logo_typo.png'; ?>" alt="JustAuthMe Logo" style="height: 250px;">
                     </a>
                     <p class="baseline text-center mx-5 mb-5">
-                        <?= L::auth_baseline; ?>
+                        <?= Request::get()->getArg(0) === 'auth' ? L::auth_baseline_auth_mobile($auth->client_app->getDomain()) : L::auth_baseline_default; ?>
                     </p>
                     <div class="stores text-center">
-                        <a href="https://apps.apple.com/fr/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>
+                        <a href="https://apps.apple.com/<?= L::lang === 'fr' ? 'fr' : 'us' ?>/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>
                         <a href="https://play.google.com/store/apps/details?id=me.justauth.app.android"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/google_'.L::lang.'.png'; ?>"></a>
                     </div>
                 </div>

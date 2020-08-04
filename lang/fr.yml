@@ -2,11 +2,21 @@ lang: 'fr'
 lost: 'Vous êtes perdu ? Pas d''inquiétude !'
 return_web: 'Retour à l''accueil'
 at: 'le'
+problem: 'Il semblerait qu''il y ai un problème par ici...'
+errors:
+  401: 'Authentification requise'
+  403: 'Accès interdit'
+  404: 'Page non trouvée'
+  500: 'Erreur interne du serveur'
 auth:
   title: 'Authentification'
   header: 'Vous êtes sur le point de vous connecter à <br /><strong>%s</strong>'
   text: 'Scannez simplement le QR-Code ci-dessous avec votre application JustAuthMe'
-  baseline: 'Dites adieu aux formulaires interminables, aux mots de passe, aux codes reçus par SMS. Laissez-vous porter par la simplicité de JustAuthMe.'
+  baseline:
+    default: 'Avec JustAuthMe, oubliez vos mots de passe ! Téléchargez l''application et prenez part à la révolution biométrique !<br /><a href="https://justauth.me">En savoir plus.</a>'
+    auth:
+      desktop: 'Avec JustAuthMe, oubliez vos mots de passe ! Téléchargez l''application puis scannez le qr-code ci-contre, vous serez instantanément connecté à <strong>%s</strong>, sans effort.'
+      mobile: 'Avec JustAuthMe, oubliez vos mots de passe ! Téléchargez l''application puis cliquez sur le bouton ci-dessus, vous serez instantanément connecté à <strong>%s</strong>, sans effort.'
   button: 'Ouvrir dans l''application JustAuthMe'
   what: 'Qu''est ce que c''est ?'
 confirm:
