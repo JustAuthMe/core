@@ -9,6 +9,7 @@ namespace Entity;
 
 class ClientApp implements \Resourceable, \JsonSerializable {
 	private $id;
+	private $url;
 	private $domain;
 	private $app_id;
 	private $name;
@@ -20,8 +21,9 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 	private $secret;
 	private $hash_key;
 
-	public function __construct($id = 0, $domain = '', $app_id = '', $name = '', $logo = '', $redirect_url = '', $data = '', $dev = 0, $public_key = '', $secret = '', $hash_key = '') {
+	public function __construct($id = 0, $url = '', $domain = '', $app_id = '', $name = '', $logo = '', $redirect_url = '', $data = '', $dev = 0, $public_key = '', $secret = '', $hash_key = '') {
 		$this->id = $id;
+		$this->url = $url;
 		$this->domain = $domain;
 		$this->app_id = $app_id;
 		$this->name = $name;
@@ -58,13 +60,21 @@ class ClientApp implements \Resourceable, \JsonSerializable {
 		$this->id = $id;
 	}
 
-	public function getDomain() {
-		return $this->domain;
-	}
+    public function getUrl() {
+        return $this->url;
+    }
 
-	public function setDomain($domain) {
-		$this->domain = $domain;
-	}
+    public function setUrl($url) {
+        $this->url = $url;
+    }
+
+    public function getDomain() {
+        return $this->domain;
+    }
+
+    public function setDomain($domain) {
+        $this->domain = $domain;
+    }
 
 	public function getAppId() {
 		return $this->app_id;

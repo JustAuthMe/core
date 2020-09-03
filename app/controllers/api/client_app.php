@@ -12,29 +12,25 @@ if (!Utils::isJamInternal()) {
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        if (!isset($_POST['domain'], $_POST['name'], $_POST['logo'], $_POST['redirect_url'], $_POST['data'])) {
+        if (!isset($_POST['url'], $_POST['name'], $_POST['logo'], $_POST['redirect_url'], $_POST['data'])) {
             Controller::http400BadRequest();
-            Controller::renderApiError('You must provide domain, name, logo, redirect_url and data set');
+            Controller::renderApiError('You must provide url, name, logo, redirect_url and data set');
         }
 
-        if ($_POST['domain'] === '' || $_POST['name'] === '' || $_POST['redirect_url'] === '' || $_POST['data'] === '') {
+        if ($_POST['url'] === '' || $_POST['name'] === '' || $_POST['redirect_url'] === '' || $_POST['data'] === '') {
             Controller::http400BadRequest();
-            Controller::renderApiError('domain, name, redirect_url and data set have to be filled');
+            Controller::renderApiError('url, name, redirect_url and data set have to be filled');
         }
 
-        if (!filter_var($_POST['domain'], FILTER_VALIDATE_DOMAIN)) {
+        if (!filter_var($_POST['url'], FILTER_VALIDATE_URL) || strpos($_POST['url'], 'https://') !== 0) {
             Controller::http400BadRequest();
-            Controller::renderApiError('Domain name is invalid');
+            Controller::renderApiError('URL is invalid or does not begin with https://');
         }
 
-        if (Persist::exists('ClientApp', 'domain', $_POST['domain'])) {
+        $url = trim($_POST['url'], '/');
+        if (Persist::exists('ClientApp', 'url', $url)) {
             Controller::http409Conflict();
-            Controller::renderApiError('An app with this domain name already exists');
-        }
-
-        if (Persist::exists('ClientApp', 'name', $_POST['name'])) {
-            Controller::http409Conflict();
-            Controller::renderApiError('An app with this name already exists');
+            Controller::renderApiError('An app with this url already exists');
         }
 
         if (!filter_var($_POST['redirect_url'], FILTER_VALIDATE_URL)) {
@@ -42,14 +38,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             Controller::renderApiError('Redirection URL is invalid');
         }
 
-        if (!preg_match("#^https:\/\/" . addslashes($_POST['domain']) . "(\:[0-9]+)?(\/.*)?$#", $_POST['redirect_url'])) {
+        if (!preg_match("#^" . addslashes($url) . "(\/.*)?$#", $_POST['redirect_url'])) {
             Controller::http400BadRequest();
-            Controller::renderApiError('The redirection URL must be https and must be under the same domain');
-        }
-
-        if (Persist::exists('ClientApp', 'redirect_url', $_POST['domain'])) {
-            Controller::http409Conflict();
-            Controller::renderApiError('An app with this redirection URL already exists');
+            Controller::renderApiError('The redirection URL must be https and must be under the same base url');
         }
 
         if (json_decode($_POST['data']) === NULL) {
@@ -57,14 +48,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
             Controller::renderApiError('Data set is not a valid JSON');
         }
 
-        $app_id = ClientAppModel::generateAppId($_POST['domain']);
+        $app_id = ClientAppModel::generateAppId($_POST['url']);
         $logo = $_POST['logo'] === 'undefined' ? '' : $_POST['logo'];
         $secret = ClientAppModel::generateSecret();
         $hash_key = ClientAppModel::generateHashKey();
 
         $client_app = new ClientApp(
             0,
-            $_POST['domain'],
+            $url,
+            parse_url($url, PHP_URL_HOST),
             $app_id,
             $_POST['name'],
             $logo,
@@ -122,11 +114,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
 
         if (isset($_POST['name']) && $_POST['name'] !== '') {
-            if (Persist::exists('ClientApp', 'name', $_POST['name'])) {
-                Controller::http409Conflict();
-                Controller::renderApiError('An app with this name already exists');
-            }
-
             $client_app->setName($_POST['name']);
         }
 
@@ -140,14 +127,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 Controller::renderApiError('Redirection URL is invalid');
             }
 
-            if (!preg_match("#^https:\/\/" . addslashes($client_app->getDomain()) . "(\/.*)?$#", $_POST['redirect_url'])) {
+            if (!preg_match("#^" . addslashes($client_app->getUrl()) . "(\/.*)?$#", $_POST['redirect_url'])) {
                 Controller::http400BadRequest();
-                Controller::renderApiError('The redirection URL must be https and must be under the same domain');
-            }
-
-            if (Persist::exists('ClientApp', 'redirect_url', $_POST['redirect_url'])) {
-                Controller::http409Conflict();
-                Controller::renderApiError('An app with this name already exists');
+                Controller::renderApiError('The redirection URL must be https and must be under the same base url');
             }
 
             $client_app->setRedirectUrl($_POST['redirect_url']);
