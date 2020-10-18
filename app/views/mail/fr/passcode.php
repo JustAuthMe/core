@@ -33,9 +33,9 @@
                                        style="line-height: 24px; font-size: 14px; margin: 0;"
                                        align="left">
                                         Bonjour,<br />
-                                        Vous avez récemment souhaité verrouiller votre compte JustAuthMe suite à la perte ou le vol de votre
-                                        appareil mobile. Afin de compléter le processus de verrouillage, nous vous invitons à entrer le code
-                                        ci-dessous dans votre navigateur.
+                                        Vous avez récemment souhaité vous connecter à JustAuthMe sur appareil mobile.
+                                        Afin de compléter le processus de connexion, nous vous invitons à entrer le code ci-dessous
+                                        dans votre application.
                                         Ce code n'est valable que durant 10 minutes.
                                         Si le code ne s'affiche pas ou si vous rencontrez des difficultés pour l'utiliser,
                                         contactez le support à l'adresse suivante: <a href="mailto:support@justauth.me">support@justauth.me</a>
@@ -113,4 +113,4 @@
         </tr>
         </tbody>
     </table>
-<?php require VIEWS . 'mail/_btm.php'; ?>
+<?php require VIEWS . 'mail/fr/_btm.php'; ?>

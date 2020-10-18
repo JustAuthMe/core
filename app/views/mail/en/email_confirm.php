@@ -16,7 +16,7 @@
                             <div>
                                 <h4 class=""
                                     style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;"
-                                    align="left">Confirmation d'adresse e-mail</h4>
+                                    align="left">E-mail address confirmation</h4>
                                 <table  border="0" cellpadding="0"
                                         cellspacing="0" style="width: 100%;">
                                     <tbody>
@@ -32,13 +32,13 @@
                                 <p class=""
                                    style="line-height: 24px; font-size: 14px; margin: 0;"
                                    align="left">
-                                    Bonjour,<br />
-                                    Vous avez récemment créé un compte JustAuthMe sur votre appareil mobile.
-                                    Afin de compléter le processus d'inscription, nous vous invitons à valider
-                                    votre adresse E-Mail en cliquant sur le bouton ci-dessous.
-                                    Attention, ce lien n'est valide que 24h !
-                                    Si le bouton ne s'affiche pas ou si vous rencontrez des difficultés pour l'utiliser, copiez
-                                    simplement ce lien dans votre navigateur web :<br />
+                                    Hello,<br />
+                                    You recently created a JustAuthMe account on your smartphone.
+                                    In order to complete the registration process, we invite you to validate
+                                    your e-mail address by clicking the button below.
+                                    Beware, this link is only valid for 24h!
+                                    If the button does not display or if you encounters issues while using it, simply copy
+                                    this link in your web browser:<br />
                                     <span style="color:blue"><?= $confirm_link ?></span>
                                 </p>
                                 <table  border="0" cellpadding="0"
@@ -77,7 +77,7 @@
                                                 align="center" bgcolor="#3498DB">
                                                 <a href="<?= $confirm_link ?>"
                                                    style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 4.8px; line-height: 30px; display: inline-block; font-weight: normal; white-space: nowrap; background-color: #3498DB; color: #ffffff; padding: 8px 16px; border: 1px solid #3498DB;">
-                                                    Confirmer mon adresse
+                                                    Confirm my e-mail address
                                                 </a>
                                             </td>
                                         </tr>
@@ -93,4 +93,4 @@
     </tr>
     </tbody>
 </table>
-<?php require VIEWS . 'mail/_btm.php'; ?>
+<?php require VIEWS . 'mail/en/_btm.php'; ?>

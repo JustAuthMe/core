@@ -82,7 +82,7 @@ switch (Request::get()->getArg(2)) {
         $mailer->queueMail(
             $_POST['email'],
             'Votre code de confirmation JustAuthMe',
-            'mail/passcode' . (isset($_GET['lock']) ? '_lock' : ''),
+            'mail/' . t()->getAppliedLang() . '/passcode' . (isset($_GET['lock']) ? '_lock' : ''),
             ['passcode' => $passcode]
         );
 

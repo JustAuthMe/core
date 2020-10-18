@@ -78,12 +78,7 @@ $i18n->setFilePath(ROOT . 'lang/{LANGUAGE}.yml');
 $i18n->setFallbackLang('en');
 $i18n->setMergeFallback(true);
 
-try {
-    $i18n->init();
-} catch (Exception $e) {
-    error_log($e->getMessage());
-    Controller::http500InternalServerError();
-}
+Translator::init();
 
 require_once Router::get()->getPathToRequire();
 

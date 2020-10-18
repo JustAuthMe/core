@@ -9,6 +9,8 @@
 namespace Model;
 
 
+use L;
+
 class User {
     const REGISTER_CACHE_PREFIX = 'register_';
     const REGISTER_EXPIRATION_TIME = 30;
@@ -74,7 +76,7 @@ class User {
         $mailer->queueMail(
             $email,
             'Confirmation de votre adresse E-Mail',
-            'mail/' . ($updating ? 'new' : 'e') . 'mail_confirm',
+            'mail/' . t()->getAppliedLang() . '/' . ($updating ? 'new' : 'e') . 'mail_confirm',
             ['confirm_link' => $confirm_link]
         );
     }
