@@ -20,9 +20,9 @@ auth:
   button: 'Ouvrir dans l''application JustAuthMe'
   what: 'Qu''est ce que c''est ?'
 confirm:
-  title_ok: 'Validation de votre adresse E-Mail'
+  title_ok: 'Validation de votre adresse e-mail'
   title_ko: 'Lien invalide'
-  text_ok: 'Votre adresse E-Mail a été vérifiée, vous pouvez maintenant utiliser l''application !'
+  text_ok: 'Votre adresse e-mail a été vérifiée, vous pouvez maintenant utiliser l''application !'
   text_ko: 'Ce lien est invalide. Peut-être avez-vous attendu trop longtemps ? Ces liens ne sont valides que durant 24h.'
 rescue:
   title: 'Verrouiller votre compte'
@@ -30,18 +30,26 @@ rescue:
   lock: 'Verrouiller'
   step1:
     text: 'Vous avez perdu l''accès à votre téléphone ?<br />Verrouillez votre compte JustAuthMe en utilisant ce formulaire.<br /><br /><small class="wildcard">Votre compte existera toujours et vous pourrez le récupérer plus tard.</small>'
-    placeholder: 'Adresse E-Mail'
+    placeholder: 'Adresse e-mail'
   step2:
     text: 'Nous venons d''envoyer un code de confirmation à <strong>%s</strong>, Renseignez-le ci-dessous pour verrouiller votre compte.'
     placeholder: 'Code de confirmation'
+  success:
+    title: 'Votre compte est maintenant verrouillé.'
+    text: 'Votre compte est maintenant verrouillé. Vous pouvez toujours le récupérer sur un autre téléphone en renseignant votre adresse e-mail dans l''application.'
   error:
     wrong_code: 'Mauvais code.'
     too_many_times: 'Vous avez effectué un trop grand nombre d''essais. Merci d''attendre quelques minutes.'
     unknown: 'Erreur inconnue, merci de contacter %s.'
     other_code: 'Merci de patienter au moins 2 minutes avant de demander un nouveau code.'
     locked: 'Ce compte est déjà verrouillé.'
-    email_unknow: 'Addresse E-Mail inconnue'
-    email_updated: 'L''adresse E-Mail associée à votre compte a été modifiée %s. Si cette modification n''est pas de votre fait, contactez %s le plus vite possible !'
+    email_unknow: 'Addresse e-mail inconnue'
+    email_updated: 'L''adresse e-mail associée à votre compte a été modifiée %s. Si cette modification n''est pas de votre fait, contactez %s le plus vite possible !'
 unsubscribe:
   title: 'Désinscription'
-  text_ok: 'Votre adresse E-Mail %s a bien été supprimée de nos listes de diffusions.'
+  text_ok: 'Votre adresse e-mail %s a bien été supprimée de nos listes de diffusions.'
+emails:
+  email_confirmation:
+    subject: 'Confirmation de votre adresse e-mail'
+  passcode:
+    subject: 'Votre code de confirmation JustAuthMe'

@@ -48,7 +48,7 @@ $user = Persist::readBy('User', 'username', $posted_data['jam_id']);
 
 if (!$user->isActive()) {
     Controller::http403Forbidden();
-    Controller::renderApiError('You haven\'t activated your E-Mail address yet.');
+    Controller::renderApiError('You haven\'t activated your e-mail address yet.');
 }
 
 if ($user->getPublicKey() === '') {

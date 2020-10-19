@@ -26,7 +26,7 @@ if ($cached !== false) {
 
 if (!isset($_POST['pubkey'], $_POST['email'])) {
     Controller::http400BadRequest();
-    Controller::renderApiError('E-Mail is required');
+    Controller::renderApiError('E-mail is required');
 }
 
 $uniqid = User::hashEmail($_POST['email']);

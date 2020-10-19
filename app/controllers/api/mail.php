@@ -19,7 +19,7 @@ switch (Request::get()->getArg(2)) {
 
         if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             Controller::http400BadRequest();
-            Controller::renderApiError('Invalid E-Mail address');
+            Controller::renderApiError('Invalid e-mail address');
         }
 
         $redis = new \PHPeter\Redis();
@@ -56,7 +56,7 @@ switch (Request::get()->getArg(2)) {
 
         if (!isset($_POST['email'])) {
             Controller::http400BadRequest();
-            Controller::renderApiError('E-Mail is required');
+            Controller::renderApiError('E-mail is required');
         }
 
         $hashed_email = User::hashEmail($_POST['email']);
@@ -77,7 +77,7 @@ switch (Request::get()->getArg(2)) {
                 /*
                  * False reason for not to give hackers a chance to know which email is registered or not
                  * However, they could call this endpoint with any email, asking for a confirmation email,
-                 * waiting for the API to respond "E-Mail already confirmed"
+                 * waiting for the API to respond "E-mail already confirmed"
                  */
                 Controller::http404NotFound();
                 Controller::renderApiError('User not found');
@@ -92,7 +92,7 @@ switch (Request::get()->getArg(2)) {
 
         if ($cached !== false) {
             Controller::http429TooManyRequests();
-            Controller::renderApiError('Please wait at least 10 minutes before asking for a new confirmation E-Mail.');
+            Controller::renderApiError('Please wait at least 10 minutes before asking for a new confirmation e-mail.');
         }
 
         User::sendConfirmMail($user_id, $_POST['email']);
@@ -120,12 +120,12 @@ switch (Request::get()->getArg(2)) {
         $user = Persist::readBy('User', 'username', $data['jam_id']);
         if ($user->getUniqid() === User::hashEmail($data['email'])) {
             Controller::http400BadRequest();
-            Controller::renderApiError('You already have registered this E-Mail');
+            Controller::renderApiError('You already have registered this e-mail');
         }
 
         if (Persist::exists('User', 'uniqid', User::hashEmail($data['email'])) || UniqidUpdateModel::isThisEmailAlmostTaken($data['email'])) {
             Controller::http409Conflict();
-            Controller::renderApiError('This E-Mail is already registered');
+            Controller::renderApiError('This e-mail is already registered');
         }
 
         if (UniqidUpdateModel::isThereAnActiveUpdate($user->getId())) {

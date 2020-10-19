@@ -32,7 +32,7 @@ switch (Request::get()->getArg(2)) {
         if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
             Controller::http400BadRequest();
-            Controller::renderApiError('Invalid E-Mail address');
+            Controller::renderApiError('Invalid e-mail address');
         }
 
         $hashed_email = User::hashEmail($_POST['email']);
@@ -44,7 +44,7 @@ switch (Request::get()->getArg(2)) {
                 /** @var \Entity\UniqidUpdate $latest_update */
                 Data::get()->add('updated_at', (int) $latest_update->getTimestamp());
                 Controller::http410Gone();
-                Controller::renderApiError('This E-Mail address was associated with a valid account, but has been updated');
+                Controller::renderApiError('This e-mail address was associated with a valid account, but has been updated');
             }
 
             Controller::http404NotFound();
@@ -81,7 +81,7 @@ switch (Request::get()->getArg(2)) {
         $mailer = new Mailer();
         $mailer->queueMail(
             $_POST['email'],
-            'Votre code de confirmation JustAuthMe',
+            L::emails_passcode_subject,
             'mail/' . t()->getAppliedLang() . '/passcode' . (isset($_GET['lock']) ? '_lock' : ''),
             ['passcode' => $passcode]
         );
@@ -93,7 +93,7 @@ switch (Request::get()->getArg(2)) {
         if (!isset($_POST['email'], $_POST['passcode'], $_POST['pubkey'])) {
             $redis->set($ip_cooldown_cache_key, $ip_cooldown, $new_ttl);
             Controller::http400BadRequest();
-            Controller::renderApiError('E-Mail and passcode are required');
+            Controller::renderApiError('E-mail and passcode are required');
         }
 
         $hashed_email = User::hashEmail($_POST['email']);

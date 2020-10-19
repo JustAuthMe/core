@@ -75,7 +75,7 @@ class User {
         $mailer = new \Mailer();
         $mailer->queueMail(
             $email,
-            'Confirmation de votre adresse E-Mail',
+            L::emails_email_confirmation_subject,
             'mail/' . t()->getAppliedLang() . '/' . ($updating ? 'new' : 'e') . 'mail_confirm',
             ['confirm_link' => $confirm_link]
         );

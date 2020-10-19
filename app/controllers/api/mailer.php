@@ -9,7 +9,7 @@ if (isset($_GET['render_key']) && $_GET['render_key'] === EMAIL_RENDERING_KEY) {
 
     if ($email === false) {
         Controller::http404NotFound();
-        Controller::renderApiError('E-Mail not found');
+        Controller::renderApiError('E-mail not found');
     }
 
     Data::get()->setData(json_decode($email->getParams(), true));
@@ -37,7 +37,7 @@ if (!isset($_POST['to'], $_POST['subject'], $_POST['body']) || $_POST['to'] === 
 
 if (!filter_var($_POST['to'], FILTER_VALIDATE_EMAIL)) {
     Controller::http400BadRequest();
-    Controller::renderApiError('The destination E-Mail address must be valid');
+    Controller::renderApiError('The destination e-mail address must be valid');
 }
 
 $bcc = [];
