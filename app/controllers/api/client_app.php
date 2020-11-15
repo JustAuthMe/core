@@ -86,6 +86,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 Controller::http400BadRequest();
                 Controller::renderApiError('Wrong list format');
+            } elseif (isset($_GET['url']) && Persist::exists('ClientApp', 'url', $_GET['url'])) {
+                $client_app = Persist::readBy('ClientApp', 'url', $_GET['url']);
+                Data::get()->add('client_app', $client_app);
+                Controller::renderApiSuccess();
             }
 
             Controller::http404NotFound();
