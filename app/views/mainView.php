@@ -27,7 +27,7 @@ use Entity\UserAuth;
                         <img src="<?= ASSETS.'img/logo_typo.png'; ?>" alt="JustAuthMe Logo" style="height: 250px;">
                     </a>
                     <p class="baseline text-center mx-5 mb-5">
-                        <?= Request::get()->getArg(0) === 'auth' ? L::auth_baseline_auth_desktop($auth->client_app->getDomain()) : L::auth_baseline_default; ?>
+                        <?= isset($auth) ? L::auth_baseline_auth_desktop($auth->client_app->getDomain()) : L::auth_baseline_default; ?>
                     </p>
                     <div class="stores text-center">
                         <a href="https://apps.apple.com/<?= L::lang === 'fr' ? 'fr' : 'us' ?>/app/justauthme/id1506495629"><img class="mb-2" src="<?= ASSETS.'img/stores_badges/apple_'.L::lang.'.png'; ?>"></a>

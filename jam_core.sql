@@ -26,6 +26,7 @@ USE `jam_core`;
 DROP TABLE IF EXISTS `client_app`;
 CREATE TABLE `client_app` (
   `id` int(11) NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `app_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -171,10 +172,8 @@ CREATE TABLE `license` (
 --
 ALTER TABLE `client_app`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `domain` (`domain`),
+  ADD UNIQUE KEY `url` (`url`),
   ADD UNIQUE KEY `app_id` (`app_id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD UNIQUE KEY `redirect_url` (`redirect_url`);
 
 --
 -- Index pour la table `customer`

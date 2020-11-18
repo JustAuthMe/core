@@ -26,8 +26,8 @@ class ClientApp {
         return base64_encode(openssl_random_pseudo_bytes($bytes_number));
     }
 
-    public static function generateAppId($domain) {
-        return substr(sha1($domain . UserAuth::generateLoginSalt()), 0, 32);
+    public static function generateAppId($url) {
+        return substr(sha1($url . UserAuth::generateLoginSalt()), 0, 32);
     }
 
     public static function generateSecret($length = 32) {
