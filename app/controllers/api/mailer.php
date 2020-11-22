@@ -57,6 +57,7 @@ $params = [
 
 switch (Request::get()->getArg(2)) {
     case 'default':
+    case 'default_fr':
         if (isset($_POST['call_to_action'])) {
             if (
                 !isset($_POST['call_to_action']['title'], $_POST['call_to_action']['link']) ||
@@ -69,7 +70,7 @@ switch (Request::get()->getArg(2)) {
             $params['call_to_action'] = Utils::secure($_POST['call_to_action']);
         }
 
-        $template = 'mail/default';
+        $template = Request::get()->getArg(2) === 'default_fr' ? 'mail/fr/default' : 'mail/default';
         break;
 
     default:
