@@ -15,6 +15,7 @@ use Entity\UserAuth;
 		<link type="text/css" rel="stylesheet" href="<?php echo CSS.'style.css'; ?>" media="screen" />
 		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
 		<meta name="format-detection" content="telephone=no" />
+        <meta name="robots" content="none" />
         <link rel="shortcut icon" href="<?= IMG ?>icon.png"/>
         <?= Request::get()->getArg(0) === 'auth' ? '<meta http-equiv="refresh" content="' . (\Model\UserAuth::EXPIRATION_TIME - 10) . '">' : '' ?>
 	</head>
