@@ -39,6 +39,7 @@ if (POST) {
     $customer = new Customer(
         0,
         strtolower($_POST['email']),
+        $_POST['lang'] ?? 'en',
         Utils::time(),
         $_POST['ip']
     );

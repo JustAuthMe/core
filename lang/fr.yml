@@ -48,6 +48,9 @@ rescue:
 unsubscribe:
   title: 'Désinscription'
   text_ok: 'Votre adresse e-mail %s a bien été supprimée de nos listes de diffusions.'
+  lang_change:
+    title: 'Modification de la langue de la Newsletter'
+    text_ok: 'Votre langue de réception des emails a été modifiée en "%s".'
 emails:
   email_confirmation:
     subject: 'Confirmation de votre adresse e-mail'

@@ -7,12 +7,14 @@ namespace Entity;
 class Customer implements \Resourceable {
     private $id;
     private $email;
+    private $lang;
     private $timestamp;
     private $ip_address;
 
-    public function __construct($id = 0, $email = '', $timestamp = 0, $ip_address = '') {
+    public function __construct($id = 0, $email = '', $lang = 'en', $timestamp = 0, $ip_address = '') {
         $this->id = $id;
         $this->email = $email;
+        $this->lang = $lang;
         $this->timestamp = $timestamp;
         $this->ip_address = $ip_address;
     }
@@ -35,6 +37,14 @@ class Customer implements \Resourceable {
 
     public function setEmail($email) {
         $this->email = $email;
+    }
+
+    public function getLang() {
+        return $this->lang;
+    }
+
+    public function setLang($lang) {
+        $this->lang = $lang;
     }
 
     public function getTimestamp() {

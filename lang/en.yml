@@ -48,6 +48,9 @@ rescue:
 unsubscribe:
   title: 'Unsubscribe'
   text_ok: 'Your e-mail address %s have successfully been removed from our mailing lists.'
+  lang_change:
+    title: 'Newsletter language update'
+    text_ok: 'Your email receiving language has been set to "%s".'
 emails:
   email_confirmation:
     subject: 'Your e-mail address confirmation'
