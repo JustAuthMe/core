@@ -11,7 +11,6 @@ use Model\ClientApp;
 
 if (!isset($_GET['app_id'])) {
     Controller::http400BadRequest();
-    Controller::renderApiError('No App ID provided');
 }
 
 $detect = new Mobile_Detect();
@@ -30,12 +29,10 @@ if ($appId === 'ad') {
 
 if (!ClientApp::authenticate($appId)) {
     Controller::http403Forbbiden();
-    Controller::renderApiError('Authentication failed');
 }
 
 if (!isset($_GET['redirect_url'])) {
     Controller::http400BadRequest();
-    Controller::renderApiError('Redirect URL is missing');
 }
 
 /**
@@ -46,11 +43,11 @@ $clientApp = ClientApp::getClientDetails($appId);
 if (
     $clientApp->getRedirectUrl() !== $_GET['redirect_url'] && (
         !$clientApp->isDev() ||
-        !preg_match("#^https?\:\/\/(" . preg_quote($clientApp->getDomain(), '#') . "|localhost|127(\.[0-9]{1,3}){3}|192\.168(\.[0-9]{1,3}){2}|10(\.[0-9]{1,3}){3})\b(?!\.)#", $_GET['redirect_url'])
+        !preg_match("#^https?\:\/\/(" . preg_quote($clientApp->getDomain(), '#') .
+            "|localhost|127(\.[0-9]{1,3}){3}|192\.168(\.[0-9]{1,3}){2}|10(\.[0-9]{1,3}){3}|[a-z0-9-.]+\.local)\b(?!\.)#", $_GET['redirect_url'])
     )
 ) {
     Controller::http403Forbidden();
-    Controller::renderApiError('Wrong redirection URL');
 }
 
 $authToken = \Model\UserAuth::generateAuthToken();
