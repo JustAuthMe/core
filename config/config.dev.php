@@ -36,6 +36,9 @@ const SMTP_PORT = 587;
 const SMTP_USER = 'hello@justauth.me';
 const SMTP_PASS = '';
 
+const OPENID_SERVER = 'http://localhost/JustAuthMe/openid/public/';
+const OPENID_SIGN_KEY = 'xxxxx';
+
 const UNSUBSCRIBE_SALT = 'xxxxxxx';
 
 const ENABLE_APPLE_DEMO_ACCOUNT = true;

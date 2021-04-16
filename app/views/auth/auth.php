@@ -32,7 +32,7 @@ use Model\UserAuth;
         const data = JSON.parse(e.data);
 
         if (data.type && data.type === 'data') {
-            document.location.href = '<?= $auth->getCallbackUrl() . (strpos($auth->getCallbackUrl(), '?') !== false ? '&' : '?') . 'access_token=' ?>' + data.data['access_token'];
+            document.location.href = '<?= ($is_openid ? (OPENID_SERVER . 'authorization/callback?auth_id=' . $openid_auth . '&')  : ($auth->getCallbackUrl() . (strpos($auth->getCallbackUrl(), '?') !== false ? '&' : '?'))) . 'access_token=' ?>' + data.data['access_token'];
             conn.close();
         }
     };

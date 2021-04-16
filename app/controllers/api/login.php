@@ -142,8 +142,8 @@ $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'] . $user_logi
  */
 
 unset($posted_data['token']);
-$oauth_token = UserAuth::generateOAuthToken();
-$cacheKey = UserAuth::ACCESS_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $oauth_token;
+$access_token = UserAuth::generateAuthToken();
+$cacheKey = UserAuth::ACCESS_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $access_token;
 $redis = new \PHPeter\Redis();
 $redis->set($cacheKey, $posted_data, UserAuth::EXPIRATION_TIME);
 
@@ -157,7 +157,7 @@ Persist::delete($auth);
  * Data transfert
  */
 
-\Ratchet\Client\connect(WEBSOCKET_SOCKET_LOCAL)->then(function($conn) use ($token, $oauth_token) {
+\Ratchet\Client\connect(WEBSOCKET_SOCKET_LOCAL)->then(function($conn) use ($token, $access_token) {
     /**
      * @var \Ratchet\Client\WebSocket $conn
      */
@@ -170,7 +170,7 @@ Persist::delete($auth);
     });
 
     $dataToSend = [
-        'access_token' => $oauth_token
+        'access_token' => $access_token
     ];
     $data = [
         'type' => 'data',

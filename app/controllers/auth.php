@@ -27,8 +27,24 @@ if ($appId === 'ad') {
     die;
 }
 
+/** OpenID handling */
+$is_openid = false;
+if (isset($_GET['openid_auth'], $_GET['openid_hash'])) {
+    $calculated_openid_hash = hash_hmac('sha512', $_GET['openid_auth'], OPENID_SIGN_KEY);
+    if ($calculated_openid_hash === $_GET['openid_hash']) {
+        $is_openid = true;
+        Data::get()->add('openid_auth', $_GET['openid_auth']);
+    }
+}
+/** End */
+
 if (!ClientApp::authenticate($appId)) {
     Controller::http403Forbbiden();
+
+    if ($is_openid) {
+        header('location: ' . OPENID_SERVER . 'authorization/callback?auth_id=' . $_GET['openid_auth'] . 'error=403');
+        die;
+    }
 }
 
 if (!isset($_GET['redirect_url'])) {
@@ -48,6 +64,11 @@ if (
     )
 ) {
     Controller::http403Forbidden();
+
+    if ($is_openid) {
+        header('location: ' . OPENID_SERVER . 'authorization/callback?auth_id=' . $_GET['openid_auth'] . 'error=403');
+        die;
+    }
 }
 
 $authToken = \Model\UserAuth::generateAuthToken();
@@ -68,4 +89,5 @@ $imgUrl = $qrCode->render(\Model\UserAuth::URL_SCHEME . $authToken);
 Data::get()->add('client', $clientApp);
 Data::get()->add('auth', $userAuth);
 Data::get()->add('qr_code', $imgUrl);
+Data::get()->add('is_openid', $is_openid);
 Controller::renderView('auth/auth');
