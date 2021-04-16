@@ -142,7 +142,7 @@ $posted_data['jam_id'] = hash_hmac('sha512', $posted_data['jam_id'] . $user_logi
  */
 
 unset($posted_data['token']);
-$access_token = UserAuth::generateAuthToken();
+$access_token = UserAuth::generateAuthToken(32);
 $cacheKey = UserAuth::ACCESS_TOKEN_CACHE_PREFIX . $auth->getClientAppId() . '_' . $access_token;
 $redis = new \PHPeter\Redis();
 $redis->set($cacheKey, $posted_data, UserAuth::EXPIRATION_TIME);
