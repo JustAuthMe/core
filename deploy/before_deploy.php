@@ -37,6 +37,9 @@ $env_vars = [
     'SMTP_USER' => 'string',
     'SMTP_PASS' => 'string',
 
+    'OPENID_SERVER' => 'string',
+    'OPENID_SIGN_KEY' => 'string',
+
     'UNSUBSCRIBE_SALT' => 'string',
 
     'ENABLE_APPLE_DEMO_ACCOUNT' => 'bool',
