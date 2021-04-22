@@ -30,5 +30,6 @@ const ROUTES = [
         'license' => 'license'
     ],
     'unsubscribe' => 'unsubscribe',
+    'pixel.png' => 'pixel',
     'customers' => 'early_access_mail',
 ];

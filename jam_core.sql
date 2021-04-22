@@ -174,7 +174,7 @@ CREATE TABLE `license` (
 ALTER TABLE `client_app`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `url` (`url`),
-  ADD UNIQUE KEY `app_id` (`app_id`),
+  ADD UNIQUE KEY `app_id` (`app_id`);
 
 --
 -- Index pour la table `customer`
