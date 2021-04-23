@@ -4,11 +4,13 @@ const PIXEL_SIGNING_KEY = 'aMJn6AbtUc855uL7BMdPwuMhRBU4WjuqNTtrHo58lGA2jz3jazn1Z
 if (isset($_GET['from'], $_GET['to'], $_GET['key'])) {
     $calculated_signature = hash_hmac('sha256', $_GET['from'] . '>' . $_GET['to'], PIXEL_SIGNING_KEY);
     if ($calculated_signature === $_GET['key'] && preg_match("#\@justauth\.me$#", $_GET['from'])) {
+        $message = $_GET['to'] . ' opened an e-mail ' . date('Y-m-d \a\t H:i:s');
         $mailer = new Mailer();
         $mailer->queueMail(
             $_GET['from'],
-            $_GET['to'] . ' opened an e-mail ' . date('Y-m-d \a\t H:i:s'),
-            'mail/blank'
+            $message,
+            'mail/blank',
+            ['body' => $message]
         );
     }
 }
